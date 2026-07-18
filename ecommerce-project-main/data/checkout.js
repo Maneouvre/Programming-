@@ -95,11 +95,10 @@ document.querySelector('.js-order-summary').innerHTML = html;
 
 document.querySelectorAll('.js-delete-link').forEach((link) => {
   link.addEventListener('click', () => {
-    const productId = link.dataset.productId;
-    removeFromCart(productId);
-   const cartItem= document.querySelector(`.js-cart-item-${productId}`);
-  cartItem.remove();
-    
-    });
+            const productId = link.dataset.productId;
+            removeFromCart(productId);
+            const cartItem= document.querySelector(`.js-cart-item-${productId}`);
+            cartItem.remove();
+           });
 });
 
