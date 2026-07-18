@@ -110,6 +110,7 @@
 }
 
 .checkout-page .product-price {
+  color: rgb(182, 37, 37);
 
   font-weight: 700;
   margin-bottom: 5px;
