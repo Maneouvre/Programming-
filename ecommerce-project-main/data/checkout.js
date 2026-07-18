@@ -1,36 +1,39 @@
-import {cart} from "../data/cart.js";
-import {products} from "../data/products.js";
+import { cart } from './cart.js';
+import { products } from './products.js';
 
 
-let matchingProduct;
+let html='';
 cart.forEach((item)=>{
-  const productId=item.productId
-
+                const productId=item.productId;
+let matchingProduct;
 products.forEach((product)=>{
-  if (productId===product.id){
-    matchingProduct=product
-  };console.log(matchingProduct);
-})});
-matching.forEach((item)=>{
-    `<div class="cart-item-container">
+                
+                if (product.id===productId){
+                matchingProduct=product;}
+    });
+    console.log(matchingProduct);
+
+
+
+    html+=`<div class="cart-item-container">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
 
             <div class="cart-item-details-grid">
               <img class="product-image"
-                src="images/products/athletic-cotton-socks-6-pairs.jpg" />
+                src="${matchingProduct.image}" />
 
               <div class="cart-item-details">
                 <div class="product-name">
-                  Black and Gray Athletic Cotton Socks - 6 Pairs
+                  ${matchingProduct.name}
                 </div>
                 <div class="product-price">
-                  $10.90
+                  $${matchingProduct.priceCents/100}
                 </div>
                 <div class="product-quantity">
                   <span>
-                    Quantity: <span class="quantity-label">2</span>
+                    Quantity: <span class="quantity-label">${item.quantity}</span>
                   </span>
                   <span class="update-quantity-link link-primary">
                     Update
@@ -87,3 +90,5 @@ matching.forEach((item)=>{
               </div>
             </div>
           </div>`});
+          console.log(html);
+document.querySelector('.js-order-summary').innerHTML=html;
