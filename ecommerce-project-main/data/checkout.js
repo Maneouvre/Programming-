@@ -1,6 +1,9 @@
 import { cart,removeFromCart} from './cart.js';
 import { products } from './products.js';
-
+import { dayjs } from 'https://unpkg.com/dayjs@1.11.10/dayjs.min.js';
+const today=dayjs();
+const deliveryDate=today.add(7,'days');
+console.log(deliveryDate.format('dddd, MMMM D'));
 
 let html='';
 cart.forEach((item)=>{
@@ -54,7 +57,8 @@ products.forEach((product)=>{
                     name="delivery-option-${matchingProduct.id}" />
                   <div>
                     <div class="delivery-option-date">
-                      Tuesday, June 21
+                    ${deliveryDate.format('dddd, MMMM D')}
+                      
                     </div>
                     <div class="delivery-option-price">
                       FREE Shipping
@@ -67,7 +71,8 @@ products.forEach((product)=>{
                     name="delivery-option-${matchingProduct.id}" />
                   <div>
                     <div class="delivery-option-date">
-                      Wednesday, June 15
+                    ${deliveryDate.subtract(2,'days').format('dddd, MMMM D')}
+                     
                     </div>
                     <div class="delivery-option-price">
                       $4.99 - Shipping
@@ -80,7 +85,7 @@ products.forEach((product)=>{
                     name="delivery-option-${matchingProduct.id}" />
                   <div>
                     <div class="delivery-option-date">
-                      Monday, June 13
+                      ${deliveryDate.subtract(4,'days').format('dddd, MMMM D')}
                     </div>
                     <div class="delivery-option-price">
                       $9.99 - Shipping
@@ -99,6 +104,8 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
             removeFromCart(productId);
             const cartItem= document.querySelector(`.js-cart-item-${productId}`);
             cartItem.remove();
-           });
+          updateCart();
+          });
+
 });
 
