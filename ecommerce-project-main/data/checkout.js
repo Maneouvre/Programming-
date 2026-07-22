@@ -1,6 +1,7 @@
 import { cart,removeFromCart} from './cart.js';
 import { products } from './products.js';
-import { dayjs } from 'https://unpkg.com/dayjs@1.11.10/dayjs.min.js';
+import dayjs  from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+
 const today=dayjs();
 const deliveryDate=today.add(7,'days');
 console.log(deliveryDate.format('dddd, MMMM D'));
@@ -104,7 +105,7 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
             removeFromCart(productId);
             const cartItem= document.querySelector(`.js-cart-item-${productId}`);
             cartItem.remove();
-          updateCart();
+          
           });
 
 });
