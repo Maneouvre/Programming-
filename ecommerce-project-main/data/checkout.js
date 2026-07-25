@@ -6,7 +6,7 @@ import { deliveryOptions } from './deliveryOptions.js';
 
 
 
-
+function renderOrderSummary(){
 let html='';
 
 cart.forEach((item)=>{
@@ -131,7 +131,8 @@ document.querySelectorAll('.js-delivery-option').forEach((element) => {
     const productId=element.dataset.productId;
     const deliveryOptionId=element.dataset.deliveryOptionId;
     updateDeliveryOption(productId,deliveryOptionId);
+    renderOrderSummary();
   })
 
-});
+});}renderOrderSummary();
       
