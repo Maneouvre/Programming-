@@ -65,8 +65,8 @@ export function renderPaymentSummary() {
     
 };
 renderPaymentSummary(); 
-
-function convertCentsToDollar(priceCents){
+//function to convert price in cents to dollars
+export function convertCentsToDollar(priceCents){
     return(Math.round(priceCents/100)).toFixed(2);
 
 };

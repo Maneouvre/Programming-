@@ -1,7 +1,7 @@
 import { cart,removeFromCart,updateDeliveryOption} from './cart.js';
 import { products } from './products.js';
 //import dayjs  from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
- import dayjs from './dayjs.js';
+import dayjs from './dayjs.js';
 import { deliveryOptions } from './deliveryOptions.js';
 import { renderPaymentSummary } from './checkout-paymentSummary.js';
 
