@@ -57,8 +57,12 @@ export function renderPaymentSummary() {
         
         
         `;
-        document.querySelector('.js-payment-summary').innerHTML=paymentSummaryHTML;
+       // document.querySelector('.js-payment-summary').innerHTML=paymentSummaryHTML;
 
+const element = document.querySelector('.js-payment-summary');
+if (element) {
+    element.innerHTML = paymentSummaryHTML;
+}
 
             
     });
@@ -66,7 +70,6 @@ export function renderPaymentSummary() {
 };
 renderPaymentSummary(); 
 //function to convert price in cents to dollars
-export function convertCentsToDollar(priceCents){
-    return(Math.round(priceCents/100)).toFixed(2);
-
+function convertCentsToDollar(priceCents){
+    return (Math.round(priceCents) / 100).toFixed(2);
 };
