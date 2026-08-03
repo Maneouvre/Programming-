@@ -7,7 +7,7 @@ import { renderPaymentSummary } from './checkout-paymentSummary.js';
 
 
 
-function renderOrderSummary(){
+export function renderOrderSummary(){
 let html='';
 
 cart.forEach((item)=>{
