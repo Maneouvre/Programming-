@@ -1,9 +1,9 @@
 <?php
-var_dump($_SERVER["REQUEST_METHOD"]);
+
 //CHECKS IF SENT METHOD IS POST
 if ($_SERVER["REQUEST_METHOD"]==="POST"){
             //gets the username and password from the form
-            $Username=($_POST["Username"]);
+            $Usersearch=($_POST["usersearch"]);
             $password=($_POST["password"]);
             $email=($_POST["email"]);
 
