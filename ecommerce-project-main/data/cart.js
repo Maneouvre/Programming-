@@ -33,7 +33,7 @@ export function addToCart(productId){
                             cart.push({
                             productId:productId,
                             quantity:1,
-                            deliveryOtionId:'1'
+                            deliveryOptionId:'1'
                             });
                         }
                       saveToStorage();

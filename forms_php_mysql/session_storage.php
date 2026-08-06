@@ -1,7 +1,7 @@
 <?php
-session_start();
+//session_start();
 
-$_SESSION['username']='Manoeuvre';
+//$_SESSION['username']='Manoeuvre';
 require_once 'session_storage_rel.php';
 ?>
 
@@ -12,6 +12,6 @@ require_once 'session_storage_rel.php';
         <title>session storage</title>
     </head>
     <body>
-        <p>Welcome, <?php echo $_SESSION['username']; ?>!</p>
+        
     </body>
 </html>
