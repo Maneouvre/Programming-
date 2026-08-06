@@ -50,40 +50,62 @@ else
 <html lang="en">
     <head>
         <style>
-            body{background-color:#f2f2f2;
-                display:flex;
-                flex-direction:column;
-                align-items:center;
-                justify-content:center;
-                }
+             body {
+                background-color: #f2f2f2;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: Arial, sans-serif;
+            }
+            table { 
+                border-collapse: collapse; 
+                width: 80%; 
+                margin-top: 20px;
+                background-color: #ffffff;
+            }
+            th, td { 
+                border: 1px solid #dddddd; 
+                text-align: left; 
+                padding: 12px; 
+            }
+            th { 
+                background-color: #e2e2e2; 
+            }
         </style>
         
         <title>Search Users</title>
     </head>
 
     <body>
-        <section></section>
-        <h1>Search Results</h1>
+        
+        
+         <h1>Search Results</h1>
+        
         <?php
         if (empty($results)) {
-            echo "<div>";
-            echo "<p>No results found.</p>";
-            echo "</div>";
-        }
-        else{
-            foreach($results as $result){
-                
-                echo "<div>";
-                // use htmlspecialchars to prevent XSS attacks
+            echo "<div><p>No results found.</p></div>";
+        } else {
+            // Start the table ONCE outside the loop
+            echo "<table>";
+            echo "<tr><th>Username</th><th>Email</th><th>Password</th></tr>";
 
-                echo "<h4>"."Username: ".htmlspecialchars($result["username"])."</h4>";
-                echo "<p>Email: ".htmlspecialchars($result["email"])."</p>";
-                echo "<p>Password: ".htmlspecialchars($result["pwd"])."</p>";
-                echo "</div>";
+            // Loop through each user row
+            foreach($results as $result) {
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($result["username"]) . "</td>";
+                echo "<td>" . htmlspecialchars($result["email"]) . "</td>";
+                echo "<td>" . htmlspecialchars($result["pwd"]) . "</td>";
+                echo "</tr>";
             }
-            
+
+            // Close the table ONCE outside the loop
+            echo "</table>";
         }
         ?>
+            
+        
+        
 
         
     </body>
