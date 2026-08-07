@@ -3,7 +3,7 @@ import { products } from './products.js';
 import dayjs from './dayjs.js';
 import { deliveryOptions } from './deliveryOptions.js';
 import { renderPaymentSummary } from './checkout-paymentSummary.js';
-
+import './cart-oop.js';
 
 
 export function renderOrderSummary(){
@@ -17,7 +17,7 @@ products.forEach((product)=>{
                 if (product.id===productId){
                 matchingProduct=product;}
     });
-console.log(matchingProduct);
+
 
       const deliveryOptionid= item.deliveryOptionId;
       let deliveryOpt;
@@ -140,6 +140,7 @@ document.querySelectorAll('.js-delivery-option').forEach((element) => {
     renderPaymentSummary();
   })
 
-});}
+});
+}
 renderOrderSummary();
       

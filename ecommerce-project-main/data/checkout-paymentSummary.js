@@ -7,6 +7,7 @@ export function renderPaymentSummary() {
     let totalBeforeTaxation=0;
     let estimatedTax=0;
     let orderTotal=0;
+    
 
     cart.forEach((item) => {
         const product = getProduct(item.productId);
