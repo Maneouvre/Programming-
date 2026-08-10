@@ -1,8 +1,16 @@
 //CLASS IN ORIENTED PROGRAMMING-OOP
 //this. refers to class-name 
 class Cart{
-    cartItems=undefined;
-    localStorageKey=undefined;
+    cartItems;
+    localStorageKey;
+    //constructor to se up startup code-runs automatically
+    constructor(localStorageKey){
+                    this.localStorageKey=localStorageKey;
+                    //businessCart.localStorageKey='cart-business';
+                    //loads the cart stored in local storage after push
+                    this.loadFromStorage();
+                   // businessCart.loadFromStorage();
+                }
     loadFromStorage(){ 
     this.cartItems= JSON.parse(localStorage.getItem(this.localStorageKey));
                     if(!this.cartItems){
@@ -53,22 +61,21 @@ updateDeliveryOption(productId,deliveryOptionId){
                             matchingItem.deliveryOptionId=deliveryOptionId;
                         this.saveToStorage();
                         }
+                        
 
                     
 
 
     };
-const cart={
-    
-    
-
-            };
+   // addToCart('3ebe75dc-64d2-4137-8860-1f5a963e534b')
 
 
-
-cart.loadFromStorage();
-const cart=new Cart()
-const businessCart=new Cart()
-cart.localStorageKey='cart-oop';
-businessCart.localStorageKey='bussinessCart'
+const cart=new Cart('cart-oop');
+const businessCart=new Cart('cart-business');
+//cart.localStorageKey='cart-oop';
+//businessCart.localStorageKey='cart-business';
+//loads the cart stored in local storage after push
+//cart.loadFromStorage();
+//businessCart.loadFromStorage();
 console.log(cart);
+console.log(businessCart);

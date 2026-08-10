@@ -1,5 +1,6 @@
 import {cart, addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
+import { convertCentsToDollar } from './products.js';
 
 function updateCartQuantity(){
                         let cartQuantity=0;
@@ -26,14 +27,14 @@ products.forEach((product) => {
 
                 <div class="product-rating-container">
                     <img class="product-rating-stars"
-                    src="images/ratings/rating-${product.rating.stars*10}.png" />
+                    src="${product.getStarUrl()}" />
                     <div class="product-rating-count link-primary">
                     ${product.rating.count}
                     </div>
                 </div>
 
                 <div class="product-price">
-                    $${(product.priceCents/100).toFixed(2)}
+                    $${product.getPrice()}
                 </div>
 
                 <div class="product-quantity-container">

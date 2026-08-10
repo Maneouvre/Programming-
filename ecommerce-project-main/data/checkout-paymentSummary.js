@@ -1,6 +1,9 @@
 import { cart } from './cart.js';
-import { products, getProduct } from './products.js';
+import { products, getProduct,convertCentsToDollar } from './products.js';
 import { getDeliveryOption } from './deliveryOptions.js';
+
+
+
 export function renderPaymentSummary() {
     let productPriceCents = 0;
     let shippingPriceCents=0;
@@ -70,7 +73,3 @@ if (element) {
     
 };
 renderPaymentSummary(); 
-//function to convert price in cents to dollars
-function convertCentsToDollar(priceCents){
-    return (Math.round(priceCents) / 100).toFixed(2);
-};

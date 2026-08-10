@@ -1,9 +1,10 @@
 import { cart,removeFromCart,updateDeliveryOption} from './cart.js';
-import { products } from './products.js';
+import { products,convertCentsToDollar } from './products.js';
 import dayjs from './dayjs.js';
 import { deliveryOptions } from './deliveryOptions.js';
 import { renderPaymentSummary } from './checkout-paymentSummary.js';
-import './cart-oop.js';
+//import './cart-oop.js';
+//import './cart-oop-class.js';
 
 
 export function renderOrderSummary(){
@@ -48,7 +49,7 @@ products.forEach((product)=>{
                   ${matchingProduct.name}
                 </div>
                 <div class="product-price">
-                  $${(matchingProduct.priceCents / 100).toFixed(2)}
+                  $${matchingProduct.getPrice()}
                 </div>
                 <div class="product-quantity">
                   <span>
