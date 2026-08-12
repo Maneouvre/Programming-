@@ -27,10 +27,10 @@ class Product{
     this.priceCents=productDetails.priceCents;
   }
   getStarUrl(){return `images/ratings/rating-${this.rating.stars*10}.png`}
-  getPrice(){return `${convertCentsToDollar(this.priceCents)}`}
+  getPrice(){return `$${convertCentsToDollar(this.priceCents)}`}
 };
-//inheritng class from Product class
-class Clothing extends Product{
+//inheritng class(properties and methods) from Product class
+/*class Clothing extends Product{
 
 }
 const Tshirt =new Clothing(
@@ -46,7 +46,11 @@ const Tshirt =new Clothing(
     keywords: ["tshirts", "apparel", "mens"]
   }
 );
-console.log(Tshirt);
+//new Date()  class-Built in-current date
+const date=new Date();
+console.log(date);
+console.log(date.toLocaleTimeString());*/
+
 
 export const products = [
   {

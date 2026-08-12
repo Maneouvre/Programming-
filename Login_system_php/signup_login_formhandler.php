@@ -1,5 +1,4 @@
 <?php
-var_dump($_SERVER["REQUEST_METHOD"]);
 //CHECKS IF SENT METHOD IS POST
 if ($_SERVER["REQUEST_METHOD"]==="POST"){
             //gets the username and password from the form
@@ -9,8 +8,42 @@ if ($_SERVER["REQUEST_METHOD"]==="POST"){
 
         try {
             //connects to the database
-            require_once("dbasehandler-inc.php");
-            //inserting data to mysql
+            require_once("login_signupdbase_handler.php");
+            require_once("signup_model.php");
+            require_once("signup_controller.php");
+            //ERROR HANDLERS
+            $errors=[];
+                //checks if any input is empty
+                if(is_input_empty($Username,$password,$email)){
+                    //pushes
+                    $errors["empty_input"]="Please fill in all fields";
+
+                }
+                //checks if email is valid
+                if(is_email_invalid($email)){
+                    $errors["invalid_email"]="Please enter a valid email address";
+                }
+                
+                //checks if username is already taken
+                if (is_username_taken($pdo,$Username)){
+                    $errors["username_taken"]="Username is already taken";
+                }
+                //checks if email is already registered
+                if (is_email_registered($pdo,$email)){
+                
+                    $errors["email_registered"]="Email is already registered";
+
+                }
+                require_once("login_signup_sessionhandler.php");
+                if($errors){
+                    $_SESSION["errors_signup"]=$errors;
+                    header("Location:./signup_form.php");
+                    exit();
+                }
+
+
+
+            /*//inserting data to mysql
             $query="INSERT INTO users(username,pwd,email) 
             VALUES (?,?,?);";
             $stmt=$pdo->prepare($query);
@@ -25,20 +58,21 @@ if ($_SERVER["REQUEST_METHOD"]==="POST"){
             header("Location:./form.php");
             die();
 
-            }
-        catch(PDOException  $e){
+            }*/
+        }catch(PDOException  $e){
             // If something goes wrong, stop and show the error
-                                die("Query Failed: ".$e->getMessage());
-                                };
+                                die("Query Failed: ".$e->getMessage());}
+                                
 
-            if (empty($Username || $password)){
+            if (empty($Username) || empty($password)){
                 header("Location:./form.php");
+                exit();
 
-            };
-    }
+            };}
+    
    
 else
-    {header("Location:./form.php");}
+    {header("Location:./signup_form.php");}
 
 
 /*

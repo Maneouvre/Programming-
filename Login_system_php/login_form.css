@@ -1,0 +1,107 @@
+/* Core structure resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f1f5f9;
+}
+
+/* Card classes */
+.css-login-card {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
+}
+
+.css-heading {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #1e293b;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.css-form-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Input layout classes */
+.css-input-wrapper {
+    width: 100%;
+}
+
+.css-input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #334155;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.css-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Action alignment classes */
+.css-action-row {
+    display: flex;
+    justify-content: flex-end;
+}
+.css-signup-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-right: auto; /* Pushes the link to the left */
+}
+.css-forgot-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+.css-signup-link:hover, .css-forgot-link:hover {
+    text-decoration: underline;
+}
+.css-forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* Button submission classes */
+.css-login-button {
+    width: 100%;
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    padding: 0.85rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.css-login-button:hover {
+    background-color: #2563eb;
+}
+
+.css-login-button:active {
+    transform: scale(0.98);
+}

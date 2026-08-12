@@ -24,16 +24,3 @@ else{
         $_SESSION['last_regeneration']=time();
     }
 }
-
-?>
-
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>session storage</title>
-    </head>
-    <body>
-        
-    </body>
-</html>
