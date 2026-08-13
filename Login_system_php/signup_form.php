@@ -2,11 +2,16 @@
 //error reporting
 require_once("login_signup_sessionhandler.php");
 require_once("signup_view.php");
+require_once("signup_model.php");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <style>
+      .form-success{color:green;}
+      .error{color:red;}
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
@@ -20,33 +25,28 @@ require_once("signup_view.php");
     <form action="signup_login_formhandler.php" method="post"> 
       <h1  class="css-heading">Sign Up</h1> 
               <!-- Username Box -->
-            <div> 
-              <input class="username css-username" name="username" type="text" placeholder="username" required> 
-            </div> 
-              <br> 
-
-              <!-- Password Box -->
-            <div> 
-              <input class="password css-password" name="password" type="password" placeholder="password" required> 
-            </div> 
-              <br> <!-- Added a break here for consistent spacing -->
-
-              <!-- Email Box -->
-            <div>
-              <input class="css-email" name="email" type="email" placeholder="email" required>
-            </div>
+             <!-- Password Box -->
+             <!-- Email Box -->
+              <?php
+              signupData();
+              ?>
+            
             <br>
             <br>
+  <?php
+  check_signup_errors();
+  ?>
 
-      
+      <a href="login_form.php" class="css-login-link">Already have an account? Log in</a>
+      <br>
+      <br>
       
       <div> 
         <button class="login css-signup-button" type="submit ">Sign Up</button> 
       </div> 
     </form> 
+   
   </div> 
-  <?php
-  check_signup_errors();
-  ?>
+  
 </body>
 </html>
