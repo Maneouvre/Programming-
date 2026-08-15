@@ -18,7 +18,11 @@ body {
     width: 100%;
     max-width: 340px; /* Limits how wide the form can stretch */
 }
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
 /* 3. Heading style */
 .css-heading {
     color: #333333;

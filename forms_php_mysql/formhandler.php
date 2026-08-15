@@ -14,12 +14,22 @@ if ($_SERVER["REQUEST_METHOD"]==="POST"){
             $query="INSERT INTO users(username,pwd,email) 
             VALUES (?,?,?);";
             $stmt=$pdo->prepare($query);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
             //hashing the password before storing it in the database
                 $options=[
                 'cost'=>12
                 ];
                 $hashedpwd=password_hash($password,PASSWORD_DEFAULT,$options);
             $stmt->execute([$Username,$hashedpwd,$email]);
+<<<<<<< HEAD
+=======
+=======
+            $stmt->execute([$Username,$password,$email]);
+>>>>>>> eab79c1ae39398dd6964fa2582ad98fc6a87b49a
+>>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
             $pdo=null;
             $stmt=null;
             header("Location:./form.php");

@@ -6,7 +6,61 @@ if ($_SERVER["REQUEST_METHOD"]==="POST"){
             $password=($_POST["password"]);
 
         try {
+<<<<<<< HEAD
            
+=======
+            //importing data
+           require_once("login_signupdbase_handler.php");
+           require_once("login_model.php");
+           require_once("login_controller.php");
+
+           //ERROR HANDLERS
+            $errors=[];
+                //checks if any input is empty
+                if(is_input_empty($Username,$password)){
+                    //pushes
+                    $errors["empty_input"]="Please fill in all fields";
+
+                }
+                $result=get_user($pdo,$Username);
+                if(is_username_wrong($result)){
+                   $errors["login_incorect"]="Incorrect Login Info";
+
+                }
+                else if(is_password_wrong($password,$result["pwd"])){
+                   $errors["login_incorect"]="Incorrect Login Info";
+
+                };
+                
+
+                  
+                require_once("login_session_id.php");
+                //checks if errors exist
+                if($errors){
+                    $_SESSION["errors_login"]=$errors;
+                    //saves input data to avoid retyping
+                    $userData=[
+                        "username"=>$Username,
+                        "email"=>$email
+                    ];
+                    
+                    header("Location:./login_form.php");
+                    die();
+                }
+                //create new session id
+                $newSessionId=session_create_id();
+                //create sess id with users id
+                $sessionId=$newSessionId."_".$result["id"];
+                session_id($sessionId);
+
+                $_SESSION["user_id"]= $result["id"];
+                $_SESSION["user_username"]= htmlspecialchars($result["username"]);
+                $_SESSION['last_regeneration']=time();
+                header("Location:./login_form.php?login=success");
+
+              
+        
+>>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
 
 
            }catch(PDOException  $e){
@@ -22,4 +76,8 @@ if ($_SERVER["REQUEST_METHOD"]==="POST"){
     
    
 else
+<<<<<<< HEAD
     {header("Location:./signup_form.php");};
+=======
+    {header("Location:./login_form.php");};
+>>>>>>> 576101d2466c9927d7de9ada1803733e8be45433

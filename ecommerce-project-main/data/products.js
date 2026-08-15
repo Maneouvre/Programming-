@@ -518,4 +518,27 @@ export const products = [
 ].map((productDetails)=>{
   return new Product(productDetails);
 }); 
+<<<<<<< HEAD
 
+=======
+/*
+//loading from backend
+export let products=[];
+export function loadProducts(fun){
+const xhr = new XMLHttpRequest();
+//asynchronous code solved,load waits for event to come back
+//.response gives us the information linked to the backend url
+xhr.addEventListener('load',()=>{
+  //convert back to js object fron json
+    products = JSON.parse(xhr.response).map((productDetails)=>{
+                        return new Product(productDetails);});
+                        fun();
+
+
+});
+//http set up
+xhr.open('GET','http://localhost/forms_php_mysql/form.php');
+xhr.send();
+
+}*/
+>>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
