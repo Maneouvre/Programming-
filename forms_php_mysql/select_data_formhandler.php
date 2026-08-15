@@ -50,6 +50,7 @@ else
 <html lang="en">
     <head>
         <style>
+<<<<<<< HEAD
              body {
                 background-color: #f2f2f2;
                 display: flex;
@@ -72,12 +73,21 @@ else
             th { 
                 background-color: #e2e2e2; 
             }
+=======
+            body{background-color:#f2f2f2;
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:center;
+                }
+>>>>>>> eab79c1ae39398dd6964fa2582ad98fc6a87b49a
         </style>
         
         <title>Search Users</title>
     </head>
 
     <body>
+<<<<<<< HEAD
         
         
          <h1>Search Results</h1>
@@ -106,6 +116,30 @@ else
             
         
         
+=======
+        <section></section>
+        <h1>Search Results</h1>
+        <?php
+        if (empty($results)) {
+            echo "<div>";
+            echo "<p>No results found.</p>";
+            echo "</div>";
+        }
+        else{
+            foreach($results as $result){
+                
+                echo "<div>";
+                // use htmlspecialchars to prevent XSS attacks
+
+                echo "<h4>"."Username: ".htmlspecialchars($result["username"])."</h4>";
+                echo "<p>Email: ".htmlspecialchars($result["email"])."</p>";
+                echo "<p>Password: ".htmlspecialchars($result["pwd"])."</p>";
+                echo "</div>";
+            }
+            
+        }
+        ?>
+>>>>>>> eab79c1ae39398dd6964fa2582ad98fc6a87b49a
 
         
     </body>
