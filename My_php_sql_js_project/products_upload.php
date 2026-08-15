@@ -1,3 +1,9 @@
+<?php
+require_once("products_session.php");
+require_once("products_viewer.php");
+require_once("products_model.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,20 +24,41 @@
             <div class="form-column">
                 <div class="form-group">
                     <label>Product Name:</label>
-                    <input type="text" name="product_name" placeholder="e.g. Premium Pro Blender 1200W" required>
+                    <?php
+                    if (isset($_SESSION["product_data"]["product_name"]) && !isset($_SESSION["errors_upload"]["product_exists"])) {
+                        echo '<input type="text" name="product_name" placeholder="e.g. Premium Pro Blender 1200W" value="' . htmlspecialchars($_SESSION["product_data"]["product_name"]) . '" required>';
+                        unset($_SESSION["product_data"]["product_name"]);
+                    } else {
+                        echo '<input type="text" name="product_name" placeholder="e.g. Premium Pro Blender 1200W" required>';
+                    }
+                    ?>
                 </div>
 
                 <div class="form-group">
                     <label>Price (in Cents - e.g., 10747):</label>
                     <div class="price-input-wrapper">
-                        <input type="number" name="price_cents" placeholder="e.g. 10747" required>
+                        <?php
+                        if (isset($_SESSION["product_data"]["price_cents"])) {
+                            echo '<input type="number" name="price_cents" placeholder="e.g. 10747" value="' . htmlspecialchars((string)$_SESSION["product_data"]["price_cents"]) . '" required>';
+                            unset($_SESSION["product_data"]["price_cents"]);
+                        } else {
+                            echo '<input type="number" name="price_cents" placeholder="e.g. 10747" required>';
+                        }
+                        ?>
                         <span class="currency-addon">¢ USD</span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Keywords (comma-separated):</label>
-                    <input type="text" name="keywords" placeholder="kitchen, appliances, blender">
+                    <?php
+                    if (isset($_SESSION["product_data"]["keywords"])) {
+                        echo '<input type="text" name="keywords" placeholder="kitchen, appliances, blender" value="' . htmlspecialchars($_SESSION["product_data"]["keywords"]) . '">';
+                        unset($_SESSION["product_data"]["keywords"]);
+                    } else {
+                        echo '<input type="text" name="keywords" placeholder="kitchen, appliances, blender">';
+                    }
+                    ?>
                 </div>
             </div>
 
@@ -59,19 +86,37 @@
                 <div class="rating-row">
                     <div class="form-group">
                         <label>Rating (Stars):</label>
-                        <input type="number" name="rating_stars" step="0.1" min="0" max="5" value="4.5">
+                        <?php
+                        if (isset($_SESSION["product_data"]["rating_stars"])) {
+                            echo '<input type="number" name="rating_stars" step="0.1" min="0" max="5" value="' . htmlspecialchars((string)$_SESSION["product_data"]["rating_stars"]) . '">';
+                            unset($_SESSION["product_data"]["rating_stars"]);
+                        } else {
+                            echo '<input type="number" name="rating_stars" step="0.1" min="0" max="5" value="4.5">';
+                        }
+                        ?>
                     </div>
 
                     <div class="form-group">
                         <label>Rating Count:</label>
-                        <input type="number" name="rating_count" value="128">
+                        <?php
+                        if (isset($_SESSION["product_data"]["rating_count"])) {
+                            echo '<input type="number" name="rating_count" value="' . htmlspecialchars((string)$_SESSION["product_data"]["rating_count"]) . '">';
+                            unset($_SESSION["product_data"]["rating_count"]);
+                        } else {
+                            echo '<input type="number" name="rating_count" value="128">';
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
             
         </div>
 
-        <!-- Form Submission Sectionton  -->
+        <?php
+        check_upload_errors();
+        ?>
+
+        <!-- Form Submission Section  -->
         <div class="form-footer">
             <button type="button" class="btn-cancel" onclick="window.history.back();">Cancel</button>
             <button type="submit">Upload Product</button>

@@ -9,11 +9,6 @@ require_once("signup_model.php");
 <html lang="en">
   <head>
     <style>
-<<<<<<< HEAD
-      .form-success{color:green;}
-      .error{color:red;}
-    </style>
-=======
         .form-success{color:green;}
         .error{color:red;}
         .css-login-link {
@@ -24,7 +19,6 @@ require_once("signup_model.php");
                     } 
     </style>
     
->>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>

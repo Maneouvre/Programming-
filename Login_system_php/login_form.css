@@ -53,11 +53,7 @@ body {
     outline: none;
     transition: all 0.2s ease;
 }
-<<<<<<< HEAD
-
-=======
  
->>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
 .css-input:focus {
     border-color: #3b82f6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);

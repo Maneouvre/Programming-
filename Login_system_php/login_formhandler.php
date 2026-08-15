@@ -6,9 +6,6 @@ if ($_SERVER["REQUEST_METHOD"]==="POST"){
             $password=($_POST["password"]);
 
         try {
-<<<<<<< HEAD
-           
-=======
             //importing data
            require_once("login_signupdbase_handler.php");
            require_once("login_model.php");
@@ -60,7 +57,6 @@ if ($_SERVER["REQUEST_METHOD"]==="POST"){
 
               
         
->>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
 
 
            }catch(PDOException  $e){
@@ -76,8 +72,4 @@ if ($_SERVER["REQUEST_METHOD"]==="POST"){
     
    
 else
-<<<<<<< HEAD
-    {header("Location:./signup_form.php");};
-=======
     {header("Location:./login_form.php");};
->>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
