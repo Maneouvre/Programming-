@@ -1,0 +1,213 @@
+
+        :root {
+            --primary-color: #3b42c4;
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --border-color: #d1d5db;
+            --bg-light: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 24px;
+        }
+
+        form {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .form-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .form-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+
+        .form-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+            background-color: white;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* CUSTOM PRODUCT IMAGES UPLOAD BOX STYLING */
+        .upload-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .upload-wrapper input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .upload-dropzone {
+            width: 100%;
+            border: 2px dashed #818cf8;
+            border-radius: 8px;
+            padding: 32px 16px;
+            text-align: center;
+            background-color: var(--bg-light);
+            transition: background-color 0.2s;
+            pointer-events: none;
+        }
+
+        .upload-icon-circle {
+            background-color: #e0e7ff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px auto;
+        }
+
+        .upload-main-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .upload-sub-text {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        .upload-wrapper:hover .upload-dropzone {
+            background-color: #eff6ff;
+        }
+
+        /* Price Suffix Box */
+        .price-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .price-input-wrapper input {
+            padding-right: 60px;
+        }
+
+        .currency-addon {
+            position: absolute;
+            right: 12px;
+            font-size: 14px;
+            color: var(--text-gray);
+            pointer-events: none;
+        }
+
+        /* Grid for rating fields */
+        .rating-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: auto;
+        }
+
+        /* Footer Alignment for Cancel and Submit buttons */
+        .form-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .btn-cancel {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 12px 16px;
+            transition: color 0.2s;
+        }
+
+        .btn-cancel:hover {
+            color: var(--text-dark);
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2e35a6;
+        }
+  
