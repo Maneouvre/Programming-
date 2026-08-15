@@ -1,8 +1,6 @@
 import { cart } from './cart.js';
 import { products, getProduct,convertCentsToDollar } from './products.js';
 import { getDeliveryOption } from './deliveryOptions.js';
-<<<<<<< HEAD
-=======
 //BACKEND INCLUDED
 /*
 import { loadProducts } from './products.js';
@@ -79,7 +77,6 @@ renderPaymentSummary();
 
   })
 */ 
->>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
 
 
 

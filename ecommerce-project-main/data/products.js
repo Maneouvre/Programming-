@@ -518,9 +518,6 @@ export const products = [
 ].map((productDetails)=>{
   return new Product(productDetails);
 }); 
-<<<<<<< HEAD
-
-=======
 /*
 //loading from backend
 export let products=[];
@@ -541,4 +538,3 @@ xhr.open('GET','http://localhost/forms_php_mysql/form.php');
 xhr.send();
 
 }*/
->>>>>>> 576101d2466c9927d7de9ada1803733e8be45433

@@ -4,12 +4,6 @@ import dayjs from './dayjs.js';
 import { deliveryOptions } from './deliveryOptions.js';
 import { renderPaymentSummary } from './checkout-paymentSummary.js';
 //backend import
-<<<<<<< HEAD
-import './backend-practice.js';
-//import './cart-oop.js';
-//import './cart-oop-class.js';
-
-=======
 //import './backend-practice.js';
 //import './cart-oop.js';
 //import './cart-oop-class.js';
@@ -161,7 +155,6 @@ renderOrderSummary();
 }
 
 */
->>>>>>> 576101d2466c9927d7de9ada1803733e8be45433
 
 export function renderOrderSummary(){
 let html='';
