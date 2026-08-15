@@ -3,6 +3,7 @@ import { products,convertCentsToDollar } from './products.js';
 import dayjs from './dayjs.js';
 import { deliveryOptions } from './deliveryOptions.js';
 import { renderPaymentSummary } from './checkout-paymentSummary.js';
+
 //backend import
 //import './backend-practice.js';
 //import './cart-oop.js';

@@ -1,6 +1,17 @@
 import { cart } from './cart.js';
 import { products, getProduct,convertCentsToDollar } from './products.js';
 import { getDeliveryOption } from './deliveryOptions.js';
+
+
+/*USING PROMISES-runs immmediately
+new Promise((resolve)=>{
+  loadProducts(()=>{
+    resolve()
+  })
+}).then(()=>{})
+
+*/
+
 //BACKEND INCLUDED
 /*
 import { loadProducts } from './products.js';
