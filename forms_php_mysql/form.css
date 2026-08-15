@@ -1,0 +1,87 @@
+/* 1. Overall page setup with a light grey background */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5; /* Light grey background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Centers the card vertically on the screen */
+    margin: 0;
+}
+
+/* 2. The white card container holding the form */
+.form {
+    background-color: #ffffff; /* White background for the form box */
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow around the box */
+    width: 100%;
+    max-width: 340px; /* Limits how wide the form can stretch */
+}
+
+/* 3. Heading style */
+.css-heading {
+    color: #333333;
+    font-size: 28px;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center; /* Centers the heading nicely */
+}
+
+/* 4. Universal styling for all text/password/email inputs */
+input.css-username,
+input.css-password,
+input.css-email {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box; /* Ensures padding stays inside the box width */
+    transition: border-color 0.2s;
+}
+
+/* Color changing effect when clicking inside an input box */
+input.css-username:focus,
+input.css-password:focus,
+input.css-email:focus {
+    border-color: #007bff; /* Sharp blue line on click */
+    outline: none;
+}
+
+/* 5. Bottom link layout area */
+.bottom {
+    display: flex;
+    justify-content: flex-end; /* Pushes the forgot password link to the right side */
+    margin-top: -5px;
+    margin-bottom: 20px;
+}
+
+.css-forgot-password {
+    color: #007bff;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.css-forgot-password:hover {
+    text-decoration: underline; /* Adds underline on hover */
+}
+
+/* 6. Sign Up Button styling */
+.css-signup-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745; /* Clean green color for "Sign Up" */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* Darkens the button slightly when you point your mouse at it */
+.css-signup-button:hover {
+    background-color: #218838;
+}
