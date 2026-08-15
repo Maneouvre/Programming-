@@ -1,7 +1,6 @@
 import {cart, addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { convertCentsToDollar } from './products.js';
-
 function updateCartQuantity(){
                         let cartQuantity=0;
                         cart.forEach((item)=>{
