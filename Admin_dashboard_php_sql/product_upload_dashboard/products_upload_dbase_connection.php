@@ -1,6 +1,6 @@
 <?php
 //connects to my sqldbase
-$dsn="mysql:host=localhost;dbname=products";
+$dsn="mysql:host=localhost;dbname=ecommerce_db";
 $dbusername="root";
 $dbpassword="";
 

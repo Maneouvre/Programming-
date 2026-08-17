@@ -10,6 +10,58 @@ require_once("products_model.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Product</title>
+    <style>
+        /* --- ERROR ALERTS LAYOUT --- */
+.error-container {
+    background-color: #fef2f2;
+    border-left: 4px solid #ef4444;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 20px 0;
+}
+
+.error-message-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.error-message-line:last-child {
+    margin-bottom: 0;
+}
+
+.error-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.error-text {
+    color: #991b1b;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* --- SUCCESS ALERTS LAYOUT --- */
+.success-container {
+    background-color: #f0fdf4;
+    border-left: 4px solid #22c55e;
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 20px 0;
+}
+
+.form-success {
+    color: #166534;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+    </style>
     <link rel="stylesheet" href="products_upload.css">
 </head>
 <body>
@@ -17,7 +69,7 @@ require_once("products_model.php");
 <div class="form-container">
     <h2>Add New Product</h2>
     
-    <form action="upload.php" method="POST" enctype="multipart/form-data">
+    <form action="products_upload_formhandler.php" method="POST" enctype="multipart/form-data">
         <div class="form-layout">
             
             <!-- Left Column -->
