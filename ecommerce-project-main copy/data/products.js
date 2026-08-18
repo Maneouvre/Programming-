@@ -1,7 +1,8 @@
-//function to convert price in cents to dollars
+// Function to convert price in cents to dollars
 export function convertCentsToDollar(priceCents){
     return (Math.round(priceCents) / 100).toFixed(2);
 };
+
 export function getProduct(productId) {
     let matchingProduct;
 
@@ -13,22 +14,87 @@ export function getProduct(productId) {
 
     return matchingProduct;
 }
-class Product{
+
+class Product {
   id;
   image;
   name;
   rating;
+  rating_count;
   priceCents;
+  keywords;
+  
   constructor(productDetails){
-    this.id=productDetails.id;
-    this.image=productDetails.image;
-    this.name=productDetails.name;
-    this.rating=productDetails.rating;
-    this.priceCents=productDetails.priceCents;
+    this.id = productDetails.id;
+    this.image = productDetails.image_path;
+    this.name = productDetails.product_name;
+    this.rating = productDetails.rating_stars;
+    this.rating_count=productDetails.rating_count;
+    this.priceCents = productDetails.price_cents;
+    this.keywords = productDetails.keywords;
   }
-  getStarUrl(){return `images/ratings/rating-${this.rating.stars*10}.png`}
-  getPrice(){return `$${convertCentsToDollar(this.priceCents)}`}
+  getRatingStars(){return `images/ratings/rating-${this.rating* 10}.png`}
+  getPrice(){
+    return `$${convertCentsToDollar(this.priceCents)}`;
+  }
 };
+
+/*export let products = [];
+export async function loadProducts() {
+  try {
+    const response = await fetch('../../Admin_dashboard_php_sql/products_fetch/products_fetch.php');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    products = data.map((productDetails) => {
+      return new Product(productDetails);
+    });
+    
+    
+    
+  } catch (error) {
+    console.error("Failed to load products:", error);
+  }
+}
+*/
+//loadProducts()
+
+
+
+export let products = [];
+
+export async function loadProducts() {
+  try {
+    const response = await fetch('http://localhost/Admin_dashboard_php_sql/products_fetch/products_fetch.php');
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // Check if your PHP script sent back a database error
+    if (data.error) {
+      throw new Error(`PHP Database Error: ${data.error}`);
+    }
+
+    products = data.map((productDetails) => {
+      return new Product(productDetails);
+    });
+    
+    return products; 
+    
+  } catch (error) {
+    // CRITICAL: Log the error so you can see WHY it failed
+    console.error("Failed to load products:", error);
+    return products; 
+  }
+}
+
+
 //inheritng class(properties and methods) from Product class
 /*class Clothing extends Product{
 
@@ -52,7 +118,7 @@ console.log(date);
 console.log(date.toLocaleTimeString());*/
 
 
-export const products = [
+/*export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -518,23 +584,5 @@ export const products = [
 ].map((productDetails)=>{
   return new Product(productDetails);
 }); 
-/*
-//loading from backend
-export let products=[];
-export function loadProducts(fun){
-const xhr = new XMLHttpRequest();
-//asynchronous code solved,load waits for event to come back
-//.response gives us the information linked to the backend url
-xhr.addEventListener('load',()=>{
-  //convert back to js object fron json
-    products = JSON.parse(xhr.response).map((productDetails)=>{
-                        return new Product(productDetails);});
-                        fun();
-
-
-});
-//http set up
-xhr.open('GET','http://localhost/forms_php_mysql/form.php');
-xhr.send();
-
-}*/
+*/
+//LOAD PRODUCTS FROM BACKEND:products_fetch.php

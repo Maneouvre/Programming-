@@ -1,7 +1,20 @@
-import {cart, addToCart} from '../data/cart.js';
-import { products } from '../data/products.js';
-import { convertCentsToDollar } from './products.js';
+import { addToCart,cart,removeFromCart,updateDeliveryOption} from './cart.js';
+import { loadProducts} from './products.js';
+import dayjs from './dayjs.js';
+import { deliveryOptions } from './deliveryOptions.js';
+import { renderPaymentSummary } from './checkout-paymentSummary.js';
 
+async function getProducts() {
+  const productList = await loadProducts();
+  console.log("Loaded products successfully:", productList);
+  displayOnPage(productList);
+
+}
+
+getProducts();
+
+
+function displayOnPage(products){
 function updateCartQuantity(){
                         let cartQuantity=0;
                         cart.forEach((item)=>{
@@ -18,7 +31,7 @@ products.forEach((product) => {
             <div class="product-container">
                 <div class="product-image-container">
                     <img class="product-image"
-                    src="${product.image}" />
+                    src="../../Admin_dashboard_php_sql/product_upload_dashboard/${product.image}"  onerror="this.src='../product_upload_dashboard/uploads/placeholder.png';"/>
                 </div>
 
                 <div class="product-name limit-text-to-2-lines">
@@ -27,14 +40,14 @@ products.forEach((product) => {
 
                 <div class="product-rating-container">
                     <img class="product-rating-stars"
-                    src="${product.getStarUrl()}" />
+                    src="${product.getRatingStars()}" />
                     <div class="product-rating-count link-primary">
-                    ${product.rating.count}
+                    ${product.rating_count}
                     </div>
                 </div>
 
                 <div class="product-price">
-                    $${product.getPrice()}
+                    ${product.getPrice()}
                 </div>
 
                 <div class="product-quantity-container">
@@ -76,4 +89,4 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>
                 addToCart(productId);
                 updateCartQuantity();})
 });
- 
+}
