@@ -1,22 +1,21 @@
-//import { cart,removeFromCart,updateDeliveryOption} from './cart.js';
+import { cart,removeFromCart,updateDeliveryOption} from './cart.js';
 import { loadProducts,convertCentsToDollar } from './products.js';
-//import dayjs from './dayjs.js';
-//import { deliveryOptions } from './deliveryOptions.js';
-//import { renderPaymentSummary } from './checkout-paymentSummary.js';
+import dayjs from './dayjs.js';
+import { deliveryOptions } from './deliveryOptions.js';
+import { renderPaymentSummary } from './checkout-paymentSummary.js';
 async function getProducts() {
   const productList = await loadProducts();
   console.log("Loaded products successfully:", productList);
+  displayOrderSummary(productList);
   
 
 }
 
 getProducts();
 
-/*async function displayOrderSummary() {
-  loadProducts();
-  console.log('Products loaded successfully');
-  
-}displayOrderSummary();
+function displayOrderSummary(products) {
+
+
 export function renderOrderSummary(){
 let html='';
 
@@ -56,7 +55,7 @@ products.forEach((product)=>{
 
               <div class="cart-item-details">
                 <div class="product-name">
-                  ${matchingProduct.name}
+                  ${matchingProduct.proname}
                 </div>
                 <div class="product-price">
                   $${matchingProduct.getPrice()}
@@ -153,5 +152,6 @@ document.querySelectorAll('.js-delivery-option').forEach((element) => {
 
 });
 }
-renderOrderSummary();*/
+renderOrderSummary();
       
+};

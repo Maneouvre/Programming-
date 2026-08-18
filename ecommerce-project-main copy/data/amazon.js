@@ -4,7 +4,7 @@ import dayjs from './dayjs.js';
 import { deliveryOptions } from './deliveryOptions.js';
 import { renderPaymentSummary } from './checkout-paymentSummary.js';
 
-async function getProducts() {
+export async function getProducts() {
   const productList = await loadProducts();
   console.log("Loaded products successfully:", productList);
   displayOnPage(productList);

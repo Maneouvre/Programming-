@@ -3,7 +3,8 @@ export function convertCentsToDollar(priceCents){
     return (Math.round(priceCents) / 100).toFixed(2);
 };
 
-export function getProduct(productId) {
+export async function getProduct(productId) {
+  const products=await loadProducts();
     let matchingProduct;
 
     products.forEach((product) => {
@@ -39,31 +40,6 @@ class Product {
   }
 };
 
-/*export let products = [];
-export async function loadProducts() {
-  try {
-    const response = await fetch('../../Admin_dashboard_php_sql/products_fetch/products_fetch.php');
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    
-    products = data.map((productDetails) => {
-      return new Product(productDetails);
-    });
-    
-    
-    
-  } catch (error) {
-    console.error("Failed to load products:", error);
-  }
-}
-*/
-//loadProducts()
-
-
 
 export let products = [];
 
@@ -94,6 +70,32 @@ export async function loadProducts() {
   }
 }
 
+
+
+
+/*export let products = [];
+export async function loadProducts() {
+  try {
+    const response = await fetch('../../Admin_dashboard_php_sql/products_fetch/products_fetch.php');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    products = data.map((productDetails) => {
+      return new Product(productDetails);
+    });
+    
+    
+    
+  } catch (error) {
+    console.error("Failed to load products:", error);
+  }
+}
+*/
+//loadProducts()
 
 //inheritng class(properties and methods) from Product class
 /*class Clothing extends Product{
