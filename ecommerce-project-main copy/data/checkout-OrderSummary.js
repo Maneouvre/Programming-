@@ -1,40 +1,39 @@
 import { cart,removeFromCart,updateDeliveryOption} from './cart.js';
-import { loadProducts,convertCentsToDollar } from './products.js';
+import { loadProducts,products,convertCentsToDollar,getProduct} from './products.js';
 import dayjs from './dayjs.js';
 import { deliveryOptions } from './deliveryOptions.js';
 import { renderPaymentSummary } from './checkout-paymentSummary.js';
 
-let products = [];
-
-async function getProducts() {
-  const productList = await loadProducts();
-  console.log("Loaded products successfully:", productList);
-  products = productList; 
-  renderOrderSummary(products);
+async function displayOrderSummary(){
+  await loadProducts();
+  renderOrderSummary();
+  console.log(products);
 }
-
-getProducts();
+displayOrderSummary();
+/*for (const item of cart) {
+        const product = await getProduct(item.productId);
+        
+        if (product) {
+            renderOrderSummary(product);
+        }
+    }}*/
 
 export function renderOrderSummary(productsList){
   if (!productsList) {
-    productsList = products;
-  }
+    productsList = products;}
+  
 
   let html='';
 
   cart.forEach((item)=>{
-      const productId=item.productId;
-      let matchingProduct;
-
-      productsList.forEach((product)=>{
-          if (product.id===productId){
-              matchingProduct=product;
-          }
-      });
-
-      if (!matchingProduct) {
+      const matchingProduct=getProduct(item.productId);
+       if (!matchingProduct) {
         return;
       }
+      
+      console.log('THIS MATCHES',matchingProduct);
+
+     
 
       const deliveryOptionid= item.deliveryOptionId;
       let deliveryOpt;
@@ -136,6 +135,7 @@ export function renderOrderSummary(productsList){
       renderPaymentSummary();
     });
   });
-} 
+};
+console.log(cart);
 
-renderOrderSummary(); 
+

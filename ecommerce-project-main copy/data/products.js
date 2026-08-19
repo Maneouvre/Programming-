@@ -14,6 +14,9 @@ export async function getProduct(productId) {
     });
 
     return matchingProduct;
+     if (!matchingProduct) {
+        return;
+      }
 }
 
 class Product {
@@ -52,7 +55,6 @@ export async function loadProducts() {
 
     const data = await response.json();
     
-    // Check if your PHP script sent back a database error
     if (data.error) {
       throw new Error(`PHP Database Error: ${data.error}`);
     }
@@ -64,7 +66,6 @@ export async function loadProducts() {
     return products; 
     
   } catch (error) {
-    // CRITICAL: Log the error so you can see WHY it failed
     console.error("Failed to load products:", error);
     return products; 
   }

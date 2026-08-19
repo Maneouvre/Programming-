@@ -7,11 +7,12 @@ import { getDeliveryOption } from './deliveryOptions.js';
 export async function renderPaymentSummary() {
     let productPriceCents = 0;
     let shippingPriceCents = 0;
+    let totalBeforeTaxation=0;
 
-    // Use for...of to correctly await asynchronous calls in each iteration
+    
     for (const item of cart) {
         const product = await getProduct(item.productId);
-        
+        console.log(product);
         if (product) {
             productPriceCents += (product.priceCents * item.quantity);
             
@@ -21,7 +22,7 @@ export async function renderPaymentSummary() {
     }
 
     // Calculations must happen AFTER all items have been processed
-    const totalBeforeTaxation = productPriceCents + shippingPriceCents;
+    totalBeforeTaxation = productPriceCents + shippingPriceCents;
     const estimatedTax = totalBeforeTaxation * 0.1;
     const orderTotal = totalBeforeTaxation + estimatedTax;
 
@@ -66,3 +67,5 @@ export async function renderPaymentSummary() {
         element.innerHTML = paymentSummaryHTML;
     }
 }
+ renderPaymentSummary();
+ console.log('This is the local storage',localStorage);
