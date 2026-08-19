@@ -2,21 +2,17 @@
 export function convertCentsToDollar(priceCents){
     return (Math.round(priceCents) / 100).toFixed(2);
 };
-
+// products.js
 export async function getProduct(productId) {
-  const products=await loadProducts();
-    let matchingProduct;
-
-    products.forEach((product) => {
-        if (product.id === productId) {
-            matchingProduct = product;
-        }
-    });
-
-    return matchingProduct;
-     if (!matchingProduct) {
-        return;
-      }
+  //Only fetch from backend if the global products array is completely empty
+  if (products.length === 0) {
+    await loadProducts();
+  }
+  
+  //Safely find the product using String conversion to prevent type mismatches (e.g., '1' vs 1)
+  const matchingProduct = products.find((product) => String(product.id) === String(productId));
+  
+  return matchingProduct; 
 }
 
 class Product {

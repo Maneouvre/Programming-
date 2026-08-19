@@ -6,7 +6,7 @@ import { renderPaymentSummary } from './checkout-paymentSummary.js';
 
 export async function getProducts() {
   const productList = await loadProducts();
-  console.log("Loaded products successfully:", productList);
+  //console.log("Loaded products successfully:", productList);
   displayOnPage(productList);
 
 }

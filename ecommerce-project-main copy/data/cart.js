@@ -3,14 +3,7 @@ loadFromStorage();
 export function loadFromStorage() { 
   cart= JSON.parse(localStorage.getItem('cart'));
         if(!cart){
-        cart=[{productId:4,
-          quantity:1,
-          deliveryOptionId:'1'
-        },
-        {productId:1,
-          quantity:2,
-          deliveryOptionId:'2'
-        }
+        cart=[
         ];
         };
 };
