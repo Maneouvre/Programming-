@@ -5,108 +5,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Catalog</title>
-    
-    <style>
-        /* Simple, clean grid styles to show cards side-by-side */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 30px auto;
-        }
-        .product-card {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        .product-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-        .product-card h3 {
-            font-size: 18px;
-            margin: 12px 0 6px 0;
-            color: #222;
-        }
-        .price {
-            font-size: 16px;
-            font-weight: bold;
-            color: #4f46e5;
-            margin: 0 0 8px 0;
-        }
-        .rating {
-            font-size: 14px;
-            color: #666;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Admin Dashboard</title>
+  <link rel="stylesheet" href="products.css">
+  <!-- FontAwesome for Dashboard Icons -->
+  <link rel="stylesheet" href="https://cloudflare.com">
 </head>
 <body>
 
-    <h1>Product List</h1>
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="sidebar">
+    <div class="logo">
+      <i class="fa-solid fa-cubes"></i>
+      <span>Product Admin</span>
+    </div>
+    <div class="menu-section">
+      <p class="section-title">General</p>
+      <nav>
+        <a href="#"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <a href="#" class="active"><i class="fa-solid fa-box"></i> Products</a>
+        <a href="#"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
+        <a href="#"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+        <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+      </nav>
+    </div>
+  </aside>
 
-    <!-- Your async JS loop dynamically injects all database items right here -->
-    <div id="products_grid" class="products-grid">Loading products, please wait...</div>
+  <!-- MAIN APP CONTAINER -->
+  <main class="main-content">
+    
+    <!-- HEADER BAR -->
+    <header class="top-header">
+      <div class="header-right">
+        <button class="notif-btn"><i class="fa-regular fa-bell"></i></button>
+        <div class="user-profile">
+          <img src="https://placeholder.com" alt="Alex Rivera" class="avatar">
+          <div class="user-info">
+            <span class="user-name">Alex Rivera</span>
+            <span class="user-role">Store Owner</span>
+          </div>
+        </div>
+      </div>
+    </header>
 
-    <script>
+    <!-- CONTENT BODY -->
+    <div class="content-body">
+      <div class="page-title-row">
+        <div>
+          <h1>Products</h1>
+          <p class="subtitle">Manage your online store catalog and settings</p>
+        </div>
+        <button class="add-product-btn"><i class="fa-solid fa-plus"></i>  Add Product</button>
+      </div>
+
+      <!-- METRIC CARDS -->
+      <section class="metrics-grid">
+        <div class="metric-card">
+          <div class="card-header">
+            <span>Total Products</span>
+            <i class="fa-solid fa-cubes icon-blue"></i>
+          </div>
+          <div class="metric-value">1,248</div>
+          <div class="trend positive"><i class="fa-solid fa-arrow-up"></i> +12% <span class="trend-label">from last month</span></div>
+        </div>
+
+        <div class="metric-card">
+          <div class="card-header">
+            <span>Average Rating</span>
+            <i class="fa-regular fa-star icon-purple"></i>
+          </div>
+          <div class="metric-value">4.62</div>
+          <div class="trend positive"><i class="fa-solid fa-arrow-up"></i> +0.4% <span class="trend-label">from last month</span></div>
+        </div>
+
+        <div class="metric-card">
+          <div class="card-header">
+            <span>Active Keywords</span>
+            <i class="fa-regular fa-bookmark icon-orange"></i>
+          </div>
+          <div class="metric-value">42</div>
+          <div class="trend positive"><i class="fa-solid fa-arrow-up"></i> +3 new <span class="trend-label">from last month</span></div>
+        </div>
+
+        <div class="metric-card">
+          <div class="card-header">
+            <span>Revenue</span>
+            <i class="fa-solid fa-dollar-sign icon-green"></i>
+          </div>
+          <div class="metric-value">$42,840</div>
+          <div class="trend positive"><i class="fa-solid fa-arrow-up"></i> +18.2% <span class="trend-label">from last month</span></div>
+        </div>
+      </section>
+
+      <!-- PRODUCTS DATA TABLE -->
+      <section class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Preview</th>
+              <th>Product details</th>
+              <th>Price</th>
+              <th>Keywords</th>
+              <th>Rating</th>
+              <th class="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><img src="https://placeholder.com" alt="Product" class="prod-img"></td>
+              <td>
+                <div class="prod-title">Apex Sound ANC Headphones</div>
+                <div class="prod-id">ID: PROD-001</div>
+              </td>
+              <td class="font-medium">$249.00</td>
+              <td>
+                <span class="tag">Audio</span>
+                <span class="tag">ANC</span>
+                <span class="tag">Wireless</span>
+              </td>
+              <td>
+                <span class="star-rating">⭐⭐⭐⭐☆</span>
+                <span class="rating-text">4.8 (142 reviews)</span>
+              </td>
+              <td class="text-right actions-cell">
+                <button class="action-btn edit">Edit<i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="action-btn delete"><i class="fa-regular fa-trash-can">Delete</i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- TABLE PAGINATION -->
+        <div class="pagination-row">
+          <div class="pagination-info">Showing 1-1 of 1,248 products</div>
+          <div class="pagination-buttons">
+            <button class="page-btn" disabled>Previous</button>
+            <button class="page-btn">Next</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+<script>
     document.addEventListener("DOMContentLoaded", async function() {
         try {
-            // 1. Fetch your data from the separate PHP database API script
             const response = await fetch("products_fetch.php");
             const products = await response.json();
             
-            // 2. Target your grid container and empty it out
-            const container = document.getElementById("products_grid");
-            container.innerHTML = ""; 
+            const tbody = document.querySelector("tbody");
+            tbody.innerHTML = ""; 
 
-            // If no data returned from database table rows
             if (products.length === 0) {
-                container.innerHTML = "<p>No products found in database.</p>";
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px;">No products found in database.</td></tr>`;
                 return;
             }
 
-            // 3. Loop through your products array using a clean mapping layout
-            container.innerHTML = products.map(product => {
-                // Convert price cents into a decimal format (e.g. 1000 cents -> 10.00)
+            // Corrected syntax mapping configuration row arrays
+            tbody.innerHTML = products.map(product => {
                 const realPrice = (product.price_cents / 100).toFixed(2);
                 
+                let tagsHTML = '';
+                if (product.keywords) {
+                    let keywordArray = [];
+                    if (Array.isArray(product.keywords)) {
+                        keywordArray = product.keywords;
+                    } else if (typeof product.keywords === 'string') {
+                        try {
+                            keywordArray = JSON.parse(product.keywords);
+                            if (!Array.isArray(keywordArray)) keywordArray = [keywordArray];
+                        } catch(e) {
+                            keywordArray = product.keywords.split(',');
+                        }
+                    } else {
+                        keywordArray = [String(product.keywords)];
+                    }
+                    tagsHTML = keywordArray.map(kw => `<span class="tag">${String(kw).trim()}</span>`).join('');
+                }
+
+                const numericRating = parseFloat(product.rating_stars) || 0;
+                const dynamicStars = "⭐".repeat(Math.round(numericRating)).padEnd(5, "☆");
+
                 return `
-                    <div class="product-card">
-                        <img src="../product_upload_dashboard/${product.image_path}" onerror="this.src='../product_upload_dashboard/uploads/placeholder.png';">
-                        <h3>${product.product_name}</h3>
-                        <p class="price">$${realPrice}</p>
-                        <p class="rating">⭐ ${product.rating_stars}</p>
-                    </div>
+                    <tr>
+                      <td>
+                        <img src="../product_upload_dashboard/${product.image_path}" 
+                             onerror="this.src='../product_upload_dashboard/uploads/placeholder.png';" 
+                             alt="${product.product_name}" 
+                             class="prod-img">
+                      </td>
+                      <td>
+                        <div class="prod-title">${product.product_name}</div>
+                        <div class="prod-id">ID: PROD-${product.id}</div>
+                      </td>
+                      <td class="font-medium">$${realPrice}</td>
+                      <td>
+                        ${tagsHTML || '<span class="tag">General</span>'}
+                      </td>
+                      <td>
+                        <span class="star-rating">${dynamicStars}</span>
+                        <span class="rating-text">${numericRating} (${product.rating_count || 0} reviews)</span>
+                      </td>
+                      <td class="text-right actions-cell">
+                        <button class="action-btn edit">Edit<i class="fa-regular fa-pen-to-square"></i></button>
+                        <button class="action-btn delete">Delete<i class="fa-regular fa-trash-can"></i></button>
+                      </td>
+                    </tr>
                 `;
-            }).join(""); // Merges all array string cards together cleanly
+            }).join("");
 
         } catch (error) {
             console.error("Something went wrong:", error);
-            document.getElementById("products_grid").innerHTML = "<p>Error loading product data asset streams.</p>";
+            const tbody = document.querySelector("tbody");
+            if (tbody) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red; padding: 20px;">Error loading product data asset streams.</td></tr>`;
+            }
         }
     });
-    </script>
+</script>
 
 </body>
 </html>

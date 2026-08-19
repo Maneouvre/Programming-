@@ -12,7 +12,7 @@ async function fetchData() {
   }
 }
 fetchData();*/
-// 1. Wait for the webpage to fully load
+/*// 1. Wait for the webpage to fully load
 document.addEventListener("DOMContentLoaded", async function() {
     try {
         // 1. Fetch your data from the PHP API
@@ -40,5 +40,5 @@ document.addEventListener("DOMContentLoaded", async function() {
     } catch (error) {
         console.error("Something went wrong:", error);
     }
-});
+});*/
 

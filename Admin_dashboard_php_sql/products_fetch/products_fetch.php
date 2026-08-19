@@ -6,7 +6,7 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *"); 
 
 try {
-    // Reuse your existing connection file wrapper configuration
+    // USE dbase connection mysql
     require_once("products_fetch_dbase_connection.php");
 
     // Fetch all columns, including your binary JSON keywords block
