@@ -1,33 +1,51 @@
-import { addToCart,cart,removeFromCart,updateDeliveryOption} from './cart.js';
-import { loadProducts} from './products.js';
-import dayjs from './dayjs.js';
-import { deliveryOptions } from './deliveryOptions.js';
-import { renderPaymentSummary } from './checkout-paymentSummary.js';
+import { addToCart, cart } from './cart.js';
+import { loadProducts } from './products.js';
 
 export async function getProducts() {
   const productList = await loadProducts();
-  //console.log("Loaded products successfully:", productList);
-  displayOnPage(productList);
+  
+  // 1. Check the browser URL for any active search parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchTerm = urlParams.get('search');
 
+  let productsToRender = productList;
+
+  // 2. If a search term exists, filter the list down before showing them
+  if (searchTerm) {
+    const lowerQuery = searchTerm.toLowerCase().trim();
+    
+    productsToRender = productList.filter((product) => {
+      const matchesName = product.name.toLowerCase().includes(lowerQuery);
+      
+      const matchesKeywords = product.keywords && product.keywords.some(keyword => 
+        keyword.toLowerCase().includes(lowerQuery)
+      );
+
+      return matchesName || matchesKeywords;
+    });
+  }
+
+  // 3. Render the processed products list
+  displayOnPage(productsToRender);
 }
 
 getProducts();
 
+// ADDED EXPORT: Allows search.js to force a re-render if needed
+export function displayOnPage(products) {
+  function updateCartQuantity() {
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    });
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+    console.log(cartQuantity);
+    console.log(cart);
+  }
 
-function displayOnPage(products){
-function updateCartQuantity(){
-                        let cartQuantity=0;
-                        cart.forEach((item)=>{
-                        cartQuantity+=item.quantity;
-                        });
-                        document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
-                        console.log(cartQuantity);
-                        console.log(cart);
-                        }
-
-let productsHTML='';
-products.forEach((product) => {
-    productsHTML+=`
+  let productsHTML = '';
+  products.forEach((product) => {
+    productsHTML += `
             <div class="product-container">
                 <div class="product-image-container">
                     <img class="product-image"
@@ -76,17 +94,16 @@ products.forEach((product) => {
                     Add to Cart
                 </button>
             </div>
-`;});
+    `;
+  });
 
-document.querySelector('.js-products-grid').innerHTML=productsHTML;
-document.querySelectorAll('.js-add-to-cart').forEach((button)=>
-{
-    
-      
-    button.addEventListener('click',() => 
-                {
-                const productId = button.dataset.productId;
-                addToCart(productId);
-                updateCartQuantity();})
-});
+  document.querySelector('.js-products-grid').innerHTML = productsHTML;
+  
+  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId;
+      addToCart(productId);
+      updateCartQuantity();
+    });
+  });
 }
