@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexStore Dashboard</title>
+    <link rel="stylesheet" href="admin_dashboard.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">N</span>
+                <span class="logo-text">NexStore</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">📊</span> Dashboard
+                </a>
+                <a href="../products_fetch/products.php" class="nav-item">
+                    <span class="nav-icon">📦</span> Products
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📋</span> Orders
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">📈</span> Analytics
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">⚙️</span> Settings
+                </a>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar">AK</div>
+                <div class="user-info">
+                    <span class="user-name">Alex Kim</span>
+                    <span class="user-role">Admin</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Panel -->
+        <main class="main-content">
+            
+            <!-- Top Header Bar -->
+            <header class="top-header">
+                <div class="welcome-text">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back, Alex</p>
+                </div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Search...">
+                        <span class="search-shortcut">⌘K</span>
+                    </div>
+                    <div class="notification-btn">
+                        🔔
+                        <span class="notif-dot"></span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Metrics Cards Grid -->
+            <section class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">TOTAL REVENUE</span>
+                        <span class="badge badge-success">▲ 18.4%</span>
+                    </div>
+                    <div class="metric-value">$89,421</div>
+                    <div class="metric-footer">vs last month</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">ORDERS</span>
+                        <span class="badge badge-success">▲ 12.1%</span>
+                    </div>
+                    <div class="metric-value">640</div>
+                    <div class="metric-footer">Aug 1–19</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">AVG. ORDER VALUE</span>
+                        <span class="badge badge-success">▲ 4.2%</span>
+                    </div>
+                    <div class="metric-value">$139.72</div>
+                    <div class="metric-footer">vs $134.10</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">REFUND RATE</span>
+                        <span class="badge badge-danger">▼ 8.4%</span>
+                    </div>
+                    <div class="metric-value">2.1%</div>
+                    <div class="metric-footer">17 refunds</div>
+                </div>
+            </section>
+
+            <!-- Content Row (Chart and Top Products) -->
+            <div class="content-row">
+                
+                <!-- Revenue Chart Section Preview -->
+                <div class="card revenue-chart-card">
+                    <div class="card-header">
+                        <div class="chart-title-group">
+                            <span class="metric-title">REVENUE</span>
+                            <div class="chart-value">$444,000 YTD</div>
+                        </div>
+                        <div class="time-filters">
+                            <button class="filter-btn">7d</button>
+                            <button class="filter-btn">30d</button>
+                            <button class="filter-btn active">98d</button>
+                        </div>
+                    </div>
+                    <!-- Simplified Visual Graph Container -->
+                    <div class="chart-container">
+                        <div class="mock-chart-line"></div>
+                        <div class="chart-axis-y">
+                            <span>$100k</span><span>$75k</span><span>$50k</span><span>$25k</span><span>$0k</span>
+                        </div>
+                        <div class="chart-axis-x">
+                            <span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Products Widget -->
+                <div class="card top-products-card">
+                    <div class="card-header">
+                        <span class="metric-title">TOP PRODUCTS</span>
+                    </div>
+                    <div class="product-list">
+                        
+                        <div class="product-item">
+                            <div class="product-meta">
+                                <span class="product-name">iPhone 17 Pro</span>
+                                <span class="product-sales">$42,800</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 85%;"></div>
+                            </div>
+                            <span class="product-units">39 units</span>
+                        </div>
+
+                        <div class="product-item">
+                            <div class="product-meta">
+                                <span class="product-name">MacBook Air M4</span>
+                                <span class="product-sales">$31,200</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 65%;"></div>
+                            </div>
+                            <span class="product-units">24 units</span>
+                        </div>
+
+                        <div class="product-item">
+                            <div class="product-meta">
+                                <span class="product-name">AirPods Pro 3</span>
+                                <span class="product-sales">$18,400</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 45%;"></div>
+                            </div>
+                            <span class="product-units">74 units</span>
+                        </div>
+
+                        <div class="product-item">
+                            <div class="product-meta">
+                                <span class="product-name">iPad Air 6</span>
+                                <span class="product-sales">$14,200</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 35%;"></div>
+                            </div>
+                            <span class="product-units">19 units</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Recent Orders Footer Banner Section -->
+            <footer class="recent-orders-footer">
+                <span>RECENT ORDERS</span>
+                <a href="#" class="view-all-link">View all →</a>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Persistent Floating Help Utility -->
+    <div class="help-bubble">?</div>
+
+</body>
+</html>
