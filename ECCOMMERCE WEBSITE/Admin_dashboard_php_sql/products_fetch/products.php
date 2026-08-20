@@ -42,7 +42,7 @@
         <div class="user-profile">
           <img src="https://placeholder.com" alt="Alex Rivera" class="avatar">
           <div class="user-info">
-            <span class="user-name">Manoeuvre</span>
+            <span class="user-name">Alex Rivera</span>
             <span class="user-role">Store Owner</span>
           </div>
         </div>
@@ -56,10 +56,9 @@
           <h1>Products</h1>
           <p class="subtitle">Manage your online store catalog and settings</p>
         </div>
-            <a href="http://localhost/ECCOMMERCE%20WEBSITE/Admin_dashboard_php_sql/product_upload_dashboard/products_upload.php" class="product-link">
-            <button class="add-product-btn"><i class="fa-solid fa-plus"></i> Add Product</button>
-            </a>
-        </div>
+        <button class="add-product-btn"><i class="fa-solid fa-plus"></i>  Add Product</button>
+      </div>
+
       <!-- METRIC CARDS -->
       <section class="metrics-grid">
         <div class="metric-card">
@@ -67,7 +66,7 @@
             <span>Total Products</span>
             <i class="fa-solid fa-cubes icon-blue"></i>
           </div>
-          <div class="metric-value" id="metric-total-products">0</div>
+          <div class="metric-value">1,248</div>
           <div class="trend positive"><i class="fa-solid fa-arrow-up"></i> +12% <span class="trend-label">from last month</span></div>
         </div>
 
@@ -76,7 +75,7 @@
             <span>Average Rating</span>
             <i class="fa-regular fa-star icon-purple"></i>
           </div>
-          <div class="metric-value" id="metric-avg-rating">0.00</div>
+          <div class="metric-value">4.62</div>
           <div class="trend positive"><i class="fa-solid fa-arrow-up"></i> +0.4% <span class="trend-label">from last month</span></div>
         </div>
 
@@ -85,7 +84,7 @@
             <span>Active Keywords</span>
             <i class="fa-regular fa-bookmark icon-orange"></i>
           </div>
-          <div class="metric-value" id="metric-active-keywords">0</div>
+          <div class="metric-value">42</div>
           <div class="trend positive"><i class="fa-solid fa-arrow-up"></i> +3 new <span class="trend-label">from last month</span></div>
         </div>
 
@@ -94,11 +93,10 @@
             <span>Revenue</span>
             <i class="fa-solid fa-dollar-sign icon-green"></i>
           </div>
-          <div class="metric-value" id="metric-total-revenue">$0.00</div>
+          <div class="metric-value">$42,840</div>
           <div class="trend positive"><i class="fa-solid fa-arrow-up"></i> +18.2% <span class="trend-label">from last month</span></div>
         </div>
       </section>
-
 
       <!-- PRODUCTS DATA TABLE -->
       <section class="table-container">
@@ -150,8 +148,101 @@
 
     </div>
   </main>
-<script src="products_edit_page.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", async function() {
+        try {
+            const response = await fetch("products_fetch.php");
+            const products = await response.json();
+            
+            const tbody = document.querySelector("tbody");
+            tbody.innerHTML = ""; 
 
+            if (products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px;">No products found in database.</td></tr>`;
+                return;
+            }
+
+            // Corrected syntax mapping configuration row arrays
+            tbody.innerHTML = products.map(product => {
+                const realPrice = (product.price_cents / 100).toFixed(2);
+                
+                let tagsHTML = '';
+                if (product.keywords) {
+                    let keywordArray = [];
+                    if (Array.isArray(product.keywords)) {
+                        keywordArray = product.keywords;
+                    } else if (typeof product.keywords === 'string') {
+                        try {
+                            keywordArray = JSON.parse(product.keywords);
+                            if (!Array.isArray(keywordArray)) keywordArray = [keywordArray];
+                        } catch(e) {
+                            keywordArray = product.keywords.split(',');
+                        }
+                    } else {
+                        keywordArray = [String(product.keywords)];
+                    }
+                    tagsHTML = keywordArray.map(kw => `<span class="tag">${String(kw).trim()}</span>`).join('');
+                }
+//Convert the database value into a strict number (e.g., "4.5" -> 4.5)
+const numericRating = parseFloat(product.rating_stars) || 0;
+const fileNumber = Math.round(numericRating * 10);
+
+// Construct your precise graphic image path
+const imagePath = `http://localhost/Admin_dashboard_php_sql/product_upload_dashboard/ratings/rating-${fileNumber}.png`;
+
+const ratingHTML = `
+    <div class="product-rating">
+        <img src="${imagePath}" alt="Rating: ${numericRating} out of 5 stars" >
+        <span>(${numericRating})</span>
+    </div>
+`;
+
+
+
+                return `
+                    <tr>
+                      <td>
+                        <img src="../product_upload_dashboard/${product.image_path}" 
+                             onerror="this.src='../product_upload_dashboard/uploads/placeholder.png';" 
+                             alt="${product.product_name}" 
+                             class="prod-img">
+                      </td>
+                      <td>
+                        <div class="prod-title">${product.product_name}</div>
+                        <div class="prod-id">ID: PROD-${product.id}</div>
+                      </td>
+                      <td class="font-medium">$${realPrice}</td>
+                      <td>
+                        ${tagsHTML || '<span class="tag">General</span>'}
+                      </td>
+                     <td>
+  <div style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+    <!-- 1. Displays your clean rating image instead of text emojis -->
+    <img src="${imagePath}" alt="${numericRating} stars" style="height: 16px; object-fit: contain; vertical-align: middle;">
+    
+    <!-- 2. Keeps the score text and review counts tracking beautifully right next to it -->
+    <span class="rating-text" style="font-size: 13px; color: #4a5568;">
+      ${numericRating} (${product.rating_count || 0} reviews)
+    </span>
+  </div>
+</td>
+                      <td class="text-right actions-cell">
+                        <button class="action-btn edit">Edit<i class="fa-regular fa-pen-to-square"></i></button>
+                        <button class="action-btn delete">Delete<i class="fa-regular fa-trash-can"></i></button>
+                      </td>
+                    </tr>
+                `;
+            }).join("");
+
+        } catch (error) {
+            console.error("Something went wrong:", error);
+            const tbody = document.querySelector("tbody");
+            if (tbody) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red; padding: 20px;">Error loading product data asset streams.</td></tr>`;
+            }
+        }
+    });
+</script>
 
 </body>
 </html>
