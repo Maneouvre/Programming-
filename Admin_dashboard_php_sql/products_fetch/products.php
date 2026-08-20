@@ -220,6 +220,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
         });
     });
   </script>
+
+<!-- EDIT PRODUCT MODAL OVERLAY -->
+<div id="edit-product-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+  <div class="modal-content" style="background: #fff; padding: 25px; border-radius: 8px; width: 450px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative;">
+    <h2 style="margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; color: #2d3748;">Edit Product Details</h2>
+    
+    <form id="edit-product-form">
+      <input type="hidden" id="edit-prod-id" name="edit_id">
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #4a5568;">Product Name</label>
+        <input type="text" id="edit-prod-name" name="product_name" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box;">
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #4a5568;">Price ($)</label>
+        <input type="number" id="edit-prod-price" name="price" step="0.01" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box;">
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #4a5568;">Keywords (comma separated)</label>
+        <input type="text" id="edit-prod-keywords" name="keywords" style="width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box;">
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" onclick="closeEditModal()" style="background: #edf2f7; color: #4a5568; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: 600;">Cancel</button>
+        <button type="submit" style="background: #3182ce; color: #fff; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: 600;">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 </body>
 </html>
 
