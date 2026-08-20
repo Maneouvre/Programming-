@@ -1,6 +1,39 @@
 <?php
-// Start your products session if you need to track user data later
-//require_once("products_session.php");
+// ==========================================
+// 1. PDO DATABASE API DELETE HANDLER LAYER
+// ==========================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
+    // Clear out buffers to make sure only clean JSON data prints
+    ob_clean();
+    header('Content-Type: application/json');
+
+    $host   = "localhost";
+    $dbname = "ecommerce_db";
+    $user   = "root";
+    $pass   = "";
+
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass, [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
+
+        $productId = intval($_POST['delete_id']);
+
+        // Securely prepare statement to protect from injections
+        $stmt = $pdo->prepare("DELETE FROM `products` WHERE `id` = :id");
+        $stmt->execute(['id' => $productId]);
+
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['success' => true, 'message' => 'Product removed from database catalog!']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Product ID not located inside tables.']);
+        }
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+    }
+    exit; // Terminate execution immediately so no HTML leaks into the delete request stream
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +42,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Admin Dashboard</title>
   <link rel="stylesheet" href="products.css">
-  <!-- FontAwesome for Dashboard Icons -->
+  <!-- Valid FontAwesome Mirror for rendering sidebar buttons icons -->
   <link rel="stylesheet" href="https://cloudflare.com">
 </head>
 <body>
@@ -40,7 +73,7 @@
       <div class="header-right">
         <button class="notif-btn"><i class="fa-regular fa-bell"></i></button>
         <div class="user-profile">
-          <img src="https://placeholder.com" alt="Alex Rivera" class="avatar">
+          <img src="https://placehold.co" alt="Manoeuvre" class="avatar" style="border-radius: 50%;">
           <div class="user-info">
             <span class="user-name">Manoeuvre</span>
             <span class="user-role">Store Owner</span>
@@ -56,10 +89,11 @@
           <h1>Products</h1>
           <p class="subtitle">Manage your online store catalog and settings</p>
         </div>
-            <a href="http://localhost/ECCOMMERCE%20WEBSITE/Admin_dashboard_php_sql/product_upload_dashboard/products_upload.php" class="product-link">
-            <button class="add-product-btn"><i class="fa-solid fa-plus"></i> Add Product</button>
-            </a>
-        </div>
+        <a href="http://localhost/ECCOMMERCE%20WEBSITE/Admin_dashboard_php_sql/product_upload_dashboard/products_upload.php" class="product-link">
+          <button class="add-product-btn"><i class="fa-solid fa-plus"></i> Add Product</button>
+        </a>
+      </div>
+
       <!-- METRIC CARDS -->
       <section class="metrics-grid">
         <div class="metric-card">
@@ -99,7 +133,6 @@
         </div>
       </section>
 
-
       <!-- PRODUCTS DATA TABLE -->
       <section class="table-container">
         <table>
@@ -115,24 +148,8 @@
           </thead>
           <tbody>
             <tr>
-              <td><img src="https://placeholder.com" alt="Product" class="prod-img"></td>
-              <td>
-                <div class="prod-title">Apex Sound ANC Headphones</div>
-                <div class="prod-id">ID: PROD-001</div>
-              </td>
-              <td class="font-medium">$249.00</td>
-              <td>
-                <span class="tag">Audio</span>
-                <span class="tag">ANC</span>
-                <span class="tag">Wireless</span>
-              </td>
-              <td>
-                <span class="star-rating">⭐⭐⭐⭐☆</span>
-                <span class="rating-text">4.8 (142 reviews)</span>
-              </td>
-              <td class="text-right actions-cell">
-                <button class="action-btn edit">Edit<i class="fa-regular fa-pen-to-square"></i></button>
-                <button class="action-btn delete"><i class="fa-regular fa-trash-can">Delete</i></button>
+              <td colspan="6" style="text-align: center; padding: 20px; color: #718096;">
+                Loading product profiles...
               </td>
             </tr>
           </tbody>
@@ -140,7 +157,7 @@
 
         <!-- TABLE PAGINATION -->
         <div class="pagination-row">
-          <div class="pagination-info">Showing 1-1 of 1,248 products</div>
+          <div class="pagination-info">Showing 0-0 of 0 products</div>
           <div class="pagination-buttons">
             <button class="page-btn" disabled>Previous</button>
             <button class="page-btn">Next</button>
@@ -150,8 +167,62 @@
 
     </div>
   </main>
-<script src="products_edit_page.js"></script>
 
+  <!-- External Script Assets Logic Modules -->
+  <script src="products_edit_page.js"></script>
+  <script src="edit_logic.js"></script>
+  <!-- Load your dynamic JavaScript file -->
+  <script src="edit_logic.js"></script>
 
+  <!-- THE INTERACTIVE EVENT LISTENER -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tbody = document.querySelector("tbody");
+        if (!tbody) return;
+
+        // Catch clicks on the table body dynamically
+        tbody.addEventListener("click", async function(event) {
+            const deleteButton = event.target.closest(".dashboard-delete-trigger");
+            if (!deleteButton) return; // Exit if they clicked somewhere else
+
+            event.preventDefault();
+
+            const id = deleteButton.getAttribute("data-product-id");
+            const row = deleteButton.closest("tr");
+            const productName = row.querySelector(".prod-title") ? row.querySelector(".prod-title").textContent : "this item";
+
+            if (!confirm(`Are you sure you want to delete "${productName}" from the database permanently?`)) {
+                return;
+            }
+
+            try {
+                const formData = new FormData();
+                formData.append("delete_id", id);
+
+                // Send request over to your dedicated php processor file
+                const response = await fetch("edit_logic.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    row.remove(); // Instantly wipe it off the web browser screen
+                    alert(result.message);
+                } else {
+                    alert("Database Error: " + result.message);
+                }
+            } catch (error) {
+                console.error("Network error:", error);
+                alert("Failed to communicate with your server backend. Check network connections.");
+            }
+        });
+    });
+  </script>
+</body>
+</html>
+
+ 
 </body>
 </html>
