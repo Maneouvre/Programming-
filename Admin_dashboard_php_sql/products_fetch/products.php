@@ -183,9 +183,21 @@
                     }
                     tagsHTML = keywordArray.map(kw => `<span class="tag">${String(kw).trim()}</span>`).join('');
                 }
+//Convert the database value into a strict number (e.g., "4.5" -> 4.5)
+const numericRating = parseFloat(product.rating_stars) || 0;
+const fileNumber = Math.round(numericRating * 10);
 
-                const numericRating = parseFloat(product.rating_stars) || 0;
-                const dynamicStars = "⭐".repeat(Math.round(numericRating)).padEnd(5, "☆");
+// Construct your precise graphic image path
+const imagePath = `http://localhost/Admin_dashboard_php_sql/product_upload_dashboard/ratings/rating-${fileNumber}.png`;
+
+const ratingHTML = `
+    <div class="product-rating">
+        <img src="${imagePath}" alt="Rating: ${numericRating} out of 5 stars" >
+        <span>(${numericRating})</span>
+    </div>
+`;
+
+
 
                 return `
                     <tr>
@@ -203,10 +215,17 @@
                       <td>
                         ${tagsHTML || '<span class="tag">General</span>'}
                       </td>
-                      <td>
-                        <span class="star-rating">${dynamicStars}</span>
-                        <span class="rating-text">${numericRating} (${product.rating_count || 0} reviews)</span>
-                      </td>
+                     <td>
+  <div style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+    <!-- 1. Displays your clean rating image instead of text emojis -->
+    <img src="${imagePath}" alt="${numericRating} stars" style="height: 16px; object-fit: contain; vertical-align: middle;">
+    
+    <!-- 2. Keeps the score text and review counts tracking beautifully right next to it -->
+    <span class="rating-text" style="font-size: 13px; color: #4a5568;">
+      ${numericRating} (${product.rating_count || 0} reviews)
+    </span>
+  </div>
+</td>
                       <td class="text-right actions-cell">
                         <button class="action-btn edit">Edit<i class="fa-regular fa-pen-to-square"></i></button>
                         <button class="action-btn delete">Delete<i class="fa-regular fa-trash-can"></i></button>
