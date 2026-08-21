@@ -68,7 +68,7 @@ try {
     </div>
     <div class="menu-section">
       <p class="section-title">General</p>
-      <nav><a href="#" class="nav-item active">
+      <nav><a href="../Admin_dashboard/admin_dashboard.html" class="nav-item active">
                     <span class="nav-icon">📊</span> Dashboard
                 </a>
                 <a href="../products_fetch/products.php" class="nav-item">
@@ -80,7 +80,7 @@ try {
                 <a href="#" class="nav-item">
                     <span class="nav-icon">📈</span> Analytics
                 </a>
-                <a href="#" class="nav-item">
+                <a href="settings.php" class="nav-item">
                     <span class="nav-icon">⚙️</span> Settings
                 </a>
       </nav>
@@ -89,7 +89,7 @@ try {
 
   <!-- MAIN APP CONTAINER CONTAINER -->
   <main class="main-content">
-    <!-- HEADER BAR BAR -->
+    <!-- HEADER BAR  -->
     <header class="top-header">
       <div class="header-right">
         <div class="user-profile">
@@ -110,7 +110,7 @@ try {
       </div>
 
       <div class="settings-container">
-        <form id="admin-settings-form" enctype="multipart/form-data">
+        <form id="admin-settings-form" enctype="multipart/form-data" method="POST" action="settings_details_formhandler.php">
           
           <!-- FORM COMPONENT 1: RENDER AVATAR ACTIONS -->
           <div class="form-group">
@@ -128,8 +128,14 @@ try {
 
           <!-- FORM COMPONENT 2: PROFILE DISPLAY NAME -->
           <div class="form-group">
-            <label for="settings-username">Profile User Name</label>
-            <input type="text" id="settings-username" name="admin_name" class="form-control" value="<?php echo htmlspecialchars($adminName); ?>" required>
+            <label for="settings-username">Change User Name</label>
+            <input type="text" id="settings-username" name="admin_name" class="form-control"required>
+
+          </div>
+          <div class="form-group">
+            <label for="settings-username">Change Password</label>
+            <input type="text" id="settings-username" name="admin_password" class="form-control"  required>
+            
           </div>
 
           <!-- FORM COMPONENT 3: DISPLAY ACCENTS THEMES LIGHT vs DARK -->

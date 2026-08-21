@@ -14,7 +14,7 @@ try {
     ]);
 
     // Handle Form Operations intercept routines
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $adminName = trim($_POST['admin_name'] ?? '');
         $darkMode  = isset($_POST['dark_mode']) ? 1 : 0;
@@ -42,13 +42,13 @@ try {
                 exit;
             }
 
-            // Create target directory if it does not physically exist on your storage drive
+            //Create target directory if it does not physically exist on your storage drive
             $uploadTargetDir = "../product_upload_dashboard/uploads/";
             if (!is_dir($uploadTargetDir)) {
                 mkdir($uploadTargetDir, 0775, true);
             }
 
-            // Create unique hashed name structure to prevent file system naming collusions
+            //Create unique hashed name structure to prevent file system naming collusions
             $newFileName = "avatar_" . uniqid() . "." . $fileExtension;
             $destinationFileRoute = $uploadTargetDir . $newFileName;
 

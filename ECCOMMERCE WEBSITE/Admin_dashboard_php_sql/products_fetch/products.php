@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                 <a href="#" class="nav-item">
                     <span class="nav-icon">📈</span> Analytics
                 </a>
-                <a href="#" class="nav-item">
+                <a href="./settings.php" class="nav-item">
                     <span class="nav-icon">⚙️</span> Settings
                 </a>
 
