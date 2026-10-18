@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chess Club | Join this semester</title>
+<meta name="description" content="Join the campus Chess Club. Open Monday to Saturday from 4:00 pm. All levels welcome.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14202B;
+    --ink-2: #1D2E3D;
+    --bone: #EFEAE0;
+    --bone-2: #E3DDD0;
+    --steel: #6F8FA6;
+    --steel-light: #DCE5EB;
+    --gold: #D9A441;
+    --muted: #5B6672;
+    --line: #CFC8B9;
+    --error: #B3261E;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bone); color: var(--ink);
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    font-size: 16px; line-height: 1.55;
+  }
+  h1, h2, h3 { font-family: "Familjen Grotesk", "Hanken Grotesk", sans-serif; margin: 0; letter-spacing: -0.015em; }
+  a { color: inherit; }
+  .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Hero ---------- */
+  .hero { background: var(--ink); color: var(--bone); padding: 28px 0 56px; overflow: hidden; }
+  .brand { font-family: "Familjen Grotesk", sans-serif; font-weight: 700; font-size: 35px; display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
+  .brand .mark { width: 28px; height: 28px; display: grid; place-items: center; background: var(--gold); color: var(--ink); border-radius: 7px; font-size: 1.1rem; }
+  .hero-grid { display: grid; gap: 36px; align-items: center; }
+  .hero h1 { font-size: clamp(2.3rem, 9vw, 4.1rem); line-height: 1.02; font-weight: 700; }
+  .hero p.sub { color: #B9C3CC; font-size: 1.1rem; max-width: 42ch; margin: 16px 0 26px; }
+  .cta {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 52px; padding: 0 28px;
+    background: var(--gold); color: var(--ink);
+    font-weight: 600; font-size: 1.05rem; text-decoration: none;
+    border-radius: 12px; transition: transform .1s;
+  }
+  .cta:active { transform: scale(.98); }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 26px 0 0; padding: 0; list-style: none; color: #B9C3CC; font-size: .95rem; }
+  .facts b { color: var(--bone); font-weight: 600; }
+
+  /* Board: the one memorable element */
+  .board-wrap { width: min(100%, 440px); margin: 0 auto; }
+  .board {
+    position: relative; aspect-ratio: 1; width: 100%;
+    display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);
+    border: 6px solid var(--ink-2); border-radius: 10px; overflow: hidden;
+    box-shadow: 0 0 0 1.5px #2E4256;
+  }
+  .sq.l { background: var(--steel-light); }
+  .sq.d { background: var(--steel); }
+  .sq.hl { background: var(--gold); opacity: .9; }
+  .pc {
+    position: absolute; width: 12.5%; height: 12.5%;
+    display: grid; place-items: center;
+    font-size: clamp(1.4rem, 7.6vw, 2.9rem); line-height: 1;
+    pointer-events: none;
+    transition: left .8s cubic-bezier(.3,.7,.3,1), top .8s cubic-bezier(.3,.7,.3,1);
+    font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif;
+  }
+  .pc.w { color: #FBF8F1; text-shadow: 0 0 1px #14202B, 0 0 1px #14202B, 0 1px 1px #14202B, 0 -1px 1px #14202B, 1px 0 1px #14202B, -1px 0 1px #14202B; }
+  .pc.b { color: #14202B; }
+  .caption { color: #8FA0AE; font-size: .88rem; margin-top: 12px; text-align: center; }
+
+  @media (min-width: 860px) {
+    .hero { padding-bottom: 80px; }
+    .hero-grid { grid-template-columns: 1.05fr .95fr; gap: 56px; }
+    .board-wrap { margin: 0 0 0 auto; }
+  }
+
+  /* ---------- Schedule ---------- */
+  section.block { padding: 64px 0 8px; }
+  h2.title { font-size: clamp(1.7rem, 5vw, 2.3rem); font-weight: 700; margin-bottom: 8px; }
+  .intro { color: var(--muted); max-width: 52ch; margin: 0 0 26px; }
+  .schedule { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--ink); }
+  .schedule li { display: grid; grid-template-columns: 96px 1fr; gap: 6px 18px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .schedule .when { font-family: "Familjen Grotesk", sans-serif; font-weight: 700; font-size: 1.1rem; }
+  .schedule .when small { display: block; font-family: "Hanken Grotesk", sans-serif; font-weight: 400; color: var(--muted); font-size: .88rem; }
+  .schedule h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 2px; }
+  .schedule p { margin: 0; color: var(--muted); }
+  @media (min-width: 700px) { .schedule li { grid-template-columns: 140px 1fr; } }
+
+  .levels { display: grid; gap: 14px; margin-top: 8px; }
+  .levels div { border-left: 4px solid var(--steel); padding: 2px 0 2px 14px; }
+  .levels b { font-family: "Familjen Grotesk", sans-serif; font-size: 1.05rem; display: block; }
+  .levels span { color: var(--muted); }
+  @media (min-width: 700px) { .levels { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+  /* ---------- Form ---------- */
+  #join { scroll-margin-top: 16px; }
+  .form-card {
+    background: #fff; border: 1.5px solid var(--line); border-top: 6px solid var(--gold);
+    border-radius: var(--radius); padding: 24px 18px 26px; margin-top: 8px;
+  }
+  @media (min-width: 560px) { .form-card { padding: 32px 30px 34px; } }
+  .row { display: grid; gap: 16px; grid-template-columns: 1fr; margin-bottom: 16px; }
+  @media (min-width: 560px) { .row.two { grid-template-columns: 1fr 1fr; } }
+  .field { margin-bottom: 16px; }
+  .row .field { margin-bottom: 0; }
+  label.lbl, .lbl { display: block; font-weight: 600; font-size: .95rem; margin-bottom: 6px; }
+  .hint { font-weight: 400; color: var(--muted); }
+  input[type=text], input[type=email], input[type=tel], select {
+    width: 100%; min-height: 48px; padding: 12px; font: inherit; color: var(--ink);
+    background: #fff; border: 1.5px solid var(--line); border-radius: 10px;
+    appearance: none; -webkit-appearance: none;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%235B6672' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px;
+  }
+  input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible, .chip input:focus-visible + span {
+    outline: 3px solid var(--steel); outline-offset: 2px;
+  }
+  .invalid input, .invalid select { border-color: var(--error); }
+  .err { color: var(--error); font-size: .88rem; margin-top: 5px; display: none; }
+  .invalid .err { display: block; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; }
+  .chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .chip span {
+    display: inline-block; padding: 10px 16px; min-height: 44px;
+    border: 1.5px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer;
+    font-weight: 500; transition: background .15s, border-color .15s;
+  }
+  .chip input:checked + span { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+
+  .consent { display: flex; gap: 10px; align-items: flex-start; color: var(--muted); font-size: .92rem; margin: 6px 0 20px; }
+  .consent input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--ink); flex: none; }
+  button.submit {
+    width: 100%; min-height: 54px; font: inherit; font-weight: 600; font-size: 1.05rem;
+    color: var(--bone); background: var(--ink); border: 0; border-radius: 12px; cursor: pointer; transition: transform .1s, opacity .2s;
+  }
+  button.submit:active { transform: scale(.985); }
+  button.submit[disabled] { opacity: .6; cursor: wait; }
+  .formerr { color: var(--error); margin: 0 0 12px; display: none; }
+  .formerr.show { display: block; }
+
+  .done { display: none; }
+  .done.show { display: block; }
+  .done .tick { width: 54px; height: 54px; border-radius: 50%; background: var(--gold); color: var(--ink); display: grid; place-items: center; margin-bottom: 16px; }
+  .done h2 { font-size: 1.7rem; margin-bottom: 8px; }
+  .done p { color: var(--muted); margin: 0 0 16px; }
+  .linkbtn { font: inherit; font-weight: 600; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; color: var(--ink); }
+
+  footer { margin-top: 64px; background: var(--ink); color: #B9C3CC; padding: 32px 0 40px; font-size: .95rem; }
+  footer b { color: var(--bone); }
+  footer .cols { display: grid; gap: 14px; }
+  @media (min-width: 700px) { footer .cols { grid-template-columns: repeat(3, 1fr); } }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="brand"><span class="mark" aria-hidden="true">&#9822;&#xFE0E;</span> KAFU CHESS CLUB</div>
+    <div class="hero-grid">
+      <div>
+        <h1>Think three moves ahead.</h1>
+        <p class="sub">Beginners and strong players are both welcome. Drop in any day, play stronger opponents and pick up new skills.</p>
+        <a class="cta" href="#join">Register now</a>
+        <ul class="facts">
+          <li><b>Mon to Sat</b> from 4:00 pm</li>
+          <li><b>Venue: </b> Mess</li>
+          <li><b>Fee: </b> Free to join</li>
+        </ul>
+      </div>
+      <div class="board-wrap">
+        <div class="board" id="board" role="img" aria-label="A chess position with a white knight moving from g1 to f3"></div>
+        <p class="caption">Knight to f3. A good first move for you too.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="block">
+    <div class="container">
+      <h2 class="title">When we're open</h2>
+      <p class="intro">Come by any day before you decide. No equipment needed, the boards and clocks are here.</p>
+      <ul class="schedule">
+        <li>
+          <div class="when">Mon to Sat<small>from 4:00 pm</small></div>
+          <div><h3>Open play</h3><p>Drop in whenever you are free. Casual games, any level. Find an opponent and play.</p></div>
+        </li>
+        <li>
+          <div class="when">Any day<small>while we're open</small></div>
+          <div><h3>New to chess?</h3><p>Ask a member to teach you the rules and the first moves.</p></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <h2 class="title">Where you fit</h2>
+      <p class="intro">Not sure which level you are? Pick the closest one on the form. We will match you with the right players.</p>
+      <div class="levels">
+        <div><b>Beginner</b><span>You know how the pieces move, or want to learn.</span></div>
+        <div><b>Intermediate</b><span>You play regularly and know some openings.</span></div>
+        <div><b>Advanced</b><span>You play rated games or compete in tournaments.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="join">
+    <div class="container">
+      <h2 class="title">Join the club</h2>
+      <p class="intro">Takes about a minute. The committee will contact you before the next session.</p>
+
+      <div class="form-card">
+        <form id="regForm" action="register.php" method="post" novalidate>
+          <input type="hidden" name="club" value="chess">
+
+          <div id="formBody">
+            <div class="field" data-field="full_name">
+              <label class="lbl" for="full_name">Full name</label>
+              <input type="text" id="full_name" name="full_name" autocomplete="name" required>
+              <div class="err">Enter your first and last name.</div>
+            </div>
+
+            <div class="row two">
+              <div class="field" data-field="reg_no">
+                <label class="lbl" for="reg_no">Registration number</label>
+                <input type="text" id="reg_no" name="reg_no" autocomplete="off" required>
+                <div class="err">Enter your registration number.</div>
+              </div>
+              <div class="field" data-field="phone">
+                <label class="lbl" for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="07xx xxx xxx" required>
+                <div class="err">Enter a valid phone number.</div>
+              </div>
+            </div>
+
+            <div class="field" data-field="email">
+              <label class="lbl" for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" required>
+              <div class="err">Enter a valid email address.</div>
+            </div>
+
+            <div class="row two">
+              <div class="field" data-field="course">
+                <label class="lbl" for="course">Course</label>
+                <input type="text" id="course" name="course" required>
+                <div class="err">Enter your course.</div>
+              </div>
+              <div class="field" data-field="year">
+                <label class="lbl" for="year">Year of study</label>
+                <select id="year" name="year" required>
+                  <option value="">Select year</option>
+                  <option>Year 1</option><option>Year 2</option><option>Year 3</option>
+                  <option>Year 4</option><option>Year 5+</option>
+                </select>
+                <div class="err">Select your year.</div>
+              </div>
+            </div>
+
+            <div class="field" data-field="level">
+              <label class="lbl" for="level">Your playing level</label>
+              <select id="level" name="level" required>
+                <option value="">Select level</option>
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+              </select>
+              <div class="err">Select your level.</div>
+            </div>
+
+            <div class="field">
+              <span class="lbl" id="daysLbl">Which days can you come? <span class="hint">(optional)</span></span>
+              <div class="chips" role="group" aria-labelledby="daysLbl">
+                <label class="chip"><input type="checkbox" name="days[]" value="Monday"><span>Mon</span></label>
+                <label class="chip"><input type="checkbox" name="days[]" value="Tuesday"><span>Tue</span></label>
+                <label class="chip"><input type="checkbox" name="days[]" value="Wednesday"><span>Wed</span></label>
+                <label class="chip"><input type="checkbox" name="days[]" value="Thursday"><span>Thu</span></label>
+                <label class="chip"><input type="checkbox" name="days[]" value="Friday"><span>Fri</span></label>
+                <label class="chip"><input type="checkbox" name="days[]" value="Saturday"><span>Sat</span></label>
+              </div>
+            </div>
+
+            <label class="consent">
+              <input type="checkbox" id="consent" name="consent" value="1">
+              <span>I agree that the Chess Club committee can contact me by phone or email.</span>
+            </label>
+            <div class="err" id="consentErr" style="margin:-12px 0 16px">Tick the box to continue.</div>
+
+            <p class="formerr" id="formErr" role="alert">Could not send your registration. Check your connection and try again.</p>
+            <button type="submit" class="submit" id="submitBtn">Join Chess Club</button>
+          </div>
+
+          <div class="done" id="done" role="status" aria-live="polite">
+            <div class="tick" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+            </div>
+            <h2 id="doneTitle">You're in</h2>
+            <p id="doneText"></p>
+            <button type="button" class="linkbtn" id="again">Register another member</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container cols">
+    <div><b>Chess Club</b><br>Open to all students</div>
+    <div><b>Questions?</b><br>Chairperson: 07xx xxx xxx<br>chess@yourcampus.ac.ke</div>
+    <div><b>Find us</b><br>S<br>Monday to Saturday, from 4:00 pm</div>
+  </div>
+</footer>
+
+<script>
+const DEMO_MODE = true; // set to false to POST to register.php
+const $ = (s, r = document) => r.querySelector(s);
+
+/* ---------- Board ---------- */
+const board = $("#board");
+const files = "abcdefgh";
+const sqOf = (f, r) => files[f] + (r + 1); // r: 0..7 => rank 1..8
+
+for (let row = 0; row < 8; row++) {
+  for (let col = 0; col < 8; col++) {
+    const d = document.createElement("div");
+    const rank = 7 - row;
+    d.className = "sq " + ((col + rank) % 2 === 0 ? "d" : "l");
+    d.dataset.sq = sqOf(col, rank);
+    board.appendChild(d);
+  }
+}
+// Filled glyphs for both sides; colour is applied in CSS. FE0E forces text style on phones.
+const G = { K: "\u265A", Q: "\u265B", R: "\u265C", B: "\u265D", N: "\u265E", P: "\u265F" };
+const position = {
+  w: { a1:"R", e1:"K", d1:"Q", h1:"R", c1:"B", g1:"N", c4:"B", a2:"P", b2:"P", c2:"P", d3:"P", e4:"P", f2:"P", g2:"P", h2:"P" },
+  b: { a8:"R", e8:"K", d8:"Q", h8:"R", c8:"B", c6:"N", f6:"N", a7:"P", b7:"P", c7:"P", d6:"P", e5:"P", f7:"P", g7:"P", h7:"P" }
+};
+function place(el, sq) {
+  const f = files.indexOf(sq[0]), r = parseInt(sq[1], 10) - 1;
+  el.style.left = (f * 12.5) + "%";
+  el.style.top = ((7 - r) * 12.5) + "%";
+}
+let knight;
+["w", "b"].forEach(side => {
+  Object.entries(position[side]).forEach(([sq, p]) => {
+    const el = document.createElement("div");
+    el.className = "pc " + side;
+    el.textContent = G[p] + "\uFE0E";
+    place(el, sq);
+    board.appendChild(el);
+    if (side === "w" && sq === "g1") knight = el;
+  });
+});
+// One-time move: Ng1-f3
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function playMove() {
+  if (!reduce) {
+    place(knight, "f3");
+  } else {
+    knight.style.transition = "none";
+    place(knight, "f3");
+  }
+  board.querySelector('[data-sq="g1"]').classList.add("hl");
+  board.querySelector('[data-sq="f3"]').classList.add("hl");
+}
+setTimeout(playMove, reduce ? 0 : 900);
+
+/* ---------- Form ---------- */
+const form = $("#regForm");
+const rules = {
+  full_name: v => v.trim().split(/\s+/).length >= 2,
+  reg_no: v => v.trim().length >= 3,
+  phone: v => /^[+\d][\d\s\-]{6,}$/.test(v.trim()),
+  email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+  course: v => v.trim().length >= 2,
+  year: v => v !== "",
+  level: v => v !== ""
+};
+function check(name) {
+  const input = form.elements[name];
+  const box = input.closest("[data-field]");
+  const ok = rules[name](input.value);
+  box.classList.toggle("invalid", !ok);
+  return ok;
+}
+Object.keys(rules).forEach(n => {
+  const el = form.elements[n];
+  el.addEventListener("blur", () => { if (el.value || el.closest(".invalid")) check(n); });
+  el.addEventListener("input", () => { if (el.closest(".invalid")) check(n); });
+});
+$("#consentErr").style.display = "none";
+$("#consent").addEventListener("change", () => { $("#consentErr").style.display = "none"; });
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  let ok = true;
+  Object.keys(rules).forEach(n => { if (!check(n)) ok = false; });
+  if (!$("#consent").checked) { $("#consentErr").style.display = "block"; ok = false; }
+  if (!ok) {
+    const first = form.querySelector(".invalid input, .invalid select");
+    if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+  const btn = $("#submitBtn");
+  btn.disabled = true; btn.textContent = "Sending…";
+  $("#formErr").classList.remove("show");
+  try {
+    if (!DEMO_MODE) {
+      const res = await fetch(form.action, { method: "POST", body: new FormData(form) });
+      if (!res.ok) throw new Error("Server error");
+    } else {
+      await new Promise(r => setTimeout(r, 600));
+    }
+    const first = form.elements.full_name.value.trim().split(/\s+/)[0];
+    $("#doneTitle").textContent = "You're in, " + first;
+    $("#doneText").textContent = "Your Chess Club registration is received. We will contact you at " +
+      form.elements.email.value.trim() + " before the next session.";
+    $("#formBody").style.display = "none";
+    $("#done").classList.add("show");
+    $(".form-card").scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (err) {
+    $("#formErr").classList.add("show");
+  } finally {
+    btn.disabled = false; btn.textContent = "Join Chess Club";
+  }
+});
+$("#again").addEventListener("click", () => {
+  form.reset();
+  $("#done").classList.remove("show");
+  $("#formBody").style.display = "block";
+});
+</script>
+</body>
+</html>

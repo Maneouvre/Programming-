@@ -1,0 +1,95 @@
+{
+    "next": 11,
+    "items": [
+        {
+            "id": 1,
+            "name": "Socks",
+            "price": 50,
+            "size": "XL",
+            "description": "Angle socks good for cold weather",
+            "image": "24fe91615c22d90e.jpg",
+            "in_stock": 1
+        },
+        {
+            "id": 2,
+            "name": "Sunglasses",
+            "price": 250,
+            "size": "",
+            "description": "Black",
+            "image": "8d6658931d7bedd3.jpg",
+            "in_stock": 1
+        },
+        {
+            "id": 3,
+            "name": "Jeans",
+            "price": 600,
+            "size": "32",
+            "description": "Medium sized jeans",
+            "image": "e4a335cc03c6f8c2.jpg",
+            "in_stock": 1
+        },
+        {
+            "id": 4,
+            "name": "Men shirt",
+            "price": 350,
+            "size": "",
+            "description": "on offer!!",
+            "image": "7ec083e239a74309.jpg",
+            "in_stock": 0
+        },
+        {
+            "id": 5,
+            "name": "Dress",
+            "price": 1200,
+            "size": "",
+            "description": "",
+            "image": "e71ca8d2a8ee8cc0.jpg",
+            "in_stock": 1
+        },
+        {
+            "id": 6,
+            "name": "MacBook Air",
+            "price": 55000,
+            "size": "",
+            "description": "Intel Core i7\r\nQuad Core - ⁠16GB Ram - ⁠256 SSD \r\n⁠13 inch screen",
+            "image": "9e47c684c3a29a48.jpg",
+            "in_stock": 1
+        },
+        {
+            "id": 7,
+            "name": "MacBook pro 2020",
+            "price": 60000,
+            "size": "",
+            "description": "Intel Core i7 Quad Core\r\n16GB Ram\r\n ⁠512GB SSD\r\n ⁠Touchbar \r\n ⁠13 inch screen",
+            "image": "70cc26778fa4d661.jpg",
+            "in_stock": 1
+        },
+        {
+            "id": 8,
+            "name": "HP Elitebook 1030 G4",
+            "price": 45000,
+            "size": "",
+            "description": "Core i7 8th gen\r\n⁠16GB Ram\r\n512GB SSD\r\n ⁠13 inch FHD touchscreen x360",
+            "image": "b2d22f75206c1f3b.jpg",
+            "in_stock": 1
+        },
+        {
+            "id": 9,
+            "name": "🔊 𝗝𝗕𝗟 𝗕𝗘𝗔𝗧𝗕𝗢𝗫 𝟮 𝗩𝗜𝗦𝗜𝗢𝗡 𝗣𝗟𝗨𝗦 | 𝗪𝗜𝗧𝗛 𝗠𝗜𝗖𝗥𝗢𝗣𝗛𝗢𝗡𝗘",
+            "price": 16000,
+            "size": "",
+            "description": "🟢 𝗥𝗘𝗔𝗗𝗬 𝗙𝗢𝗥 𝗣𝗔𝗥𝗧𝗬 & 𝗞𝗔𝗥𝗔𝗢𝗞𝗘 🎤\r\n✅ 𝗣𝗼𝘄𝗲𝗿𝗳𝘂𝗹 𝗦𝗼𝘂𝗻𝗱 \r\n✅ 𝗪𝗶𝗿𝗲𝗹𝗲𝘀𝘀 𝗠𝗶𝗰𝗿𝗼𝗽𝗵𝗼𝗻𝗲 \r\n✅ 𝗕𝗹𝘂𝗲𝘁𝗼𝗼𝘁𝗵 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗶𝘃𝗶𝘁𝘆 \r\n✅ 𝗣𝗼𝗿𝘁𝗮𝗯𝗹𝗲 𝗗𝗲𝘀𝗶𝗴𝗻",
+            "image": "429199caf1872820.jpg",
+            "in_stock": 0
+        },
+        {
+            "id": 10,
+            "name": "JBL",
+            "price": 16000,
+            "size": "",
+            "description": "",
+            "image": "245d5587a3d1b331.jpg",
+            "in_stock": 1
+        }
+    ]
+}
