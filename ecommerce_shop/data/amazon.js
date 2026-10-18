@@ -36,6 +36,7 @@ function renderProducts(searchTerm = '') {
         <div class="product-rating-count">${product.rating_count.toLocaleString()}</div>
       </div>
       <div class="product-price">${formatPrice(product.priceCents)}</div>
+      ${product.isSoldOut ? '<div class="product-sold-out" role="status">Sold out</div>' : ''}
       <label class="product-quantity-container">
         <span class="visually-hidden">Quantity</span>
         <select aria-label="Quantity for ${escapeHtml(product.name)}">
@@ -46,11 +47,14 @@ function renderProducts(searchTerm = '') {
       <div class="added-to-cart js-added-mark" aria-live="polite">
         <img src="images/icons/checkmark.png" alt=""> Added to cart
       </div>
-      <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${escapeHtml(product.id)}">Add to Cart</button>
+      <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${escapeHtml(product.id)}" ${product.isSoldOut ? 'disabled' : ''}>${product.isSoldOut ? 'Sold out' : 'Add to Cart'}</button>
     </article>
   `).join('');
 
   grid.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    if (button.disabled) {
+      return;
+    }
     button.addEventListener('click', () => {
       const container = button.closest('.product-container');
       const quantity = Number(container.querySelector('select').value);

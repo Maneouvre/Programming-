@@ -20,17 +20,20 @@ if (accountLink && accountText) {
         accountLink.href = 'auth/logout.php';
         accountLink.setAttribute('aria-label', 'Sign out');
         accountLink.title = 'Sign out';
+        accountLink.dataset.tooltip = 'Sign out';
       } else {
         accountText.textContent = 'Sign in';
         accountLink.href = 'login.php';
         accountLink.setAttribute('aria-label', 'Sign in');
         accountLink.title = 'Sign in';
+        accountLink.dataset.tooltip = 'Sign in';
       }
     })
     .catch((error) => {
       console.error('Could not load the account status.', error);
       accountText.textContent = 'Sign in';
       accountLink.href = 'login.php';
+      accountLink.dataset.tooltip = 'Sign in';
     });
 }
 

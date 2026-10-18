@@ -12,7 +12,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'check') {
     header('Cache-Control: no-store, private');
     echo json_encode([
         'logged_in' => isLoggedIn(),
-        'username' => isLoggedIn() ? (string)($_SESSION['user_username'] ?? '') : ''
+        'username' => isLoggedIn() ? (string)($_SESSION['user_username'] ?? '') : '',
+        'email' => isLoggedIn() ? (string)($_SESSION['user_email'] ?? '') : ''
     ]);
     exit;
 }

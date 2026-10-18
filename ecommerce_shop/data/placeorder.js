@@ -155,12 +155,6 @@ document.querySelectorAll('.tab-btn[data-panel]').forEach((button) => {
   });
 });
 
-function makeOrderId() {
-  return globalThis.crypto?.randomUUID
-    ? globalThis.crypto.randomUUID()
-    : `MN-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-}
-
 placeOrderButton.addEventListener('click', async () => {
   let auth;
   try {
@@ -188,59 +182,55 @@ placeOrderButton.addEventListener('click', async () => {
     return;
   }
 
-  const station = pickupNodes[countySelect.value].find((candidate) => candidate.id === stationSelect.value);
-  const cartSnapshot = cart.map((item) => {
-    const product = products.find((candidate) => String(candidate.id) === item.productId);
-    const option = deliveryOptions.find((candidate) => candidate.id === item.deliveryOptionId) || deliveryOptions[0];
-    return {
-      productId: item.productId,
-      name: product.name,
-      image: product.image,
-      price: product.priceCents,
-      quantity: item.quantity,
-      deliveryOptionId: option.id,
-      estimatedDeliveryAt: new Date(Date.now() + option.deliveryDays * 86400000).toISOString()
-    };
-  });
-  const subtotal = itemsSubtotal + deliveryTotal + pickupFee;
-  const tax = Math.round(subtotal * 0.1);
-  const order = {
-    id: makeOrderId(),
-    createdAt: new Date().toISOString(),
-    customer: { name: customerNameInput.value.trim(), email: customerEmailInput.value.trim() },
-    pickup: { county: countySelect.options[countySelect.selectedIndex].text, station: station.name, fee: station.fee },
-    paymentMethod: activePaymentMethod,
-    subtotal,
-    tax,
-    total: subtotal + tax,
-    status: 'Order received',
-    items: cartSnapshot
-  };
-
-  let savedOrders;
-  try {
-    savedOrders = JSON.parse(localStorage.getItem('ecommerceOrders') || '[]');
-    if (!Array.isArray(savedOrders)) {
-      throw new Error('Saved orders have an invalid format.');
-    }
-    localStorage.setItem('ecommerceOrders', JSON.stringify([...savedOrders, order]));
-  } catch (error) {
-    console.error('Could not save the order.', error);
-    setMessage('We could not save your order on this device. Check browser storage and try again.', true);
-    return;
-  }
-
-  cart.slice().forEach((item) => removeFromCart(item.productId));
-  pickupFee = 0;
-  countySelect.value = '';
-  stationSelect.replaceChildren(new Option('Select a county first', ''));
-  stationSelect.disabled = true;
-  stationMeta.classList.add('hidden');
+  const originalButtonText = placeOrderButton.textContent;
   placeOrderButton.disabled = true;
-  message.classList.remove('text-red-700');
-  message.classList.add('text-green-700');
-  message.innerHTML = `Demo order <strong>${escapeHtml(order.id)}</strong> saved. No payment was processed. <a class="underline font-semibold" href="orders.html">View your orders</a>.`;
-  renderItems();
+  placeOrderButton.textContent = 'Submitting order…';
+  try {
+    const tokenResponse = await fetch('api/orders.php', { credentials: 'same-origin' });
+    const tokenPayload = await tokenResponse.json();
+    if (!tokenResponse.ok) {
+      throw new Error(tokenPayload.error || 'Could not start the secure order request.');
+    }
+    const response = await fetch('api/orders.php', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        csrf_token: tokenPayload.csrf_token,
+        customer: { name: customerNameInput.value.trim() },
+        pickup: { countyKey: countySelect.value, stationId: stationSelect.value },
+        paymentMethod: activePaymentMethod,
+        items: cart.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          deliveryOptionId: item.deliveryOptionId
+        }))
+      })
+    });
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.error || 'The order could not be submitted.');
+    }
+    const order = payload.order;
+
+    cart.slice().forEach((item) => removeFromCart(item.productId));
+    pickupFee = 0;
+    countySelect.value = '';
+    stationSelect.replaceChildren(new Option('Select a county first', ''));
+    stationSelect.disabled = true;
+    stationMeta.classList.add('hidden');
+    placeOrderButton.disabled = true;
+    message.classList.remove('text-red-700');
+    message.classList.add('text-green-700');
+    message.innerHTML = `Order <strong>${escapeHtml(order.id)}</strong> received. No payment was processed. <a class="underline font-semibold" href="orders.html">View your orders</a>.`;
+    renderItems();
+  } catch (error) {
+    console.error('Could not submit the order.', error);
+    setMessage(error.message || 'We could not submit your order. Please try again.', true);
+    placeOrderButton.disabled = false;
+  } finally {
+    placeOrderButton.textContent = originalButtonText;
+  }
 });
 
 Promise.all([loadProducts(), checkAuthentication()])
@@ -250,6 +240,8 @@ Promise.all([loadProducts(), checkAuthentication()])
       return;
     }
     authenticated = true;
+    customerEmailInput.value = auth.email || '';
+    customerEmailInput.readOnly = true;
     renderItems();
   })
   .catch((error) => {

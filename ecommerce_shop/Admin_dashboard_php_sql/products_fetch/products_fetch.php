@@ -2,15 +2,15 @@
 declare(strict_types=1);
 
 // Set headers so browsers know to parse this strictly as JSON data
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); 
+header("Content-Type: application/json; charset=utf-8");
+header("Cache-Control: no-store");
 
 try {
     // Reuse your existing connection file wrapper configuration
     require_once("products_fetch_dbase_connection.php");
 
     // Fetch all columns, including your binary JSON keywords block
-    $query = "SELECT id, product_name, image_path, rating_stars, rating_count, price_cents, keywords FROM products ORDER BY id DESC;";
+    $query = "SELECT id, product_name, image_path, rating_stars, rating_count, price_cents, keywords, is_sold_out FROM products ORDER BY id DESC;";
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     
@@ -31,6 +31,8 @@ try {
     // Output the clean data payload array to the javascript handler script
     echo json_encode($products);
 
-} catch (PDOException $e) {
-    echo json_encode(["error" => "Database request failed: " . $e->getMessage()]);
+} catch (Throwable $e) {
+    error_log("Product feed failed: " . $e->getMessage());
+    http_response_code(503);
+    echo json_encode(["error" => "Products are temporarily unavailable. Check the ecommerce database and try again."]);
 }

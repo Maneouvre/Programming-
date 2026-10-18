@@ -2,7 +2,7 @@
 $adminConfig = [
     'site_name' => 'Manoeuvre Admin',
     'logo_path' => '../images/logo.png',
-    'username' => 'admin',
-    'password' => 'admin123',
-    'name' => 'Admin User'
+    'username' => getenv('ECOMMERCE_ADMIN_USERNAME') ?: 'admin',
+    'password_hash' => getenv('ECOMMERCE_ADMIN_PASSWORD_HASH') ?: '$2y$10$4Bn2F2wbJ.26PetBBHUM5.fsCZ1px.Vn4CYBUyDnNApnsboMAEuui',
+    'name' => getenv('ECOMMERCE_ADMIN_NAME') ?: 'Admin User'
 ];

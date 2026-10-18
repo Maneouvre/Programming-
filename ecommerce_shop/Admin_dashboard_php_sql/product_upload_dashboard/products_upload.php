@@ -1,7 +1,12 @@
 <?php
 require_once("products_session.php");
+require_once __DIR__ . '/../../admin/require-admin.php';
 require_once("products_viewer.php");
 require_once("products_model.php");
+
+if (!isset($_SESSION['admin_upload_csrf'])) {
+    $_SESSION['admin_upload_csrf'] = bin2hex(random_bytes(32));
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +75,7 @@ require_once("products_model.php");
     <h2>Add New Product</h2>
     
     <form action="products_upload_formhandler.php" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['admin_upload_csrf'], ENT_QUOTES, 'UTF-8'); ?>">
         <div class="form-layout">
             
             <!-- Left Column -->
@@ -91,13 +97,13 @@ require_once("products_model.php");
                     <div class="price-input-wrapper">
                         <?php
                         if (isset($_SESSION["product_data"]["price_cents"])) {
-                            echo '<input type="number" name="price_cents" placeholder="e.g. 10747" value="' . htmlspecialchars((string)$_SESSION["product_data"]["price_cents"]) . '" required>';
+                            echo '                            <input type="number" name="price_cents" min="1" step="1" placeholder="e.g. 10747" value="' . htmlspecialchars((string)$_SESSION["product_data"]["price_cents"]) . '" required>';
                             unset($_SESSION["product_data"]["price_cents"]);
                         } else {
-                            echo '<input type="number" name="price_cents" placeholder="e.g. 10747" required>';
+                            echo '<input type="number" name="price_cents" min="1" step="1" placeholder="e.g. 10747" required>';
                         }
                         ?>
-                        <span class="currency-addon">¢ USD</span>
+                        <span class="currency-addon">¢ KES</span>
                     </div>
                 </div>
 

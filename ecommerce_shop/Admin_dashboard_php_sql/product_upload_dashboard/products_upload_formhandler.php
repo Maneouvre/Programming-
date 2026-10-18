@@ -1,12 +1,15 @@
 <?php
+require_once __DIR__ . '/products_session.php';
+require_once __DIR__ . '/../../admin/require-admin.php';
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Gets the values from the form inputs
-    $Product_name = $_POST["product_name"] ?? "";
-    $Price_cents  = $_POST["price_cents"] ?? "";
-    $keywords     = $_POST["keywords"] ?? "";
+    $Product_name = trim((string)($_POST["product_name"] ?? ""));
+    $Price_cents  = (string)($_POST["price_cents"] ?? "");
+    $keywords     = trim((string)($_POST["keywords"] ?? ""));
     $product_image = $_FILES["product_image"] ?? null;
-    $rating_stars = $_POST["rating_stars"] ?? "0";
-    $rating_count = $_POST["rating_count"] ?? "0";
+    $rating_stars = (string)($_POST["rating_stars"] ?? "0");
+    $rating_count = (string)($_POST["rating_count"] ?? "0");
+    $target_filepath = null;
     
     try {
         // Importing internal script dependencies
@@ -14,16 +17,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         require_once("products_model.php");
         require_once("products_controller.php");
 
-        // ERROR HANDLERS
         $errors = [];
         
-        // FIX 1: Passed $Price_cents here instead of $Product_name
-        if (is_price_empty($Price_cents)) {
-            $errors["empty_price"] = "Please Enter the cost of product";
+        $csrfToken = (string)($_POST['csrf_token'] ?? '');
+        if (!isset($_SESSION['admin_upload_csrf']) || !hash_equals($_SESSION['admin_upload_csrf'], $csrfToken)) {
+            $_SESSION["errors_input"] = ["csrf" => "Your admin session expired. Refresh the page and try again."];
+            header("Location: ./products_upload.php");
+            exit();
         }
-        
-        if (is_keywords_empty($keywords)) {
-            $errors["empty_keywords"] = "Please Enter the keyword";
+
+        $priceValue = filter_var($Price_cents, FILTER_VALIDATE_INT);
+        if ($priceValue === false || $priceValue < 1) {
+            $errors["invalid_price"] = "Enter a positive product price in cents.";
+        }
+        $ratingValue = filter_var($rating_stars, FILTER_VALIDATE_FLOAT);
+        if ($ratingValue === false || $ratingValue < 0 || $ratingValue > 5) {
+            $errors["invalid_rating"] = "Rating must be between 0 and 5 stars.";
+        }
+        $ratingCountValue = filter_var($rating_count, FILTER_VALIDATE_INT);
+        if ($ratingCountValue === false || $ratingCountValue < 0) {
+            $errors["invalid_rating_count"] = "Rating count must be zero or greater.";
         }
         
         if (is_image_empty($product_image)) {
@@ -32,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errors["invalid_image"] = "Please upload a valid image (JPEG, PNG, or WEBP only)";
         }
 
-        // Running duplicate checks against existing names
         $result = get_product_by_name($pdo, $Product_name);
         
         if (is_product_name_empty($Product_name)) {
@@ -40,10 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else if (does_product_name_match($result, $Product_name)) {
             $errors["duplicate_product"] = "The product name you entered already exists";
         }
-                     
-        require_once("products_session.php");
-        
-        // Checks if validation errors exist
         if ($errors) {
             $_SESSION["errors_input"] = $errors;
             
@@ -63,41 +71,57 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (empty($errors)) {
             $upload_dir = "uploads/";
             
-            // AUTOMATIC FIX: Build the uploads path directory safely if missing from disk
             if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
+                mkdir($upload_dir, 0755, true);
             }
             
-            $file_ext = pathinfo($product_image["name"], PATHINFO_EXTENSION);
+            $mimeType = mime_content_type($product_image["tmp_name"]);
+            $extensions = [
+                "image/jpeg" => "jpg",
+                "image/png" => "png",
+                "image/webp" => "webp"
+            ];
+            if (!isset($extensions[$mimeType]) || $product_image["size"] > 5 * 1024 * 1024) {
+                $_SESSION["errors_input"] = ["invalid_image" => "Upload a JPEG, PNG, or WebP image no larger than 5 MB."];
+                header("Location: ./products_upload.php");
+                exit();
+            }
+            $file_ext = $extensions[$mimeType];
             $target_filepath = $upload_dir . uniqid("prod_", true) . "." . $file_ext;
 
             // Move the file from temporary staging to your uploads folder
             if (move_uploaded_file($product_image["tmp_name"], $target_filepath)) {
                 
-                // FIX 2: Format keywords string to valid JSON to pass your DB constraint rule safely
                 $final_keywords = format_keywords_for_db($keywords);
                 
                 upload_product(
                     $pdo, 
                     $Product_name, 
-                    (int)$Price_cents, 
+                    (int)$priceValue,
                     $final_keywords, 
                     $target_filepath, 
-                    (float)$rating_stars, 
-                    (int)$rating_count
+                    (float)$ratingValue,
+                    (int)$ratingCountValue
                 );
 
+                unset($_SESSION['admin_upload_csrf']);
                 header("Location: ./products_upload.php?upload=success");
                 exit();
             } else {
-                $_SESSION["errors_input"]["upload_system"] = "Failed to save the image file to the server folder.";
+                $_SESSION["errors_input"] = ["upload_system" => "Failed to save the image file to the server folder."];
                 header("Location: ./products_upload.php");
                 exit();
             }
         }
 
-    } catch (PDOException $e) {
-        die("Query Failed: " . $e->getMessage());
+    } catch (Throwable $e) {
+        if (is_string($target_filepath) && is_file($target_filepath)) {
+            unlink($target_filepath);
+        }
+        error_log("Product upload failed: " . $e->getMessage());
+        http_response_code(503);
+        echo "Product upload is temporarily unavailable. Check the database connection and try again.";
+        exit();
     }
 } else {
     header("Location: ./products_upload.php");

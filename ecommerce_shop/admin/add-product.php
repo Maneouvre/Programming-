@@ -1,9 +1,6 @@
 <?php
-session_start();
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: login.php');
-    exit;
-}
+declare(strict_types=1);
+require __DIR__ . '/require-admin.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

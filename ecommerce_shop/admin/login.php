@@ -1,5 +1,15 @@
 <?php
-session_start();
+declare(strict_types=1);
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
+    session_start();
+}
 require __DIR__ . '/admin-config.php';
 
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
@@ -8,19 +18,28 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true
 }
 
 $error = '';
+if (!isset($_SESSION['admin_login_csrf'])) {
+    $_SESSION['admin_login_csrf'] = bin2hex(random_bytes(32));
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $username = trim((string)($_POST['username'] ?? ''));
+    $password = (string)($_POST['password'] ?? '');
+    $csrfToken = (string)($_POST['csrf_token'] ?? '');
 
-    if ($username === $adminConfig['username'] && $password === $adminConfig['password']) {
+    if (!hash_equals($_SESSION['admin_login_csrf'], $csrfToken)) {
+        $error = 'Your login session expired. Refresh and try again.';
+    } elseif ($username === $adminConfig['username'] && password_verify($password, $adminConfig['password_hash'])) {
+        session_regenerate_id(true);
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['admin_username'] = $adminConfig['username'];
         $_SESSION['admin_name'] = $adminConfig['name'];
+        $_SESSION['admin_csrf'] = bin2hex(random_bytes(32));
+        unset($_SESSION['admin_login_csrf']);
         header('Location: index.php');
         exit;
+    } else {
+        $error = 'Invalid username or password.';
     }
-
-    $error = 'Invalid username or password.';
 }
 ?>
 <!DOCTYPE html>
@@ -115,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="error"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
       <?php endif; ?>
       <form method="POST" action="login.php">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['admin_login_csrf'], ENT_QUOTES, 'UTF-8'); ?>" />
         <div class="form-group">
           <label for="username">Username</label>
           <input id="username" name="username" type="text" required />

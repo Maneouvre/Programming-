@@ -17,7 +17,7 @@ export function productImageUrl(product) {
   if (/^(https?:|data:|blob:)/i.test(image) || image.startsWith('images/')) {
     return image;
   }
-  return `../Admin_dashboard_php_sql/product_upload_dashboard/${image.replace(/^\/+/, '')}`;
+  return `Admin_dashboard_php_sql/product_upload_dashboard/${image.replace(/^\/+/, '')}`;
 }
 
 export function formatPrice(price) {
@@ -36,6 +36,7 @@ class Product {
     this.rating_count = Number(details.rating_count ?? details.rating?.count ?? 0);
     this.priceCents = Number(details.price_cents ?? details.priceCents);
     this.keywords = Array.isArray(details.keywords) ? details.keywords : [];
+    this.isSoldOut = Boolean(Number(details.is_sold_out ?? details.isSoldOut ?? 0));
   }
 }
 
@@ -47,7 +48,7 @@ export async function loadProducts() {
     return products;
   }
   if (!productsPromise) {
-    productsPromise = fetch('../Admin_dashboard_php_sql/products_fetch/products_fetch.php')
+    productsPromise = fetch('Admin_dashboard_php_sql/products_fetch/products_fetch.php')
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Product request failed with HTTP ${response.status}.`);

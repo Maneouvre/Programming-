@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 session_start();
 
-function checkoutReturnTarget(?string $target): string
+function loginReturnTarget(?string $target): string
 {
-    return $target === 'place-order.html' ? 'place-order.html' : 'index.html';
+    return in_array($target, ['place-order.html', 'orders.html'], true) ? $target : 'index.html';
 }
 
-$returnTo = checkoutReturnTarget($_POST['return_to'] ?? $_GET['return_to'] ?? null);
+$returnTo = loginReturnTarget($_POST['return_to'] ?? $_GET['return_to'] ?? null);
 $errorMessage = '';
 
 if (isset($_SESSION['user_id']) && (string)$_SESSION['user_id'] !== '') {
@@ -95,11 +95,8 @@ function escapeHtml(string $value): string
           <img class="mobile-logo" src="images/mobile-logo-white.png" alt="Maneouver">
         </a>
       </div>
-      <div class="middle-section">
-        <input class="search-bar" type="search" aria-label="Search products" placeholder="Search products">
-      </div>
       <nav class="right-section" aria-label="Shop">
-        <a class="orders-link header-link" href="orders.html"><span class="orders-text">Orders</span></a>
+        <a class="orders-link header-link" href="orders.html" aria-label="Track your orders"><span class="orders-text">Track orders</span></a>
         <a class="account-link header-link" href="login.php" aria-label="Sign in">
           <svg class="account-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5Z"/></svg>
           <span class="account-text">Account</span>
@@ -114,7 +111,7 @@ function escapeHtml(string $value): string
     <main class="login-page">
       <section class="login-card">
         <h1>Sign in to your account</h1>
-        <p>Sign in before continuing to checkout. Use your existing shop username or email.</p>
+        <p>Sign in to continue checkout or view and track your orders. Use your existing shop username or email.</p>
         <?php if ($errorMessage !== ''): ?>
           <p class="login-error" role="alert"><?= escapeHtml($errorMessage) ?></p>
         <?php endif; ?>

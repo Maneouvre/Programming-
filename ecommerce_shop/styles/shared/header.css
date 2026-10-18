@@ -1,247 +1,352 @@
 .header {
-  background-color: rgb(8, 79, 45);
+  z-index: 1000;
+  background: linear-gradient(110deg, #063b25, #087044);
   color: white;
-  padding-left: 15px;
-  padding-right: 15px;
-
+  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  min-height: 72px;
+  box-shadow: 0 3px 14px rgba(4, 32, 19, 0.2);
 }
 
 .header .left-section {
-  width: 208px;
+  flex: 0 0 208px;
 }
 
-@media (max-width: 800px) {
-  .header .left-section {
-    width: unset;
-  }
+.header .left-section > .header-link {
+  padding: 0;
 }
 
 .header .header-link {
-  display: inline-block;
-  padding: 6px 9.5px;
-  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 7px;
   cursor: pointer;
   text-decoration: none;
-  border: 1px solid rgba(0, 0, 0, 0);
+  transition: background-color 140ms ease, border-color 140ms ease;
 }
 
 .header .header-link:hover {
-  border: 1px solid white;
+  border-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header .header-link:focus-visible {
+  outline: 2px solid #c4f8d5;
+  outline-offset: 2px;
 }
 
 .header .logo {
-  height:80px;
-  margin-top: 1px;
+  display: block;
+  width: 190px;
+  height: 48px;
+  object-fit: contain;
 }
 
 .header .mobile-logo {
   display: none;
 }
 
-@media (max-width: 675px) {
-  .header .logo {
-    display: none;
-  }
-
-  .header .mobile-logo {
-    display: block;
-    height: 26px;
-    margin-top: 1px;
-  }
-}
-
 .header .middle-section {
   flex: 1;
-  max-width: 850px;
-  margin-left: 10px;
-  margin-right: 10px;
+  max-width: 760px;
+  margin: 0 24px;
   display: flex;
+  min-width: 120px;
 }
 
 .header .search-bar {
   flex: 1;
   width: 0;
   font-size: 16px;
-  height: 38px;
-  padding-left: 15px;
+  height: 42px;
+  padding: 0 16px;
   border: none;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-radius: 8px 0 0 8px;
+}
+
+.header .search-bar:focus {
+  outline: 2px solid #b9f5cd;
+  outline-offset: 1px;
 }
 
 .header .search-button {
-  background-color: rgb(186, 255, 190);
+  display: grid;
+  place-items: center;
+  background-color: #c4f8d5;
   border: none;
-  width: 45px;
-  height: 40px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  width: 48px;
+  height: 42px;
+  border-radius: 0 8px 8px 0;
   flex-shrink: 0;
+  transition: background-color 140ms ease;
+}
+
+.header .search-button:hover {
+  background-color: #a9edbf;
 }
 
 .header .search-icon {
   height: 20px;
-  margin-left: 0px;
-  margin-top: 3px;
 }
 
 .header .right-section {
-  width: auto;
-  flex-shrink: 0;
   display: flex;
   justify-content: end;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .header .orders-link,
 .header .admin-link {
   color: white;
-
-  display: flex;
-  align-items: center;
-  padding-left: 13px;
-  padding-right: 13px;
+  min-height: 42px;
+  padding: 0 12px;
 }
 
 .header .orders-text,
 .header .admin-text {
-  display: block;
-  font-size: 15px;
+  display: inline-block;
+  font-size: 14px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .header .cart-link {
   color: white;
-  display: flex;
-  align-items: center;
   position: relative;
+  min-height: 42px;
+  gap: 3px;
 }
 
 .header .cart-icon {
-  width: 38px;
+  width: 34px;
 }
 
 .header .cart-text {
-  margin-left: 5px;
-  font-size: 15px;
+  margin-left: 2px;
+  font-size: 14px;
   font-weight: 700;
 }
 
 .header .cart-quantity {
-  color: rgb(8, 79, 45);
-  font-size: 14px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  color: #063b25;
+  font-size: 11px;
   font-weight: 700;
-
   position: absolute;
-  top: 8.5px;
-  right: 46px;
-
-  width: 26px;
+  top: 2px;
+  left: 20px;
+  box-sizing: border-box;
+  min-width: 18px;
+  width: auto;
+  height: 18px;
+  padding: 0 3px;
+  border: 2px solid #084f2d;
+  border-radius: 50%;
+  background: #fff;
+  line-height: 1;
   text-align: center;
+  pointer-events: none;
 }
 
 .header .account-link {
+  position: relative;
   color: white;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  max-width: 112px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 50%;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.header .account-link::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  z-index: 10;
+  padding: 6px 9px;
+  border-radius: 4px;
+  background: #fff;
+  color: rgb(8, 79, 45);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 3px);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.header .account-link:hover,
+.header .account-link:focus-visible {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.header .account-link:hover::after,
+.header .account-link:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 .header .account-icon {
-  width: 21px;
-  height: 21px;
+  width: 22px;
+  height: 22px;
   fill: currentColor;
   flex: 0 0 auto;
 }
 
 .header .account-text {
-  max-width: 78px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
-  font-size: 13px;
-  font-weight: 700;
+  border: 0;
 }
 
 @media (max-width: 800px) {
-  .header .right-section {
-    width: auto;
-  }
-
-  .header .orders-link,
-  .header .admin-link {
-    padding-left: 7px;
-    padding-right: 7px;
-  }
-
-  .header .account-link {
-    padding-left: 6px;
-    padding-right: 6px;
-    max-width: 92px;
-  }
-
-  .header .account-text {
-    max-width: 58px;
-  }
-}
-
-@media (max-width: 450px) {
   .header {
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .header .left-section {
+    flex-basis: 160px;
+  }
+
+  .header .logo {
+    width: 150px;
   }
 
   .header .middle-section {
-    margin-left: 4px;
-    margin-right: 4px;
+    margin-right: 12px;
+    margin-left: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    min-height: 64px;
+    padding: 8px 12px;
+  }
+
+  .header .left-section {
+    flex: 0 1 auto;
+  }
+
+  .header .logo {
+    display: block;
+    width: 135px;
+    height: 38px;
+    object-fit: contain;
+  }
+
+  .header .mobile-logo {
+    display: none;
   }
 
   .header .right-section {
-    flex-shrink: 1;
+    gap: 4px;
+  }
+
+  .header.home-header {
+    min-height: 112px;
+    padding: 8px 12px 10px;
+    flex-wrap: wrap;
+    align-content: center;
+  }
+
+  .header.home-header .left-section {
+    flex: 1 1 auto;
+  }
+
+  .header.home-header .middle-section {
+    order: 3;
+    flex: 1 0 100%;
+    max-width: none;
+    margin: 8px 0 0;
   }
 
   .header .orders-link,
   .header .admin-link {
-    padding-left: 4px;
-    padding-right: 4px;
+    min-height: 40px;
+    padding: 0 8px;
   }
 
   .header .orders-text,
   .header .admin-text,
-  .header .account-text,
   .header .cart-text {
     font-size: 12px;
   }
 
   .header .account-link {
-    padding-left: 4px;
-    padding-right: 4px;
-    max-width: 68px;
-  }
-
-  .header .account-text {
-    max-width: 44px;
+    width: 40px;
+    height: 40px;
   }
 
   .header .cart-link {
-    padding-left: 4px;
-    padding-right: 4px;
+    min-height: 40px;
+    padding: 5px;
   }
 
   .header .cart-icon {
-    width: 32px;
+    width: 31px;
+  }
+}
+
+@media (max-width: 380px) {
+  .header {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .header .orders-link,
+  .header .admin-link {
+    padding: 0 5px;
+  }
+
+  .header .orders-text,
+  .header .admin-text {
+    font-size: 11px;
+  }
+
+  .header .left-section {
+    flex-basis: 100px;
+  }
+
+  .header .logo {
+    width: 100px;
+    height: 34px;
+  }
+
+  .header .cart-text {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header .header-link,
+  .header .search-button {
+    transition: none;
   }
 }

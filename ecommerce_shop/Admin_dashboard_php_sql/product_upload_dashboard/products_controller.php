@@ -12,20 +12,6 @@ function is_product_name_empty(string $Product_name){
     }
 }
 
-function is_price_empty($price_cents): bool {
-    if (empty($price_cents) && $price_cents !== 0 && $price_cents !== 0.0) {
-        return true;
-    }
-    return false;
-}
-
-function is_keywords_empty(string $keywords): bool {
-    if (empty($keywords) || trim($keywords) === "") {
-        return true;
-    }
-    return false;
-}
-
 function is_image_empty($product_image){
     // Form uploads check the 'error' key for code 4 (UPLOAD_ERR_NO_FILE)
     if (empty($product_image) || !isset($product_image['error']) || $product_image['error'] === 4){
@@ -37,25 +23,17 @@ function is_image_empty($product_image){
 }
 
 function is_image_invalid($product_image){
-    // 1. Check if the file is completely missing or empty first
-    if (empty($product_image) || !isset($product_image['tmp_name']) || $product_image['error'] === 4){
+    if (
+        !is_array($product_image) ||
+        !isset($product_image['error'], $product_image['tmp_name']) ||
+        $product_image['error'] !== UPLOAD_ERR_OK ||
+        !is_uploaded_file($product_image['tmp_name'])
+    ) {
         return true;
     }
-    else{
-        // 2. Get the actual file type using PHP's built-in mime_content_type
-        $file_type = mime_content_type($product_image['tmp_name']);
-        
-        // 3. Define your allowed formats
-        $allowed_formats = ['image/jpeg', 'image/png', 'image/webp'];
-        
-        // 4. If the file type is NOT in our allowed list, return true (it is invalid)
-        if (!in_array($file_type, $allowed_formats)) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+
+    $fileType = mime_content_type($product_image['tmp_name']);
+    return !in_array($fileType, ['image/jpeg', 'image/png', 'image/webp'], true);
 }
 
 // FIX: Added string $Product_name parameter so the function can access it
