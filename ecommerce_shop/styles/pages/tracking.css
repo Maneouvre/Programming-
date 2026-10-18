@@ -79,3 +79,10 @@
   border-radius: 50px;
   width: 50%;
 }
+
+.tracking-page .tracking-demo-note,
+.tracking-page .tracking-empty-state {
+  margin-top: 18px;
+  color: rgb(100, 100, 100);
+  line-height: 1.6;
+}

@@ -11,6 +11,6 @@ if (ini_get("session_use_cookies")) {
 }
 
 session_destroy(); // Destroy backend session profile
-header("Location: ../index.html"); // Moves up one step out of /auth/ to reach your index file
+header("Location: ../login.php");
 exit;
 ?>

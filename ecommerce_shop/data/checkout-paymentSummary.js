@@ -1,73 +1,66 @@
 import { cart } from './cart.js';
-import { products,getProduct} from './products.js';
+import { getProduct, formatPrice } from './products.js';
 import { getDeliveryOption } from './deliveryOptions.js';
 
-
 export async function renderPaymentSummary() {
-    let productPriceCents = 0;
-    let shippingPriceCents=0;
-    let totalBeforeTaxation=0;
-    let estimatedTax=0;
-    let orderTotal=0;
+  const element = document.querySelector('.js-payment-summary');
+  if (!element) {
+    return;
+  }
 
-    for (const item of cart) {
-        const product = await getProduct(item.productId);
-       
-        if (product) {
-            productPriceCents += (product.priceCents * item.quantity);
-            const deliveryOption=getDeliveryOption(item.deliveryOptionId);
-            if (deliveryOption){shippingPriceCents+=deliveryOption.priceCents;}
-        }};
-        //<!--end of for each loop-->
-            totalBeforeTaxation=productPriceCents+shippingPriceCents;
-            estimatedTax=Math.round(totalBeforeTaxation*0.1);
-            orderTotal=totalBeforeTaxation+estimatedTax;
-        
+  let productPrice = 0;
+  let shippingPrice = 0;
 
-        const paymentSummaryHTML=`
-            <div class="payment-summary-title">
-              Payment Summary
-            </div>
+  for (const item of cart) {
+    const product = await getProduct(item.productId);
+    if (!product) {
+      continue;
+    }
+    productPrice += product.priceCents * item.quantity;
+    shippingPrice += getDeliveryOption(item.deliveryOptionId).priceCents;
+  }
 
-            <div class="payment-summary-row">
-              <div>Items (3):</div>
-              <div class="payment-summary-money">KES ${thousandsComma(productPriceCents)}</div>
-            </div>
+  const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+  const subtotal = productPrice + shippingPrice;
+  const estimatedTax = Math.round(subtotal * 0.1);
+  const total = subtotal + estimatedTax;
 
-            <div class="payment-summary-row">
-              <div>Shipping &amp; handling:</div>
-            <div class="payment-summary-money">KES ${thousandsComma(shippingPriceCents)}</div>
-            </div>
+  element.innerHTML = `
+    <div class="payment-summary-title">Payment Summary</div>
+    <div class="payment-summary-row">
+      <div>Items (${itemCount}):</div>
+      <div class="payment-summary-money">${formatPrice(productPrice)}</div>
+    </div>
+    <div class="payment-summary-row">
+      <div>Shipping &amp; handling:</div>
+      <div class="payment-summary-money">${formatPrice(shippingPrice)}</div>
+    </div>
+    <div class="payment-summary-row subtotal-row">
+      <div>Total before tax:</div>
+      <div class="payment-summary-money">${formatPrice(subtotal)}</div>
+    </div>
+    <div class="payment-summary-row">
+      <div>Estimated tax (10%):</div>
+      <div class="payment-summary-money">${formatPrice(estimatedTax)}</div>
+    </div>
+    <div class="payment-summary-row total-row">
+      <div>Order total:</div>
+      <div class="payment-summary-money">${formatPrice(total)}</div>
+    </div>
+    <button class="place-order-button button-primary" type="button" ${itemCount === 0 ? 'disabled' : ''}>
+      Continue to checkout
+    </button>`;
 
-            <div class="payment-summary-row subtotal-row">
-              <div>Total before tax:</div>
-              <div class="payment-summary-money">KES ${thousandsComma(totalBeforeTaxation)}</div>
-            </div>
+  const checkoutButton = element.querySelector('.place-order-button');
+  checkoutButton.addEventListener('click', () => {
+    window.location.href = 'place-order.html';
+  });
+}
 
-            <div class="payment-summary-row">
-              <div>Estimated tax (10%):</div>
-              <div class="payment-summary-money">KES ${thousandsComma(estimatedTax)}</div>
-            </div>
+export function thousandsComma(price) {
+  return Number(price).toLocaleString('en-KE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
-            <div class="payment-summary-row total-row">
-              <div>Order total:</div>
-              <div class="payment-summary-money">KES ${thousandsComma(orderTotal)}</div>
-            </div>
-
-            <button onclick="window.location.href='place-order.html'" class="place-order-button button-primary">
-              Place your order
-            </button>
-        
-        
-        `;
-       // document.querySelector('.js-payment-summary').innerHTML=paymentSummaryHTML;
-
-const element = document.querySelector('.js-payment-summary');
-if (element) {
-    element.innerHTML = paymentSummaryHTML;
-}} 
-renderPaymentSummary(); 
-
-export function thousandsComma(priceCents){
-  return priceCents.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})
-};
+renderPaymentSummary().catch((error) => {
+  console.error('Could not calculate the payment summary.', error);
+});

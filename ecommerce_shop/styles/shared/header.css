@@ -97,13 +97,16 @@
 }
 
 .header .right-section {
-  width: 180px;
+  width: auto;
   flex-shrink: 0;
   display: flex;
   justify-content: end;
+  align-items: center;
+  gap: 8px;
 }
 
-.header .orders-link {
+.header .orders-link,
+.header .admin-link {
   color: white;
 
   display: flex;
@@ -112,7 +115,8 @@
   padding-right: 13px;
 }
 
-.header .orders-text {
+.header .orders-text,
+.header .admin-text {
   display: block;
   font-size: 15px;
   font-weight: 700;
@@ -146,4 +150,98 @@
 
   width: 26px;
   text-align: center;
+}
+
+.header .account-link {
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 112px;
+}
+
+.header .account-icon {
+  width: 21px;
+  height: 21px;
+  fill: currentColor;
+  flex: 0 0 auto;
+}
+
+.header .account-text {
+  max-width: 78px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+  .header .right-section {
+    width: auto;
+  }
+
+  .header .orders-link,
+  .header .admin-link {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .header .account-link {
+    padding-left: 6px;
+    padding-right: 6px;
+    max-width: 92px;
+  }
+
+  .header .account-text {
+    max-width: 58px;
+  }
+}
+
+@media (max-width: 450px) {
+  .header {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .header .middle-section {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+
+  .header .right-section {
+    flex-shrink: 1;
+  }
+
+  .header .orders-link,
+  .header .admin-link {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .header .orders-text,
+  .header .admin-text,
+  .header .account-text,
+  .header .cart-text {
+    font-size: 12px;
+  }
+
+  .header .account-link {
+    padding-left: 4px;
+    padding-right: 4px;
+    max-width: 68px;
+  }
+
+  .header .account-text {
+    max-width: 44px;
+  }
+
+  .header .cart-link {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .header .cart-icon {
+    width: 32px;
+  }
 }

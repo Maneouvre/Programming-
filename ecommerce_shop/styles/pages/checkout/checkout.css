@@ -120,6 +120,24 @@
   margin-left: 3px;
 }
 
+.checkout-page .product-quantity select {
+  margin-left: 4px;
+  padding: 3px 6px;
+}
+
+.checkout-page .product-quantity button {
+  margin-left: 10px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.checkout-page .empty-cart-message {
+  padding: 24px 8px;
+  line-height: 1.8;
+}
+
 @media (max-width: 1000px) {
   .checkout-page .delivery-options {
     /* grid-column: 1 means this element will be placed

@@ -3,28 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Checkout</title>
+    <title>Demo Order Checkout</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <link rel="stylesheet" href="styles/shared/header.css">
     <style>
         .tab-content { display: none; }
         .tab-content.active { display: block; }
     </style>
 </head>
-<header><!-- Change your logout link to match the folder move -->
-<!-- Change your logout link to match the folder move -->
-<a href="auth/logout.php" class="block w-full text-center px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-xs transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1">
-    Sign Out / Logout
-</a>
-</header>
 <body class="bg-gray-50 font-sans antialiased text-gray-900">
 
-    <div class="max-w-6xl mx-auto px-4 py-8">
+    <header class="header">
+      <div class="left-section">
+        <a href="index.html" class="header-link" aria-label="Maneouver home">
+          <img class="logo" src="images/logo-white.png" alt="Maneouver">
+          <img class="mobile-logo" src="images/mobile-logo-white.png" alt="Maneouver">
+        </a>
+      </div>
+      <div class="middle-section">
+        <input class="search-bar" type="search" aria-label="Search products" placeholder="Search products">
+      </div>
+      <nav class="right-section" aria-label="Shop">
+        <a class="orders-link header-link" href="orders.html"><span class="orders-text">Orders</span></a>
+        <a class="account-link header-link js-account-link" href="login.php" aria-label="Sign in">
+          <svg class="account-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5Z"/></svg>
+          <span class="account-text js-account-text">Sign in</span>
+        </a>
+        <a class="cart-link header-link" href="checkout.html">
+          <img class="cart-icon" src="images/icons/cart-icon.png" alt="">
+          <span class="cart-quantity js-cart-quantity">0</span>
+          <span class="cart-text">Cart</span>
+        </a>
+      </nav>
+    </header>
+
+    <div class="max-w-6xl mx-auto px-4 pt-24 pb-8">
         <!-- Progress Bar Header -->
-        <header class="mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center border-b border-gray-200 pb-4">
-            <h1 class="text-2xl font-bold tracking-tight text-gray-800">SECURE CHECKOUT</h1>
+        <section class="mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center border-b border-gray-200 pb-4">
+            <h1 class="text-2xl font-bold tracking-tight text-gray-800">DEMO ORDER CHECKOUT</h1>
             <div class="flex items-center space-x-4 mt-4 md:mt-0 text-sm font-medium text-gray-500">
                 <a href="index.html" class="inline-flex items-center text-xs font-semibold text-gray-500 hover:text-green-600 transition-colors duration-200 group">
-                    <svg xmlns="http://w3.org" class="h-4 w-4 mr-1.5 transform group-hover:-translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5 transform group-hover:-translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
                     </svg>
                     Back To Shop
@@ -32,11 +52,11 @@
 
                 <a href="checkout.html"><span>1. Cart</span></a>
                 <span class="text-gray-300">/</span>
-                <a href="tracking.html"><span>2. Shipping</span></a>
+                <a href="checkout.html"><span>2. Delivery</span></a>
                 <span class="text-gray-300">/</span>
                 <span class="text-green-600 font-semibold border-b-2 border-green-600 pb-1">3. Payment</span>
             </div>
-        </header>
+        </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Left 2 Columns: Client Info & Payments -->
@@ -51,12 +71,12 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Full Name</label>
-                            <input type="text" placeholder="John Doe" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <label for="customer-name" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Full Name</label>
+                            <input id="customer-name" type="text" autocomplete="name" required placeholder="Your name" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Email Address</label>
-                            <input type="email" placeholder="johndoe@example.com" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <label for="customer-email" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Email Address</label>
+                            <input id="customer-email" type="email" autocomplete="email" required placeholder="you@example.com" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                         </div>
                     </div>
 
@@ -66,7 +86,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs text-gray-500 mb-1">County / Region</label>
-                                <select id="county-select" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <select id="county-select" required class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-green-500">
                                     <option value="">-- Choose County --</option>
                                     <option value="nairobi">Nairobi</option>
                                     <option value="mombasa">Mombasa</option>
@@ -76,7 +96,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-500 mb-1">Available Stations</label>
-                                <select id="station-select" disabled class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <select id="station-select" required disabled class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500">
                                     <option value="">Select a county first</option>
                                 </select>
                             </div>
@@ -94,99 +114,65 @@
 
                     <!-- Horizontal Row Dynamic Selector Tabs -->
                     <div class="flex overflow-x-auto border-b border-gray-200 mb-6 whitespace-nowrap scrollbar-none">
-                        <button onclick="switchTab(event, 'mpesa-panel')" class="tab-btn py-2.5 px-4 font-medium text-sm border-b-2 border-green-600 text-green-600 flex items-center space-x-2">
+                        <button type="button" data-panel="mpesa-panel" data-payment-method="M-Pesa" aria-selected="true" class="tab-btn py-2.5 px-4 font-medium text-sm border-b-2 border-green-600 text-green-600 flex items-center space-x-2">
                             <span>M-Pesa (Kenya)</span>
                         </button>
-                        <button onclick="switchTab(event, 'card-panel')" class="tab-btn py-2.5 px-4 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center space-x-2">
+                        <button type="button" data-panel="card-panel" data-payment-method="Card" aria-selected="false" class="tab-btn py-2.5 px-4 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center space-x-2">
                             <span>Debit/Credit Card</span>
                         </button>
-                        <button onclick="switchTab(event, 'bank-panel')" class="tab-btn py-2.5 px-4 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center space-x-2">
+                        <button type="button" data-panel="bank-panel" data-payment-method="Bank transfer" aria-selected="false" class="tab-btn py-2.5 px-4 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center space-x-2">
                             <span>Bank Transfer</span>
                         </button>
-                        <button onclick="switchTab(event, 'paypal-panel')" class="tab-btn py-2.5 px-4 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center space-x-2">
+                        <button type="button" data-panel="paypal-panel" data-payment-method="PayPal" aria-selected="false" class="tab-btn py-2.5 px-4 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center space-x-2">
                             <span>PayPal</span>
                         </button>
                     </div>
 
-                    <!-- Toggleable Content Boxes -->
                     <div>
-                        <!-- M-Pesa Panel -->
-                        <div id="mpesa-panel" class="tab-content active space-y-4">
-                            <div class="bg-green-50 text-green-800 p-3 rounded-lg text-xs border border-green-100">
-                                <strong>M-Pesa STK Push Service:</strong> Enter your registered Safaricom number. When you click pay, an automated PIN prompt request will load on your mobile interface instantly.
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">M-Pesa Mobile Number</label>
-                                <div class="flex rounded-lg shadow-xs">
-                                    <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-200 bg-gray-50 text-gray-500 text-sm font-medium">+254</span>
-                                    <input type="tel" id="mpesa-phone" placeholder="712345678" class="w-full px-3 py-2 border border-gray-200 rounded-r-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <div id="mpesa-panel" class="tab-content active">
+                            <div class="space-y-4">
+                                <div class="rounded-lg border border-green-100 bg-green-50 p-4 text-sm text-green-900">
+                                    <h3 class="mb-3 font-semibold">Pay with M-Pesa</h3>
+                                    <dl class="space-y-2">
+                                        <div class="flex flex-wrap justify-between gap-2">
+                                            <dt class="font-medium">Paybill business number</dt>
+                                            <dd class="font-semibold">[Add your Paybill number]</dd>
+                                        </div>
+                                        <div class="flex flex-wrap justify-between gap-2">
+                                            <dt class="font-medium">Account number / reference</dt>
+                                            <dd class="font-semibold">[Add account reference instructions]</dd>
+                                        </div>
+                                        <div class="flex flex-wrap justify-between gap-2">
+                                            <dt class="font-medium">Buy Goods Till number</dt>
+                                            <dd class="font-semibold">[Add your Till number, if applicable]</dd>
+                                        </div>
+                                        <div class="flex flex-wrap justify-between gap-2">
+                                            <dt class="font-medium">Account name</dt>
+                                            <dd class="font-semibold">[Add your registered business name]</dd>
+                                        </div>
+                                    </dl>
                                 </div>
+                                <p class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Replace the bracketed placeholders with your official M-Pesa payment details. STK Push and payment confirmation are not integrated yet; this checkout will not request or verify a payment.</p>
                             </div>
-                            <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition text-sm">
-                                INITIATE M-Pesa STK PUSH
-                            </button>
                         </div>
-
-                        <!-- Card Panel -->
-                        <div id="card-panel" class="tab-content space-y-4">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Cardholder Name</label>
-                                <input type="text" placeholder="John Doe" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Card Number</label>
-                                <input type="text" placeholder="4111 2222 3333 4444" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Expiry Date</label>
-                                    <input type="text" placeholder="MM/YY" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">CVV</label>
-                                    <input type="password" placeholder="•••" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                            </div>
-                            <button class="w-full bg-gray-800 hover:bg-gray-900 text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition text-sm">
-                                AUTHORIZE CARD PAYMENT
-                            </button>
+                        <div id="card-panel" class="tab-content">
+                            <p class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Card payments are not connected. Do not enter or share card details here; this demo will save an unpaid order only.</p>
                         </div>
-
-                        <!-- Bank Transfer Panel -->
-                        <div id="bank-panel" class="tab-content space-y-4">
-                            <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 space-y-2 text-xs text-blue-900">
-                                <p class="font-bold text-sm">Local Bank Inquiries Details:</p>
-                                <p><strong>Bank:</strong> NCBA Bank Kenya / Equity Bank</p>
-                                <p><strong>Account Name:</strong> ShopModern Africa Limited</p>
-                                <p><strong>Account Number:</strong> 0110 9876 5432 10</p>
-                                <p><strong>Paybill Integration Alternative:</strong> Business No: 543210 | Account: [Your Order ID]</p>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Transaction Receipt Reference Code</label>
-                                <input type="text" placeholder="e.g. QX73HD82KL" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm uppercase focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            </div>
-                            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition text-sm">
-                                SUBMIT REFERENCE FOR VERIFICATION
-                            </button>
+                        <div id="bank-panel" class="tab-content">
+                            <p class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Bank transfer is not connected. No bank details or payment references are collected by this demo.</p>
                         </div>
-
-                        <!-- PayPal Panel -->
-                        <div id="paypal-panel" class="tab-content space-y-4">
-                            <div class="text-center py-6 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
-                                <p class="text-xs text-gray-500 mb-4">Click below to log securely into your standard dynamic PayPal account interface.</p>
-                                <button class="bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold py-2 px-6 rounded-full inline-flex items-center text-sm shadow-xs transition">
-                                    <i>PayPal</i>&nbsp;Checkout
-                                </button>
-                            </div>
+                        <div id="paypal-panel" class="tab-content">
+                            <p class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">PayPal is not connected. This demo will save an unpaid order only.</p>
                         </div>
                     </div>
+                    <p class="mt-4 text-sm text-gray-600">Demo checkout only. No payment is collected or processed. Orders are stored in this browser only and are not sent to a shop server.</p>
                 </section>
             </div>
 
             <!-- Right 1 Column: Cart Review / Details Page Sidecar -->
             <div class="lg:col-span-1">
                 <aside class="bg-white p-6 rounded-xl shadow-xs border border-gray-100 sticky top-6 space-y-6">
-                    <h2 class="text-lg font-bold border-b border-gray-100 pb-3 text-gray-800">ORDER SUMMARY (3 ITEMS)</h2>
+                    <h2 class="text-lg font-bold border-b border-gray-100 pb-3 text-gray-800">ORDER SUMMARY</h2>
         
                    <!-- Cart Product Lists Loop -->
                     <div class="js-order-summary divide-y divide-gray-100 max-h-80 overflow-y-auto pr-1">
@@ -201,13 +187,23 @@
         <span id="base-price" class="text-gray-900">KES 0</span>
     </div>
     <div class="flex justify-between">
-        <span>Pickup Station Fee</span>
+        <span>Delivery shipping</span>
         <span id="shipping-price" class="text-gray-900">KES 0</span>
+    </div>
+    <div class="flex justify-between">
+        <span>Pickup station fee</span>
+        <span id="pickup-price" class="text-gray-900">KES 0</span>
+    </div>
+    <div class="flex justify-between">
+        <span>Estimated tax (10%)</span>
+        <span id="tax-price" class="text-gray-900">KES 0</span>
     </div>
     <div class="flex justify-between border-t border-gray-100 pt-3 text-sm font-bold text-gray-900">
         <span>Total Due</span>
         <span id="total-price">KES 0</span>
     </div>
+                        <p id="order-message" class="mt-4 text-sm" role="status" aria-live="polite"></p>
+                        <button class="js-place-demo-order mt-4 w-full rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50" type="button" disabled>Place demo order — no payment</button>
 </div>
 
                 </aside>
@@ -216,9 +212,9 @@
     </div>
 
     <!-- UI State Control Logic Engine -->
-    <script type="module" src="data/placeorder.js">      
+    <script type="module" src="data/site-header.js"></script>
+    <script type="module" src="data/placeorder.js">
     </script>
-    <script type="module" src="auth/auth-header.js"></script>
 
 </body>
 </html>

@@ -30,36 +30,32 @@
       </div>
 
       <div class="middle-section">
-        <input class="search-bar" type="text" placeholder="Search" />
+        <input class="search-bar" type="search" aria-label="Search products" placeholder="Search products" />
 
-        <button class="search-button">
-          <img class="search-icon" src="images/icons/search-icon.png" />
+        <button class="search-button" type="button" aria-label="Search products">
+          <img class="search-icon" src="images/icons/search-icon.png" alt="" />
         </button>
       </div>
 
       <div class="right-section">
-        <a class="orders-link header-link" href="orders.html">
-
-          <span class="orders-text">Orders</span>
+        <a class="orders-link header-link" href="orders.html"><span class="orders-text">Orders</span></a>
+        <a class="account-link header-link js-account-link" href="login.php" aria-label="Sign in">
+          <svg class="account-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5Z"/></svg>
+          <span class="account-text js-account-text">Sign in</span>
         </a>
 
         <a class="cart-link header-link" href="checkout.html">
-          <img class="cart-icon" src="images/icons/cart-icon.png" />
+          <img class="cart-icon" src="images/icons/cart-icon.png" alt="" />
           <div class="cart-quantity js-cart-quantity">0</div>
           <div class="cart-text">Cart</div>
         </a>
       </div>
     </div>
 
-    <div class="home-page">
-
-
-
-
-      <div class="products-grid js-products-grid">
-  
-      </div>
-   </div>
+    <main class="home-page">
+      <div class="products-grid js-products-grid" aria-live="polite"></div>
+    </main>
+    <script type="module" src="data/site-header.js"></script>
     <script type="module" src="data/amazon.js"></script>
      
   </body>

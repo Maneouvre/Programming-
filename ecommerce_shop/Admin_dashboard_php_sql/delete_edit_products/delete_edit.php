@@ -19,11 +19,11 @@
     <div class="menu-section">
       <p class="section-title">General</p>
       <nav>
-        <a href="#"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
-        <a href="#" class="active"><i class="fa-solid fa-box"></i> Products</a>
-        <a href="#"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
-        <a href="#"><i class="fa-solid fa-chart-line"></i> Analytics</a>
-        <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="delete_edit.php" class="active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+        <a href="delete_edit.php"><i class="fa-solid fa-box"></i> Products</a>
+        <a href="../../ecommerce_shop/orders.html"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
+        <a href="../../ecommerce_shop/index.html"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+        <a href="../../ecommerce_shop/index.html"><i class="fa-solid fa-gear"></i> Settings</a>
       </nav>
     </div>
   </aside>
@@ -53,7 +53,7 @@
           <p class="subtitle">Manage your online store catalog and settings</p>
         </div>
         
-        <button href="index.php" class="add-product-btn"><i class="fa-solid fa-plus"></i>  Add Product</button>
+        <a href="../product_upload_dashboard/products_upload.php" class="add-product-btn"><i class="fa-solid fa-plus"></i> Add Product</a>
       </div>
 
       <!-- METRIC CARDS -->
@@ -108,29 +108,7 @@
               <th class="text-right">Actions</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><img src="https://placeholder.com" alt="Product" class="prod-img"></td>
-              <td>
-                <div class="prod-title">Apex Sound ANC Headphones</div>
-                <div class="prod-id">ID: PROD-001</div>
-              </td>
-              <td class="font-medium">$249.00</td>
-              <td>
-                <span class="tag">Audio</span>
-                <span class="tag">ANC</span>
-                <span class="tag">Wireless</span>
-              </td>
-              <td>
-                <span class="star-rating">⭐⭐⭐⭐☆</span>
-                <span class="rating-text">4.8 (142 reviews)</span>
-              </td>
-              <td class="text-right actions-cell">
-                <button class="action-btn edit"><i class="fa-regular fa-pen-to-square"></i></button>
-                <button class="action-btn delete"><i class="fa-regular fa-trash-can"></i></button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="products-table-body"></tbody>
         </table>
 
         <!-- TABLE PAGINATION -->
@@ -149,39 +127,52 @@
   
     <script>
     document.addEventListener("DOMContentLoaded", async function() {
-        try {
-            // 1. Fetch your data from the separate PHP database API script
-            const response = await fetch("products_fetch.php");
-            const products = await response.json();
-            
-            // 2. Target your grid container and empty it out
-            const container = document.getElementById("products_grid");
-            container.innerHTML = ""; 
+        const tableBody = document.getElementById("products-table-body");
 
-            // If no data returned from database table rows
-            if (products.length === 0) {
-                container.innerHTML = "<p>No products found in database.</p>";
+        if (!tableBody) {
+            return;
+        }
+
+        try {
+            const response = await fetch("../products_fetch/products_fetch.php");
+            const products = await response.json();
+
+            if (!Array.isArray(products) || products.length === 0) {
+                tableBody.innerHTML = "<tr><td colspan='6'>No products found in the database.</td></tr>";
                 return;
             }
 
-            // 3. Loop through your products array using a clean mapping layout
-            container.innerHTML = products.map(product => {
-                // Convert price cents into a decimal format (e.g. 1000 cents -> 10.00)
-                const realPrice = (product.price_cents / 100).toFixed(2);
-                
+            tableBody.innerHTML = products.map((product) => {
+                const realPrice = (Number(product.price_cents || 0) / 100).toFixed(2);
+                const imagePath = product.image_path ? `../product_upload_dashboard/${product.image_path}` : '../product_upload_dashboard/uploads/placeholder.png';
+                const keywords = Array.isArray(product.keywords) ? product.keywords : [];
+                const keywordTags = keywords.slice(0, 3).map((keyword) => `<span class="tag">${keyword}</span>`).join('');
+                const ratingText = product.rating_stars ? `${product.rating_stars} (${product.rating_count || 0} reviews)` : `0.0 (0 reviews)`;
+
                 return `
-                    <div class="product-card">
-                        <img src="../product_upload_dashboard/${product.image_path}" onerror="this.src='../product_upload_dashboard/uploads/placeholder.png';">
-                        <h3>${product.product_name}</h3>
-                        <p class="price">$${realPrice}</p>
-                        <p class="rating">⭐ ${product.rating_stars}</p>
-                    </div>
+                    <tr>
+                        <td><img src="${imagePath}" alt="${product.product_name || 'Product'}" class="prod-img" onerror="this.src='../product_upload_dashboard/uploads/placeholder.png';"></td>
+                        <td>
+                            <div class="prod-title">${product.product_name || 'Unnamed Product'}</div>
+                            <div class="prod-id">ID: PROD-${product.id || 'N/A'}</div>
+                        </td>
+                        <td class="font-medium">$${realPrice}</td>
+                        <td>${keywordTags || '<span class="tag">General</span>'}</td>
+                        <td>
+                            <span class="star-rating">${'⭐'.repeat(Math.min(5, Math.max(0, Math.round(Number(product.rating_stars || 0)))))}${'☆'.repeat(Math.max(0, 5 - Math.min(5, Math.max(0, Math.round(Number(product.rating_stars || 0))))))}</span>
+                            <span class="rating-text">${ratingText}</span>
+                        </td>
+                        <td class="text-right actions-cell">
+                            <button class="action-btn edit" type="button"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <button class="action-btn delete" type="button"><i class="fa-regular fa-trash-can"></i></button>
+                        </td>
+                    </tr>
                 `;
-            }).join(""); // Merges all array string cards together cleanly
+            }).join("");
 
         } catch (error) {
             console.error("Something went wrong:", error);
-            document.getElementById("products_grid").innerHTML = "<p>Error loading product data asset streams.</p>";
+            tableBody.innerHTML = "<tr><td colspan='6'>Error loading product data.</td></tr>";
         }
     });
     </script>

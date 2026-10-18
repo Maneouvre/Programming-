@@ -1,92 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Tracking</title>
-
-    <!-- This code is needed for responsive design to work.
-      (Responsive design = make the website look good on
-      smaller screen sizes like a phone or a tablet). -->
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Load a font called Roboto from Google Fonts. -->
+    <title>Order tracking | Maneouver</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Here are the CSS files for this page. -->
     <link rel="stylesheet" href="styles/shared/general.css">
     <link rel="stylesheet" href="styles/shared/header.css">
     <link rel="stylesheet" href="styles/pages/tracking.css">
   </head>
   <body>
-    <div class="header">
+    <header class="header">
       <div class="left-section">
-        <a href="index.php" class="header-link">
-          <img class="logo"
-            src="images/logo-white.png" />
-          <img class="mobile-logo"
-            src="images/mobile-logo-white.png" />
+        <a href="index.html" class="header-link" aria-label="Maneouver home">
+          <img class="logo" src="images/logo-white.png" alt="Maneouver">
+          <img class="mobile-logo" src="images/mobile-logo-white.png" alt="Maneouver">
         </a>
       </div>
-
       <div class="middle-section">
-        <input class="search-bar" type="text" placeholder="Search" />
-
-        <button class="search-button">
-          <img class="search-icon" src="images/icons/search-icon.png" />
-        </button>
+        <input class="search-bar" type="search" aria-label="Search products" placeholder="Search products">
       </div>
-
-      <div class="right-section">
-        <a class="orders-link header-link" href="orders.html">
-
-          <span class="orders-text">Orders</span>
+      <nav class="right-section" aria-label="Shop">
+        <a class="orders-link header-link" href="orders.html"><span class="orders-text">Orders</span></a>
+        <a class="account-link header-link js-account-link" href="login.php" aria-label="Sign in">
+          <svg class="account-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5Z"/></svg>
+          <span class="account-text js-account-text">Sign in</span>
         </a>
-
-        <a class="cart-link header-link" href="checkout.php">
-          <img class="cart-icon" src="images/icons/cart-icon.png" />
-          <div class="cart-quantity">3</div>
-          <div class="cart-text">Cart</div>
+        <a class="cart-link header-link" href="checkout.html">
+          <img class="cart-icon" src="images/icons/cart-icon.png" alt="">
+          <span class="cart-quantity js-cart-quantity">0</span>
+          <span class="cart-text">Cart</span>
         </a>
-      </div>
-    </div>
-
-    <div class="tracking-page">
-      <div class="order-tracking">
-        <a class="back-to-orders-link link-primary" href="orders.html">
-          View all orders
-        </a>
-
-        <div class="delivery-date">
-          Arriving on Monday, June 13
-        </div>
-
-        <div class="product-info">
-          Black and Gray Athletic Cotton Socks - 6 Pairs
-        </div>
-
-        <div class="product-info">
-          Quantity: 1
-        </div>
-
-        <img class="product-image" src="images/products/athletic-cotton-socks-6-pairs.jpg" />
-
-        <div class="progress-labels-container">
-          <div class="progress-label">
-            Preparing
-          </div>
-          <div class="progress-label current-status">
-            Shipped
-          </div>
-          <div class="progress-label">
-            Delivered
-          </div>
-        </div>
-
-        <div class="progress-bar-container">
-          <div class="progress-bar"></div>
-        </div>
-      </div>
-    </div>
+      </nav>
+    </header>
+    <main class="tracking-page">
+      <section class="order-tracking js-tracking-content" aria-live="polite">
+        <p>Loading tracking information…</p>
+      </section>
+    </main>
+    <script type="module" src="data/site-header.js"></script>
+    <script type="module" src="data/tracking.js"></script>
   </body>
 </html>
