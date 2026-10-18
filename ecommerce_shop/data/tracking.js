@@ -29,8 +29,14 @@ async function renderTracking() {
     }
 
     const image = productImageUrl(item);
-    const stage = order.status === 'Delivered' ? 2 : order.status === 'Shipped' ? 1 : 0;
-    const progress = stage === 2 ? '100%' : stage === 1 ? '65%' : '20%';
+    const status = order.status || 'Order received';
+    const stages = ['Order received', 'Processing', 'Shipped', 'Delivered'];
+    const stage = Math.max(0, stages.indexOf(status));
+    const steps = stages.map((label, index) => `
+      <li class="tracking-step ${index < stage ? 'is-complete' : ''} ${index === stage ? 'is-current' : ''}" ${index === stage ? 'aria-current="step"' : ''}>
+        <span class="tracking-step-marker" aria-hidden="true"></span>
+        <span class="tracking-step-label">${label}</span>
+      </li>`).join('');
 
     container.innerHTML = `
       <a class="back-to-orders-link link-primary" href="orders.html">View all orders</a>
@@ -38,16 +44,11 @@ async function renderTracking() {
       <div class="product-info">${escapeHtml(item.name)}</div>
       <div class="product-info">Quantity: ${Number(item.quantity)}</div>
       <div class="product-info">Order: ${escapeHtml(order.id)}</div>
-      <div class="product-info">Status: ${escapeHtml(order.status || 'Order received')}</div>
+      <div class="product-info">Status: ${escapeHtml(status)}</div>
       <img class="product-image" src="${escapeHtml(image)}" alt="${escapeHtml(item.name)}">
-      <div class="progress-labels-container">
-        <div class="progress-label ${stage === 0 ? 'current-status' : ''}">Preparing</div>
-        <div class="progress-label ${stage === 1 ? 'current-status' : ''}">Shipped</div>
-        <div class="progress-label ${stage === 2 ? 'current-status' : ''}">Delivered</div>
-      </div>
-      <div class="progress-bar-container" role="progressbar" aria-label="Package progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${parseInt(progress, 10)}">
-        <div class="progress-bar" style="width: ${progress}"></div>
-      </div>
+      <ol class="tracking-steps" aria-label="Order progress" style="--progress-width: ${stage * 25}%">
+        ${steps}
+      </ol>
       <p class="tracking-demo-note">Order status is updated by the store administrator. Live carrier tracking is not connected.</p>`;
   } catch (error) {
     console.error('Could not load order tracking.', error);
