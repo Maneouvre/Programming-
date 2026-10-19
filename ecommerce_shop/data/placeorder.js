@@ -1,26 +1,8 @@
 import { cart, getCartQuantity, removeFromCart } from './cart.js';
 import { loadProducts, products, escapeHtml, formatPrice, productImageUrl } from './products.js';
 import { deliveryOptions } from './deliveryOptions.js';
+import { clearPickupSelection, getPickupSelection, getPickupStation } from './pickupStations.js';
 
-const pickupNodes = {
-  nairobi: [
-    { id: 'nbi-cbd', name: 'Nairobi CBD - Tom Mboya St Hub (G4S)', fee: 200, time: 'Mon-Sat 8AM - 6PM' },
-    { id: 'nbi-west', name: 'Westlands - Sarit Centre Agent Desk', fee: 350, time: 'Mon-Sun 9AM - 8PM' }
-  ],
-  mombasa: [
-    { id: 'msa-digo', name: 'Mombasa CBD - Digo Road Agent Node', fee: 400, time: 'Mon-Sat 8AM - 5PM' }
-  ],
-  kisumu: [
-    { id: 'ksm-mega', name: 'Kisumu - Mega Plaza Main Hub (Wells Fargo)', fee: 450, time: 'Mon-Sat 8AM - 5PM' }
-  ],
-  uasin: [
-    { id: 'eld-cbd', name: 'Eldoret CBD - Zion Mall Ground Station', fee: 450, time: 'Mon-Sat 8AM - 6PM' }
-  ]
-};
-
-const countySelect = document.querySelector('#county-select');
-const stationSelect = document.querySelector('#station-select');
-const stationMeta = document.querySelector('#station-meta');
 const itemsContainer = document.querySelector('.js-order-summary');
 const message = document.querySelector('#order-message');
 const placeOrderButton = document.querySelector('.js-place-demo-order');
@@ -58,6 +40,11 @@ function setMessage(text, isError = false) {
 function renderItems() {
   itemsSubtotal = 0;
   deliveryTotal = 0;
+  const pickupSelection = getPickupSelection();
+  const pickupStation = pickupSelection
+    ? getPickupStation(pickupSelection.countyKey, pickupSelection.stationId)
+    : null;
+  pickupFee = pickupStation?.fee || 0;
   if (cart.length === 0) {
     itemsContainer.innerHTML = '<p>Your cart is empty. <a class="text-green-700 underline" href="index.html">Shop now</a>.</p>';
     placeOrderButton.disabled = true;
@@ -100,7 +87,7 @@ function renderItems() {
   }
 
   itemsContainer.innerHTML = cartLines.join('');
-  placeOrderButton.disabled = !authenticated;
+  placeOrderButton.disabled = !authenticated || !pickupStation;
   updateTotals();
 }
 
@@ -113,31 +100,6 @@ function updateTotals() {
   taxPriceText.textContent = formatPrice(tax);
   totalPriceText.textContent = formatPrice(beforeTax + tax);
 }
-
-countySelect.addEventListener('change', () => {
-  const stations = pickupNodes[countySelect.value] || [];
-  stationSelect.replaceChildren(new Option('-- Choose Station --', ''));
-  stationMeta.classList.add('hidden');
-  pickupFee = 0;
-  stations.forEach((station) => {
-    stationSelect.add(new Option(`${station.name} (+${formatPrice(station.fee)})`, station.id));
-  });
-  stationSelect.disabled = stations.length === 0;
-  updateTotals();
-});
-
-stationSelect.addEventListener('change', () => {
-  const countyStations = pickupNodes[countySelect.value] || [];
-  const station = countyStations.find((candidate) => candidate.id === stationSelect.value);
-  pickupFee = station?.fee || 0;
-  if (station) {
-    stationMeta.textContent = `Collection schedule: ${station.time}. Ready for pickup within 24-48 business hours.`;
-    stationMeta.classList.remove('hidden');
-  } else {
-    stationMeta.classList.add('hidden');
-  }
-  updateTotals();
-});
 
 document.querySelectorAll('.tab-btn[data-panel]').forEach((button) => {
   button.addEventListener('click', () => {
@@ -172,9 +134,9 @@ placeOrderButton.addEventListener('click', async () => {
   if (!customerNameInput.reportValidity() || !customerEmailInput.reportValidity()) {
     return;
   }
-  if (!countySelect.value || !stationSelect.value) {
-    setMessage('Please choose your county and pickup station.', true);
-    countySelect.focus();
+  const pickupSelection = getPickupSelection();
+  if (!pickupSelection || !getPickupStation(pickupSelection.countyKey, pickupSelection.stationId)) {
+    setMessage('Please choose your county and pickup station on the checkout page.', true);
     return;
   }
   if (getCartQuantity() === 0 || !cart.length) {
@@ -198,7 +160,7 @@ placeOrderButton.addEventListener('click', async () => {
       body: JSON.stringify({
         csrf_token: tokenPayload.csrf_token,
         customer: { name: customerNameInput.value.trim() },
-        pickup: { countyKey: countySelect.value, stationId: stationSelect.value },
+        pickup: pickupSelection,
         paymentMethod: activePaymentMethod,
         items: cart.map((item) => ({
           productId: item.productId,
@@ -214,11 +176,8 @@ placeOrderButton.addEventListener('click', async () => {
     const order = payload.order;
 
     cart.slice().forEach((item) => removeFromCart(item.productId));
+    clearPickupSelection();
     pickupFee = 0;
-    countySelect.value = '';
-    stationSelect.replaceChildren(new Option('Select a county first', ''));
-    stationSelect.disabled = true;
-    stationMeta.classList.add('hidden');
     placeOrderButton.disabled = true;
     message.classList.remove('text-red-700');
     message.classList.add('text-green-700');
@@ -243,6 +202,9 @@ Promise.all([loadProducts(), checkAuthentication()])
     customerEmailInput.value = auth.email || '';
     customerEmailInput.readOnly = true;
     renderItems();
+    if (!getPickupSelection()) {
+      setMessage('Choose a pickup station on the checkout page before placing your order.', true);
+    }
   })
   .catch((error) => {
     console.error('Could not initialize the authenticated checkout.', error);

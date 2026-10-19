@@ -42,7 +42,33 @@
     <main class="checkout-page">
       <h1 class="page-title">Review your order (<span class="js-cart-count">0 items</span>)</h1>
       <div class="checkout-grid js-checkout-grid">
-        <div class="order-summary js-order-summary" aria-live="polite"><p>Loading your cart…</p></div>
+        <section class="cart-items-panel" aria-labelledby="cart-items-heading">
+          <h2 id="cart-items-heading" class="cart-items-panel-title">Items in your cart</h2>
+          <div class="order-summary js-order-summary" aria-live="polite"><p>Loading your cart…</p></div>
+        </section>
+        <section class="delivery-options-panel" aria-labelledby="delivery-options-heading">
+          <h2 id="delivery-options-heading" class="delivery-options-panel-title">Delivery options</h2>
+          <div class="pickup-selection">
+            <div class="pickup-selection-title">Choose a delivery place by county</div>
+            <div class="pickup-selection-fields">
+              <label for="county-select">County / Region</label>
+              <select id="county-select">
+                <option value="">-- Choose County --</option>
+                <option value="nairobi">Nairobi</option>
+                <option value="mombasa">Mombasa</option>
+                <option value="kisumu">Kisumu</option>
+                <option value="uasin">Uasin Gishu (Eldoret)</option>
+              </select>
+              <label for="station-select">Delivery station (fee included)</label>
+              <select id="station-select" disabled>
+                <option value="">Select a county first</option>
+              </select>
+              <p id="station-meta" class="station-meta" hidden></p>
+            </div>
+          </div>
+          <div class="delivery-options-title">Delivery speed options (unavailable)</div>
+          <div class="js-delivery-options"></div>
+        </section>
         <div class="payment-summary js-payment-summary"></div>
       </div>
     </main>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Order Checkout</title>
+    <title>Order Checkout</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="styles/shared/general.css">
     <link rel="stylesheet" href="styles/shared/header.css">
@@ -38,7 +38,7 @@
     <div class="max-w-6xl mx-auto px-4 pt-24 pb-8">
         <!-- Progress Bar Header -->
         <section class="mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center border-b border-gray-200 pb-4">
-            <h1 class="text-2xl font-bold tracking-tight text-gray-800">DEMO ORDER CHECKOUT</h1>
+            <h1 class="text-2xl font-bold tracking-tight text-gray-800">ORDER CHECKOUT</h1>
             <div class="flex items-center space-x-4 mt-4 md:mt-0 text-sm font-medium text-gray-500">
                 <a href="index.html" class="inline-flex items-center text-xs font-semibold text-gray-500 hover:text-green-600 transition-colors duration-200 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5 transform group-hover:-translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,7 +63,7 @@
                 <section class="bg-white p-6 rounded-xl shadow-xs border border-gray-100">
                     <h2 class="text-lg font-semibold mb-4 flex items-center text-gray-800">
                         <span class="bg-gray-100 text-gray-700 rounded-full h-6 w-6 inline-flex items-center justify-center text-xs font-bold mr-2">1</span>
-                        Client Information & Delivery
+                        Client Information
                     </h2>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -75,30 +75,6 @@
                             <label for="customer-email" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Email Address</label>
                             <input id="customer-email" type="email" autocomplete="email" required placeholder="you@example.com" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                         </div>
-                    </div>
-
-                    <!-- Pickup Station Selection Logic -->
-                    <div class="border-t border-gray-100 pt-4 mt-4">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">Select Your Nearest Pickup Station</label>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs text-gray-500 mb-1">County / Region</label>
-                                <select id="county-select" required class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-green-500">
-                                    <option value="">-- Choose County --</option>
-                                    <option value="nairobi">Nairobi</option>
-                                    <option value="mombasa">Mombasa</option>
-                                    <option value="kisumu">Kisumu</option>
-                                    <option value="uasin">Uasin Gishu (Eldoret)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs text-gray-500 mb-1">Available Stations</label>
-                                <select id="station-select" required disabled class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500">
-                                    <option value="">Select a county first</option>
-                                </select>
-                            </div>
-                        </div>
-                        <p id="station-meta" class="mt-2 text-xs text-gray-500 hidden bg-gray-50 p-2 rounded border border-gray-100"></p>
                     </div>
                 </section>
 
@@ -149,7 +125,7 @@
                                         </div>
                                     </dl>
                                 </div>
-                                <p class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Replace the bracketed placeholders with your official M-Pesa payment details. STK Push and payment confirmation are not integrated yet; this checkout will not request or verify a payment.</p>
+                                <p class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900"></p>
                             </div>
                         </div>
                         <div id="card-panel" class="tab-content">
@@ -162,7 +138,7 @@
                             <p class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">PayPal is not connected. This demo will save an unpaid order only.</p>
                         </div>
                     </div>
-                    <p class="mt-4 text-sm text-gray-600">Demo checkout only. No payment is collected or processed. Orders are stored in this browser only and are not sent to a shop server.</p>
+                    <p class="mt-4 text-sm text-gray-600"></p>
                 </section>
             </div>
 
@@ -200,7 +176,7 @@
         <span id="total-price">KES 0</span>
     </div>
                         <p id="order-message" class="mt-4 text-sm" role="status" aria-live="polite"></p>
-                        <button class="js-place-demo-order mt-4 w-full rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50" type="button" disabled>Place demo order — no payment</button>
+                        <button class="js-place-demo-order mt-4 w-full rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50" type="button" disabled>PLACE ORDER AFTER PAYMENT</button>
 </div>
 
                 </aside>

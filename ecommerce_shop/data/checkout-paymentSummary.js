@@ -1,6 +1,7 @@
 import { cart } from './cart.js';
 import { getProduct, formatPrice } from './products.js';
 import { getDeliveryOption } from './deliveryOptions.js';
+import { getPickupSelection, getPickupStation } from './pickupStations.js';
 
 export async function renderPaymentSummary() {
   const element = document.querySelector('.js-payment-summary');
@@ -10,6 +11,11 @@ export async function renderPaymentSummary() {
 
   let productPrice = 0;
   let shippingPrice = 0;
+  const pickupSelection = getPickupSelection();
+  const pickupStation = pickupSelection
+    ? getPickupStation(pickupSelection.countyKey, pickupSelection.stationId)
+    : null;
+  const pickupFee = pickupStation?.fee || 0;
 
   for (const item of cart) {
     const product = await getProduct(item.productId);
@@ -21,7 +27,7 @@ export async function renderPaymentSummary() {
   }
 
   const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
-  const subtotal = productPrice + shippingPrice;
+  const subtotal = productPrice + shippingPrice + pickupFee;
   const estimatedTax = Math.round(subtotal * 0.1);
   const total = subtotal + estimatedTax;
 
@@ -35,6 +41,10 @@ export async function renderPaymentSummary() {
       <div>Shipping &amp; handling:</div>
       <div class="payment-summary-money">${formatPrice(shippingPrice)}</div>
     </div>
+    <div class="payment-summary-row">
+      <div>Delivery station fee:</div>
+      <div class="payment-summary-money">${formatPrice(pickupFee)}</div>
+    </div>
     <div class="payment-summary-row subtotal-row">
       <div>Total before tax:</div>
       <div class="payment-summary-money">${formatPrice(subtotal)}</div>
@@ -47,8 +57,8 @@ export async function renderPaymentSummary() {
       <div>Order total:</div>
       <div class="payment-summary-money">${formatPrice(total)}</div>
     </div>
-    <button class="place-order-button button-primary" type="button" ${itemCount === 0 ? 'disabled' : ''}>
-      Continue to checkout
+    <button class="place-order-button button-primary" type="button" ${itemCount === 0 || !pickupStation ? 'disabled' : ''}>
+      ${pickupStation ? 'Continue to checkout' : 'Select a pickup station to continue'}
     </button>`;
 
   const checkoutButton = element.querySelector('.place-order-button');

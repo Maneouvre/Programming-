@@ -1,18 +1,91 @@
-import { cart, removeFromCart, updateDeliveryOption, updateQuantity } from './cart.js';
+import { cart, removeFromCart, updateQuantity } from './cart.js';
 import { loadProducts, products, escapeHtml, formatPrice, productImageUrl } from './products.js';
 import dayjs from './dayjs.js';
 import { deliveryOptions } from './deliveryOptions.js';
 import { renderPaymentSummary } from './checkout-paymentSummary.js';
+import {
+  clearPickupSelection,
+  getPickupSelection,
+  getPickupStation,
+  pickupNodes,
+  savePickupSelection
+} from './pickupStations.js';
 
-function deliveryOptionsHTML(product, item) {
-  return deliveryOptions.map((option) => {
+function renderStations(countyKey, selectedStationId = '') {
+  const countySelect = document.querySelector('#county-select');
+  const stationSelect = document.querySelector('#station-select');
+  const stationMeta = document.querySelector('#station-meta');
+  if (!countySelect || !stationSelect || !stationMeta) {
+    return;
+  }
+
+  const stations = pickupNodes[countyKey] || [];
+  stationSelect.replaceChildren(new Option('-- Choose Station --', ''));
+  stations.forEach((station) => {
+    stationSelect.add(new Option(
+      `${station.name} (+${formatPrice(station.fee)})`,
+      station.id,
+      false,
+      station.id === selectedStationId
+    ));
+  });
+  stationSelect.disabled = stations.length === 0;
+
+  const selectedStation = getPickupStation(countyKey, selectedStationId);
+  if (selectedStation) {
+    stationMeta.textContent = `Collection schedule: ${selectedStation.time}. Ready for pickup within 24-48 business hours.`;
+    stationMeta.hidden = false;
+  } else {
+    stationMeta.textContent = '';
+    stationMeta.hidden = true;
+  }
+}
+
+function initializePickupSelection() {
+  const countySelect = document.querySelector('#county-select');
+  const stationSelect = document.querySelector('#station-select');
+  if (!countySelect || !stationSelect) {
+    return;
+  }
+
+  const selection = getPickupSelection();
+  if (selection) {
+    countySelect.value = selection.countyKey;
+    renderStations(selection.countyKey, selection.stationId);
+  }
+
+  countySelect.addEventListener('change', () => {
+    clearPickupSelection();
+    renderStations(countySelect.value);
+    renderPaymentSummary();
+  });
+
+  stationSelect.addEventListener('change', () => {
+    const station = getPickupStation(countySelect.value, stationSelect.value);
+    if (station) {
+      savePickupSelection(countySelect.value, station.id);
+    } else {
+      clearPickupSelection();
+    }
+    renderStations(countySelect.value, station?.id || '');
+    renderPaymentSummary();
+  });
+}
+
+function renderDeliveryOptions() {
+  const container = document.querySelector('.js-delivery-options');
+  if (!container) {
+    return;
+  }
+
+  const selectedDeliveryOptionId = cart[0]?.deliveryOptionId || deliveryOptions[0].id;
+  container.innerHTML = deliveryOptions.map((option) => {
     const deliveryDate = dayjs().add(option.deliveryDays, 'days').format('dddd, MMMM D');
     const shippingPrice = option.priceCents === 0 ? 'FREE' : formatPrice(option.priceCents);
     return `
-      <label class="delivery-option">
-        <input type="radio" ${option.id === item.deliveryOptionId ? 'checked' : ''}
-          class="delivery-option-input" name="delivery-option-${escapeHtml(product.id)}"
-          data-product-id="${escapeHtml(product.id)}" data-delivery-option-id="${option.id}">
+      <label class="delivery-option delivery-option-disabled" aria-disabled="true">
+        <input type="radio" ${option.id === selectedDeliveryOptionId ? 'checked' : ''}
+          class="delivery-option-input" name="delivery-option" disabled>
         <span>
           <span class="delivery-option-date">${deliveryDate}</span>
           <span class="delivery-option-price">${shippingPrice} Shipping</span>
@@ -26,6 +99,7 @@ export function renderOrderSummary() {
   if (!orderSummary) {
     return;
   }
+  renderDeliveryOptions();
 
   const unavailableItems = cart
     .filter((item) => !products.some((product) => String(product.id) === item.productId))
@@ -71,12 +145,8 @@ export function renderOrderSummary() {
                   }).join('')}
                 </select>
               </label>
-              <button type="button" class="delete-quantity-link link-primary js-delete-link" data-product-id="${escapeHtml(product.id)}">Remove</button>
+              <button type="button" class="delete-quantity-link js-delete-link" data-product-id="${escapeHtml(product.id)}">Remove</button>
             </div>
-          </div>
-          <div class="delivery-options">
-            <div class="delivery-options-title">Choose a delivery option:</div>
-            ${deliveryOptionsHTML(product, item)}
           </div>
         </div>
       </article>`;
@@ -96,17 +166,11 @@ export function renderOrderSummary() {
     });
   });
 
-  orderSummary.querySelectorAll('.delivery-option-input').forEach((input) => {
-    input.addEventListener('change', () => {
-      updateDeliveryOption(input.dataset.productId, input.dataset.deliveryOptionId);
-      renderOrderSummary();
-    });
-  });
-
   renderPaymentSummary();
 }
 
 if (document.querySelector('.js-order-summary')) {
+  initializePickupSelection();
   loadProducts()
     .then(renderOrderSummary)
     .catch((error) => {
