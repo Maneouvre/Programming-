@@ -29,6 +29,7 @@ try {
         $statement->execute(['user_id' => (int)$_SESSION['user_id']]);
         $orders = $statement->fetchAll();
         foreach ($orders as &$order) {
+            $order['id'] = (string)$order['order_id'];
             $order['items'] = json_decode((string)$order['items_json'], true, 512, JSON_THROW_ON_ERROR);
             $order['createdAt'] = (string)$order['created_at'];
             $order['status'] = (string)$order['order_status'];

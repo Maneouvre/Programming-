@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/../../admin/require-admin.php';
 
 function check_upload_errors(){
     if (isset($_SESSION["errors_input"])){

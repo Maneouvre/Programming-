@@ -38,7 +38,7 @@
 .tracking-page .tracking-steps {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   margin: 22px 0 30px;
   padding: 0;
   list-style: none;
@@ -62,6 +62,7 @@
 .tracking-page .tracking-steps::after {
   width: var(--progress-width, 0%);
   background: #198754;
+  transition: width 300ms ease;
 }
 
 .tracking-page .tracking-step {
@@ -102,6 +103,15 @@
 
 .tracking-page .tracking-step-label {
   font-size: 14px;
+}
+
+.tracking-page .tracking-cancelled {
+  color: #9a1c1c;
+  font-weight: 700;
+}
+
+.tracking-page .tracking-refresh-error {
+  color: #9a1c1c;
 }
 
 @media (max-width: 575px) {

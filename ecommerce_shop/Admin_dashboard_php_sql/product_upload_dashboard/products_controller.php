@@ -1,6 +1,7 @@
 <?php
 //error reporting
 declare(strict_types=1);
+require_once __DIR__ . '/../../admin/require-admin.php';
 
 function is_product_name_empty(string $Product_name){
     // trim() removes accidental blank spaces typed by the user

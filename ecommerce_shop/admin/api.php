@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-session_start();
+require_once __DIR__ . '/admin-session.php';
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store, private');
 
@@ -12,7 +12,7 @@ function adminRespond(int $status, array $payload): never
     exit;
 }
 
-if (($_SESSION['admin_logged_in'] ?? false) !== true) {
+if (!adminSessionIsValid()) {
     adminRespond(401, ['error' => 'Please sign in to the admin dashboard.']);
 }
 
@@ -212,7 +212,7 @@ try {
 
         $orderId = trim((string)($input['orderId'] ?? ''));
         $status = (string)($input['status'] ?? '');
-        $allowedStatuses = ['Order received', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+        $allowedStatuses = ['Order received', 'Processing', 'Shipped', 'Being delivered', 'Delivered', 'Cancelled'];
         if ($orderId === '' || strlen($orderId) > 64 || !in_array($status, $allowedStatuses, true)) {
             adminRespond(422, ['error' => 'The order status update is invalid.']);
         }

@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/../../admin/require-admin.php';
+
 function get_product_by_name(object $pdo, string $Product_name) {
     $query = "SELECT * FROM products WHERE LOWER(product_name) = LOWER(:Product_name);";
     $stmt = $pdo->prepare($query);

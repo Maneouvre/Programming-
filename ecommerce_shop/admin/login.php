@@ -1,18 +1,9 @@
 <?php
 declare(strict_types=1);
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path' => '/',
-        'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
-        'httponly' => true,
-        'samesite' => 'Lax'
-    ]);
-    session_start();
-}
+require_once __DIR__ . '/admin-session.php';
 require __DIR__ . '/admin-config.php';
 
-if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
+if (adminSessionIsValid()) {
     header('Location: index.php');
     exit;
 }
@@ -34,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['admin_username'] = $adminConfig['username'];
         $_SESSION['admin_name'] = $adminConfig['name'];
         $_SESSION['admin_csrf'] = bin2hex(random_bytes(32));
+        startAdminSessionLifetime();
         unset($_SESSION['admin_login_csrf']);
         header('Location: index.php');
         exit;

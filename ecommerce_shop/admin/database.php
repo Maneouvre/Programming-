@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+if (isset($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME']) === __FILE__) {
+    require __DIR__ . '/require-admin.php';
+}
+
 function connectAdminDatabase(): PDO
 {
     $host = getenv('ECOMMERCE_DB_HOST') ?: 'localhost';

@@ -18,7 +18,7 @@ $adminName = htmlspecialchars((string)($_SESSION['admin_name'] ?? 'Admin'), ENT_
       :root { color-scheme: light; font-family: Arial, sans-serif; color: #17231d; background: #f4f7f5; }
       * { box-sizing: border-box; }
       body { margin: 0; }
-      .topbar { min-height: 64px; display: flex; align-items: center; gap: 20px; padding: 12px 24px; background: #084f2d; color: #fff; }
+      .topbar { position: sticky; top: 0; z-index: 1000; min-height: 64px; display: flex; align-items: center; gap: 20px; padding: 12px 24px; background: #084f2d; color: #fff; }
       .brand { display: flex; align-items: center; gap: 10px; margin-right: 18px; color: #fff; text-decoration: none; font-size: 18px; font-weight: 700; }
       .brand img { width: 42px; height: 42px; object-fit: contain; background: white; border-radius: 6px; }
       .nav { display: flex; gap: 6px; }
@@ -142,7 +142,7 @@ $adminName = htmlspecialchars((string)($_SESSION['admin_name'] ?? 'Admin'), ENT_
     <script>
       const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
       const views = ['overview', 'orders', 'clients', 'products'];
-      const statusOptions = ['Order received', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+      const statusOptions = ['Order received', 'Processing', 'Shipped', 'Being delivered', 'Delivered', 'Cancelled'];
       const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
       })[char]);

@@ -17,10 +17,13 @@ require __DIR__ . '/require-admin.php';
         color: #111827;
       }
       .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
         display: flex;
         align-items: center;
         gap: 12px;
-        background: #0f172a;
+        background: #084f2d;
         padding: 14px 20px;
       }
       .topbar a {

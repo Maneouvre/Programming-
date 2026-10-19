@@ -1,4 +1,8 @@
 <?php
+if (isset($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME']) === __FILE__) {
+    require __DIR__ . '/require-admin.php';
+}
+
 $adminConfig = [
     'site_name' => 'Manoeuvre Admin',
     'logo_path' => '../images/logo.png',
