@@ -1,28 +1,39 @@
 <?php
 declare(strict_types=1);
 
-function connectShopUsers(): PDO
+function shopDatabaseConfig(string $defaultDatabase = 'ecommerceusers'): array
 {
     $host = getenv('ECOMMERCE_DB_HOST') ?: 'localhost';
+    $port = getenv('ECOMMERCE_DB_PORT') ?: '3306';
+    $database = getenv('ECOMMERCE_DB_NAME') ?: $defaultDatabase;
     $username = getenv('ECOMMERCE_DB_USER') ?: 'root';
     $password = getenv('ECOMMERCE_DB_PASSWORD') ?: '';
+
+    if (!ctype_digit($port) || (int)$port < 1 || (int)$port > 65535) {
+        throw new RuntimeException('ECOMMERCE_DB_PORT must be a valid TCP port.');
+    }
+
+    return [
+        'host' => $host,
+        'port' => (int)$port,
+        'database' => $database,
+        'username' => $username,
+        'password' => $password
+    ];
+}
+
+function connectShopUsers(): PDO
+{
+    $config = shopDatabaseConfig();
     $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false
     ];
-    $server = new PDO(
-        "mysql:host={$host};charset=utf8mb4",
-        $username,
-        $password,
-        $options
-    );
-    $server->exec('CREATE DATABASE IF NOT EXISTS ecommerceusers CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
-
     $pdo = new PDO(
-        "mysql:host={$host};dbname=ecommerceusers;charset=utf8mb4",
-        $username,
-        $password,
+        "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']};charset=utf8mb4",
+        $config['username'],
+        $config['password'],
         $options
     );
     $pdo->exec(

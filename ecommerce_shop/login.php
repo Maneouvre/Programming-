@@ -10,6 +10,7 @@ function loginReturnTarget(?string $target): string
 
 $returnTo = loginReturnTarget($_POST['return_to'] ?? $_GET['return_to'] ?? null);
 $errorMessage = '';
+$noticeMessage = isset($_GET['password_reset']) ? 'Your password has been changed. Sign in with your new password.' : '';
 
 if (isset($_SESSION['user_id']) && (string)$_SESSION['user_id'] !== '') {
     header('Location: ' . $returnTo);
@@ -83,6 +84,7 @@ function escapeHtml(string $value): string
       .login-card input { box-sizing: border-box; width: 100%; padding: 11px 12px; border: 1px solid #aaa; border-radius: 5px; font-size: 16px; }
       .login-card button { width: 100%; margin-top: 22px; padding: 12px; border: 0; border-radius: 5px; background: #08712f; color: #fff; font-size: 16px; font-weight: 700; }
       .login-error { margin: 14px 0; padding: 10px 12px; border-radius: 5px; background: #fff0f0; color: #9b1c1c; }
+      .login-notice { margin: 14px 0; padding: 10px 12px; border-radius: 5px; background: #effaf2; color: #176b31; }
       .login-switch { display: block; margin-top: 18px; color: #08712f; text-align: center; }
       @media (max-width: 520px) { .login-page { margin-top: 84px; padding: 16px; } }
     </style>
@@ -112,6 +114,9 @@ function escapeHtml(string $value): string
       <section class="login-card">
         <h1>Sign in to your account</h1>
         <p>Sign in to continue checkout or view and track your orders. Use your existing shop username or email.</p>
+        <?php if ($noticeMessage !== ''): ?>
+          <p class="login-notice" role="status"><?= escapeHtml($noticeMessage) ?></p>
+        <?php endif; ?>
         <?php if ($errorMessage !== ''): ?>
           <p class="login-error" role="alert"><?= escapeHtml($errorMessage) ?></p>
         <?php endif; ?>
@@ -124,6 +129,7 @@ function escapeHtml(string $value): string
           <input id="password" name="password" type="password" autocomplete="current-password" required>
           <button type="submit">Sign in and continue</button>
         </form>
+        <a class="login-switch" href="forgot-password.php?return_to=<?= rawurlencode($returnTo) ?>">Forgot your password?</a>
         <a class="login-switch" href="signup.php?return_to=<?= rawurlencode($returnTo) ?>">No account yet? Create one</a>
       </section>
     </main>

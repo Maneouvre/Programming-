@@ -7,19 +7,20 @@ if (isset($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME']) 
 
 function connectAdminDatabase(): PDO
 {
-    $host = getenv('ECOMMERCE_DB_HOST') ?: 'localhost';
-    $username = getenv('ECOMMERCE_DB_USER') ?: 'root';
-    $password = getenv('ECOMMERCE_DB_PASSWORD') ?: '';
+    require_once __DIR__ . '/../auth/database.php';
+    $config = shopDatabaseConfig('ecommerce_db');
     $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false
     ];
 
-    $server = new PDO("mysql:host={$host};charset=utf8mb4", $username, $password, $options);
-    $server->exec('CREATE DATABASE IF NOT EXISTS ecommerce_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
-
-    $pdo = new PDO("mysql:host={$host};dbname=ecommerce_db;charset=utf8mb4", $username, $password, $options);
+    $pdo = new PDO(
+        "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']};charset=utf8mb4",
+        $config['username'],
+        $config['password'],
+        $options
+    );
     $pdo->exec(
         "CREATE TABLE IF NOT EXISTS products (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
