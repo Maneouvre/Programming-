@@ -10,7 +10,9 @@ Use the MySQL hostname from the InfinityFree account panel; it is not the
 website domain. Copy `config/.env.example` to `config/.env`, then enter the
 database password and any other private credentials in `config/.env`. This file
 is git-ignored, and direct HTTP access to `config/` is blocked by `.htaccess`.
-Environment variables supplied by the hosting platform take precedence.
+Environment variables supplied by the hosting platform take precedence over
+the file values. `.env.local` is an optional, git-ignored override intended for
+XAMPP; do not upload it to the hosted site.
 
 | Setting | InfinityFree value |
 | --- | --- |
@@ -38,8 +40,21 @@ used by the current checkout/order API. Compare the actual table structures in
 phpMyAdmin before deploying; the table-name listing alone cannot confirm schema
 compatibility.
 
-Without hosting values or a private `.env` file, connections default to the
-local `ecommerceusers` database.
+## Local XAMPP database
+
+For local development, create a MySQL database named exactly
+`if0_43216368_ecommerceusers` in phpMyAdmin, then copy
+`config/.env.local.example` to `config/.env.local`. Its local connection uses
+`localhost` and the XAMPP `root` account. If the local MySQL account has a
+password, set `ECOMMERCE_DB_PASSWORD` in `.env.local`.
+
+The loader applies settings in this order: process/server environment variables
+take precedence, `.env.local` overrides `.env`, and `.env` provides the hosted
+settings. The local and hosted database names can be the same, but they are
+separate databases on separate servers; changing local data does not update
+InfinityFree (or vice versa). Export/import data between them when needed.
+Application tables are initialized by the app when it connects, but the
+database itself must first be created in phpMyAdmin.
 
 ## Hosting environment variables
 
