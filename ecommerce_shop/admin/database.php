@@ -8,7 +8,7 @@ if (isset($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME']) 
 function connectAdminDatabase(): PDO
 {
     require_once __DIR__ . '/../auth/database.php';
-    $config = shopDatabaseConfig('ecommerce_db');
+    $config = shopDatabaseConfig();
     $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

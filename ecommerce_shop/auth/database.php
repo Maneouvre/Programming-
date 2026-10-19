@@ -1,13 +1,25 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/../config/load-env.php';
+
 function shopDatabaseConfig(string $defaultDatabase = 'ecommerceusers'): array
 {
-    $host = getenv('ECOMMERCE_DB_HOST') ?: 'localhost';
-    $port = getenv('ECOMMERCE_DB_PORT') ?: '3306';
-    $database = getenv('ECOMMERCE_DB_NAME') ?: $defaultDatabase;
-    $username = getenv('ECOMMERCE_DB_USER') ?: 'root';
-    $password = getenv('ECOMMERCE_DB_PASSWORD') ?: '';
+    $getSetting = static function (string $environmentVariable, string $fallback): string {
+        $environmentValue = getenv($environmentVariable);
+        $value = $environmentValue !== false && $environmentValue !== '' ? $environmentValue : $fallback;
+        if (!is_string($value) || $value === '') {
+            throw new RuntimeException("Configure {$environmentVariable} in config/.env or hosting environment.");
+        }
+        return $value;
+    };
+
+    $host = $getSetting('ECOMMERCE_DB_HOST', 'localhost');
+    $port = $getSetting('ECOMMERCE_DB_PORT', '3306');
+    $database = $getSetting('ECOMMERCE_DB_NAME', $defaultDatabase);
+    $username = $getSetting('ECOMMERCE_DB_USER', 'root');
+    $password = getenv('ECOMMERCE_DB_PASSWORD');
+    $password = $password === false ? '' : $password;
 
     if (!ctype_digit($port) || (int)$port < 1 || (int)$port > 65535) {
         throw new RuntimeException('ECOMMERCE_DB_PORT must be a valid TCP port.');
