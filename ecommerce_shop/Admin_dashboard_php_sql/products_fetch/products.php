@@ -74,7 +74,9 @@
         try {
             // 1. Fetch your data from the separate PHP database API script
             const response = await fetch("products_fetch.php");
+            
             const products = await response.json();
+            console.log(products);
             
             // 2. Target your grid container and empty it out
             const container = document.getElementById("products_grid");

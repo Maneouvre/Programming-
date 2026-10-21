@@ -9,7 +9,7 @@ function updateCartQuantity() {
     element.textContent = getCartQuantity();
   });
 }
-
+console.log("hi")
 function renderProducts(searchTerm = '') {
   const query = searchTerm.trim().toLocaleLowerCase();
   const visibleProducts = products.filter((product) => {
@@ -71,7 +71,9 @@ searchInput.value = new URLSearchParams(window.location.search).get('search') ||
 updateCartQuantity();
 
 loadProducts()
-  .then(() => renderProducts(searchInput.value))
+
+  .then(() => renderProducts(searchInput.value) )
+  .then(console.log(products))
   .catch((error) => {
     console.error('Could not load products.', error);
     grid.innerHTML = '<p class="products-empty-state" role="alert">Products are temporarily unavailable. Please check that the product database is running and refresh this page.</p>';
