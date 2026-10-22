@@ -10,5 +10,5 @@ $adminConfig = [
     'logo_path' => '../images/logo.png',
     'username' => getenv('ECOMMERCE_ADMIN_USERNAME') ?: 'admin',
     'password_hash' => getenv('ECOMMERCE_ADMIN_PASSWORD_HASH') ?: '',
-    'name' => getenv('ECOMMERCE_ADMIN_NAME') ?: 'Admin User'
+    'name' => getenv('ECOMMERCE_ADMIN_NAME') ?: 'MANOEUVRE'
 ];
