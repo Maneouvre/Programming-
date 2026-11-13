@@ -1,0 +1,135 @@
+.tracking-page {
+  max-width: 850px;
+  margin-top: 90px;
+  margin-bottom: 100px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  /* margin-left: auto;
+     margin-right auto;
+     Is a trick for centering an element horizontally
+     without needing a container. */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tracking-page .back-to-orders-link {
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+.tracking-page .delivery-date {
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.tracking-page .product-info {
+  margin-bottom: 3px;
+}
+
+.tracking-page .product-image {
+  max-width: 150px;
+  max-height: 150px;
+  margin-top: 25px;
+  margin-bottom: 50px;
+}
+
+.tracking-page .tracking-steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 22px 0 30px;
+  padding: 0;
+  list-style: none;
+}
+
+.tracking-page .tracking-steps::before,
+.tracking-page .tracking-steps::after {
+  position: absolute;
+  top: 9px;
+  left: 12.5%;
+  height: 4px;
+  border-radius: 4px;
+  content: "";
+}
+
+.tracking-page .tracking-steps::before {
+  right: 12.5%;
+  background: #d8e2dc;
+}
+
+.tracking-page .tracking-steps::after {
+  width: var(--progress-width, 0%);
+  background: #198754;
+  transition: width 300ms ease;
+}
+
+.tracking-page .tracking-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  color: #63716a;
+  text-align: center;
+}
+
+.tracking-page .tracking-step-marker {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #cbd6cf;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.tracking-page .tracking-step.is-complete .tracking-step-marker,
+.tracking-page .tracking-step.is-current .tracking-step-marker {
+  border-color: #198754;
+  background: #198754;
+}
+
+.tracking-page .tracking-step.is-current .tracking-step-marker {
+  outline: 3px solid #c8ead6;
+  outline-offset: 2px;
+}
+
+.tracking-page .tracking-step.is-complete,
+.tracking-page .tracking-step.is-current {
+  color: #12683f;
+  font-weight: 700;
+}
+
+.tracking-page .tracking-step-label {
+  font-size: 14px;
+}
+
+.tracking-page .tracking-cancelled {
+  color: #9a1c1c;
+  font-weight: 700;
+}
+
+.tracking-page .tracking-refresh-error {
+  color: #9a1c1c;
+}
+
+@media (max-width: 575px) {
+  .tracking-page .tracking-steps {
+    margin-right: -10px;
+    margin-left: -10px;
+  }
+
+  .tracking-page .tracking-step-label {
+    max-width: 76px;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+}
+
+.tracking-page .tracking-demo-note,
+.tracking-page .tracking-empty-state {
+  margin-top: 18px;
+  color: rgb(100, 100, 100);
+  line-height: 1.6;
+}

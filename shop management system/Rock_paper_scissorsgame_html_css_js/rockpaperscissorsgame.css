@@ -1,0 +1,179 @@
+            * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(180deg, #0a1433 0%, #1c2a4a 100%);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    padding: 30px 20px;
+    color: #fff;
+}
+
+/* TOP HEADER BAR */
+.header {
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    padding: 20px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 750px;
+    margin: 0 auto 60px auto;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+/* Left Title */
+.title {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 2px;
+    color: #f5e9d3;
+    text-transform: uppercase;
+    text-shadow: 0 2px 3px rgba(0,0,0,0.4);
+}
+
+/* Right Score Box */
+.score-box {
+    background: #faf3e0;
+    color: #4a5568;
+    padding: 10px 25px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 120px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.score-box .label {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #5a67d8;
+    margin-bottom: 4px;
+}
+.score-box .score {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2d3748;
+    line-height: 1.6;
+}
+
+/* GAME AREA - CENTER */
+.game-area {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+   
+}
+
+/* CHOICES - INVERTED TRIANGLE */
+.choices { margin-left:500px;
+    position: relative;
+    width: 340px;
+    height: 280px;
+}
+
+/* Base style for all 3 circles */
+.choice {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 50px;
+    transition: transform 0.2s;
+    box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+}
+.choice:hover {
+    transform: scale(1.1);
+}
+
+/* Rock - TOP CENTER */
+.choice.rock {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 14px solid #ff3366;
+    box-shadow: inset 0 -4px 0 #cc1144, 0 5px 0 #cc1144;
+}
+.choice.rock:hover {
+    transform: translateX(-50%) scale(1.1);
+}
+
+/* Paper - BOTTOM LEFT */
+.choice.paper {
+    bottom: 0;
+    left: 0;
+    border: 14px solid #00bfff;
+    box-shadow: inset 0 -4px 0 #0099cc, 0 5px 0 #0099cc;
+}
+
+/* Scissors - BOTTOM RIGHT */
+.choice.scissors {
+    bottom: 0;
+    right: 0;
+    border: 14px solid #ff8c00;
+    box-shadow: inset 0 -4px 0 #cc7000, 0 5px 0 #cc7000;
+}
+
+/* Reset Button */
+.resetscore {
+    display:inline-block;
+    margin-left:5%;
+    background: #00bfff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #0099cc;
+}
+.autoplay{
+    margin-left:40%;
+    background: #00bfff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #0099cc;}
+.resetscore:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #0099cc;
+}
+
+/* Result text */
+.moves {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+    color: #00bfff;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .choices {
+        width: 280px;
+        height: 230px;
+    }
+    .choice {
+        width: 85px;
+        height: 85px;
+        font-size: 38px;
+        border-width: 10px;
+    }
+}

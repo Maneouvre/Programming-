@@ -1,0 +1,78 @@
+ /* Styles the overall page background */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5; /* Light grey background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        h3 {
+            color: #333;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+
+        /* Styles the form box container */
+        form {
+            background-color: #ffffff; /* White box for the form */
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            width: 100%;
+            max-width: 320px; /* Limits width on big screens */
+        }
+
+        /* Adds spacing between form elements */
+        form div {
+            margin-bottom: 15px;
+        }
+
+        /* Styles text and password inputs */
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Keeps padding inside the width */
+            font-size: 14px;
+        }
+
+        /* Focus effect when clicking into an input */
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        /* Styles buttons */
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        /* Specific style for Update button */
+        form[action*="userupdate"] button {
+            background-color: #007bff; /* Blue */
+            color: white;
+        }
+        form[action*="userupdate"] button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Specific style for Delete button */
+        form[action*="userdelete"] button {
+            background-color: #dc3545; /* Red */
+            color: white;
+        }
+        form[action*="userdelete"] button:hover {
+            background-color: #bd2130;
+        }

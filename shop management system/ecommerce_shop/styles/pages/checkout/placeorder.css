@@ -1,0 +1,62 @@
+/* file: checkout-core.css */
+.checkout-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 7fr 4fr;
+  gap: 24px;
+  padding: 20px;
+}
+.checkout-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.card-heading { font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; color: #1e3a8a; }
+.payment-selector-label {
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.payment-selector-label:hover { background-color: #f9fafb; border-color: #f59e0b; }
+.active-selection { border-color: #1e3a8a; background-color: #f3f4f6; }
+.payment-input-drawer {
+  padding: 16px;
+  background: #fafafa;
+  border: 1px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  margin-top: -10px;
+  margin-bottom: 16px;
+}
+.hidden { display: none !important; }
+
+/* Fully Immersive Screen Loading Overlay UI & Spinner Mechanism */
+.overlay-modal {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(31, 41, 55, 0.85);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 9999;
+}
+.spinner-box { text-align: center; color: #ffffff; }
+.loading-circle {
+  width: 60px; height: 60px;
+  border: 6px solid #e5e7eb;
+  border-top: 6px solid #f59e0b; /* Golden theme loader color */
+  border-radius: 50%;
+  margin: 0 auto 20px auto;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.processing-text { font-size: 1.2rem; font-weight: 600; font-family: sans-serif; letter-spacing: 0.5px; }
