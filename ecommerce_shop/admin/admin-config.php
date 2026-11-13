@@ -8,7 +8,7 @@ if (isset($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME']) 
 $adminConfig = [
     'site_name' => 'Manoeuvre Admin',
     'logo_path' => '../images/logo.png',
-    'username' => getenv('ECOMMERCE_ADMIN_USERNAME') ?: 'admin',
-    'password_hash' => getenv('ECOMMERCE_ADMIN_PASSWORD_HASH') ?: '',
-    'name' => getenv('ECOMMERCE_ADMIN_NAME') ?: 'MANOEUVRE'
+    'username' => shopEnv('ECOMMERCE_ADMIN_USERNAME') ?: 'admin',
+    'password_hash' => shopEnv('ECOMMERCE_ADMIN_PASSWORD_HASH'),
+    'name' => shopEnv('ECOMMERCE_ADMIN_NAME') ?: 'MANOEUVRE'
 ];

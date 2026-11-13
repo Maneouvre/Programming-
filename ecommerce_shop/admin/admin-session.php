@@ -2,12 +2,16 @@
 declare(strict_types=1);
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
+    $scriptName = str_replace('\\', '/', (string)($_SERVER['SCRIPT_NAME'] ?? '/admin/login.php'));
+    $applicationDirectory = str_replace('\\', '/', dirname(dirname($scriptName)));
+    $cookiePath = rtrim($applicationDirectory, '/') . '/';
+
     ini_set('session.use_only_cookies', '1');
     ini_set('session.use_strict_mode', '1');
     session_name('MANEUVER_ADMIN_SESSION');
     session_set_cookie_params([
         'lifetime' => 0,
-        'path' => '/ecommerce_shop/',
+        'path' => $cookiePath,
         'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
         'httponly' => true,
         'samesite' => 'Lax'

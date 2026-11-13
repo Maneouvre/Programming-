@@ -48,9 +48,9 @@ For local development, create a MySQL database named exactly
 `localhost` and the XAMPP `root` account. If the local MySQL account has a
 password, set `ECOMMERCE_DB_PASSWORD` in `.env.local`.
 
-The loader applies settings in this order: process/server environment variables
-take precedence, `.env.local` overrides `.env`, and `.env` provides the hosted
-settings. The local and hosted database names can be the same, but they are
+The Dotenv loader applies settings in this order: process/server environment
+variables take precedence, `.env.local` overrides `.env`, and `.env` provides
+the hosted settings. The local and hosted database names can be the same, but they are
 separate databases on separate servers; changing local data does not update
 InfinityFree (or vice versa). Export/import data between them when needed.
 Application tables are initialized by the app when it connects, but the

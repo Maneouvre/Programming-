@@ -64,12 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         );
                         $rateLimitQuery->execute(['email' => $email]);
                         if (!$rateLimitQuery->fetch(PDO::FETCH_ASSOC)) {
-                        $smtpHost = getenv('ECOMMERCE_SMTP_HOST') ?: 'smtp.gmail.com';
-                        $smtpPort = getenv('ECOMMERCE_SMTP_PORT') ?: '587';
-                        $smtpSecurity = strtolower(getenv('ECOMMERCE_SMTP_SECURITY') ?: 'tls');
-                        $smtpUsername = getenv('ECOMMERCE_SMTP_USERNAME') ?: '';
-                        $smtpPassword = getenv('ECOMMERCE_SMTP_PASSWORD') ?: '';
-                        $fromAddress = getenv('ECOMMERCE_MAIL_FROM') ?: 'emmanuellokumu93@gmail.com';
+                        $smtpHost = shopEnv('ECOMMERCE_SMTP_HOST') ?: 'smtp.gmail.com';
+                        $smtpPort = shopEnv('ECOMMERCE_SMTP_PORT') ?: '587';
+                        $smtpSecurity = strtolower(shopEnv('ECOMMERCE_SMTP_SECURITY') ?: 'tls');
+                        $smtpUsername = shopEnv('ECOMMERCE_SMTP_USERNAME');
+                        $smtpPassword = shopEnv('ECOMMERCE_SMTP_PASSWORD');
+                        $fromAddress = shopEnv('ECOMMERCE_MAIL_FROM') ?: 'emmanuellokumu93@gmail.com';
 
                         if (
                             !ctype_digit($smtpPort) || !in_array((int)$smtpPort, [465, 587], true) ||
