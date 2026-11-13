@@ -1,4 +1,0 @@
-/vendor/
-/config/.env
-/config/.env.local
-/config/database.local.php
