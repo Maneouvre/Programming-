@@ -1,0 +1,70 @@
+CREATE DATABASE IF NOT EXISTS sokoflow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE sokoflow;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    username VARCHAR(40) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('owner', 'cashier') NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS products (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(120) NOT NULL,
+    category VARCHAR(80) NOT NULL DEFAULT '',
+    price DECIMAL(11,2) NOT NULL,
+    cost DECIMAL(11,2) NOT NULL,
+    stock INT UNSIGNED NOT NULL DEFAULT 0,
+    low_stock INT UNSIGNED NOT NULL DEFAULT 5,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX products_name_idx (name),
+    INDEX products_stock_idx (stock, low_stock)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS sales (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NOT NULL,
+    total DECIMAL(13,2) NOT NULL,
+    profit DECIMAL(13,2) NOT NULL,
+    payment_method ENUM('cash', 'mpesa', 'credit') NOT NULL,
+    amount_received DECIMAL(13,2) NOT NULL DEFAULT 0,
+    change_due DECIMAL(13,2) NOT NULL DEFAULT 0,
+    customer_name VARCHAR(120) NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT sales_user_fk FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS sale_items (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    sale_id BIGINT UNSIGNED NOT NULL,
+    product_id INT UNSIGNED NOT NULL,
+    product_name VARCHAR(120) NOT NULL,
+    quantity INT UNSIGNED NOT NULL,
+    unit_price DECIMAL(11,2) NOT NULL,
+    unit_cost DECIMAL(11,2) NOT NULL,
+    CONSTRAINT sale_items_sale_fk FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE,
+    CONSTRAINT sale_items_product_fk FOREIGN KEY (product_id) REFERENCES products(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS debts (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    sale_id BIGINT UNSIGNED NOT NULL UNIQUE,
+    customer_name VARCHAR(120) NOT NULL,
+    amount_due DECIMAL(13,2) NOT NULL,
+    amount_paid DECIMAL(13,2) NOT NULL DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT debts_sale_fk FOREIGN KEY (sale_id) REFERENCES sales(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS debt_payments (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    debt_id BIGINT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    amount DECIMAL(13,2) NOT NULL,
+    payment_method ENUM('cash', 'mpesa') NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT debt_payments_debt_fk FOREIGN KEY (debt_id) REFERENCES debts(id),
+    CONSTRAINT debt_payments_user_fk FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;

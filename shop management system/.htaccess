@@ -1,0 +1,12 @@
+<FilesMatch "^(config|config\.local|config\.local\.example)\.php$">
+    Require all denied
+</FilesMatch>
+
+<Files "schema.sql">
+    Require all denied
+</Files>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^config(?:/|$) - [F,L,NC]
+</IfModule>
